@@ -1,0 +1,13 @@
+﻿{
+
+  "profiles": {
+    "slx.auto.com.OAuth": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

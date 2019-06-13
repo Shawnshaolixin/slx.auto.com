@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="NLog" Version="4.6.0-rc2" />
+    <PackageReference Include="surging" Version="1.0.0" />
+    <PackageReference Include="Surging.Core.Caching" Version="1.0.0" />
+    <PackageReference Include="Surging.Core.Codec.MessagePack" Version="1.0.0" />
+    <PackageReference Include="Surging.Core.Codec.ProtoBuffer" Version="1.0.0" />
+    <PackageReference Include="Surging.Core.Consul" Version="1.0.0" />
+    <PackageReference Include="Surging.Core.DotNetty" Version="1.0.0" />
+    <PackageReference Include="Surging.Core.EventBusRabbitMQ" Version="1.0.0" />
+    <PackageReference Include="Surging.Core.Log4net" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="cacheSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="eventBusSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
