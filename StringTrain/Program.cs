@@ -8,11 +8,30 @@ namespace StringTrain
     {
         static void Main(string[] args)
         {
-
+            //Console.WriteLine(3&5);
+            //Console.WriteLine(3|5);
+            //Console.WriteLine(3^5);
+            //Console.WriteLine(~3);
+            //Console.WriteLine(3<<2);
+            //Console.WriteLine(5>>2);
+            //Console.ReadKey();
             Solution solution = new Solution();
-            string[] arr = new string[] { "5", "2", "C", "D", "+" };
-            var count = solution.CalPoints(arr);
-            Console.WriteLine(count);
+            int[] nums = new int[] { 1, 2, 3 };
+
+
+
+
+            var result1 = solution.Subsets(nums);
+
+
+            List<int> list = new List<int>();
+
+
+
+            //Solution solution = new Solution();
+            //string[] arr = new string[] { "5", "2", "C", "D", "+" };
+            //var count = solution.CalPoints(arr);
+            //Console.WriteLine(count);
             #region MyQueue
 
             //MyQueue myQueue = new MyQueue();
@@ -372,54 +391,95 @@ namespace StringTrain
      * bool param_4 = obj.Empty();
      */
 
-    public class Solution
+    //public class Solution
+    //{
+    //    public int CalPoints(string[] arr)
+    //    {
+    //        Stack<int> stack = new Stack<int>();//有效分数
+    //        Stack<int> score_stack = new Stack<int>();//记录总分数
+
+    //        for (int i = 0; i < arr.Length; i++)
+    //        {
+    //            int num = 0;
+
+    //            if (int.TryParse(arr[i], out num))
+    //            {
+    //                stack.Push(num);
+    //                if (score_stack.Count > 0)
+    //                {
+    //                    score_stack.Push(num + score_stack.Peek());
+    //                }
+    //                else
+    //                {
+    //                    score_stack.Push(num);
+    //                }
+    //            }
+    //            else
+    //            {
+
+    //                if (arr[i] == "C")
+    //                {
+    //                    num = (score_stack.Peek() - stack.Pop()) + stack.Peek();
+    //                    score_stack.Push(num);
+    //                }
+    //                if (arr[i] == "D")
+    //                {
+    //                    num = score_stack.Peek() + 2 * Convert.ToInt32(stack.Peek());
+    //                    score_stack.Push(num);
+    //                    stack.Push(2 * Convert.ToInt32(stack.Peek()));
+    //                }
+    //                if (arr[i] == "+")
+    //                {
+    //                    var qian1 = stack.Pop();
+    //                    var qian2 = stack.Pop();
+    //                    num = score_stack.Peek() + qian2 + qian1;
+    //                    score_stack.Push(num);
+
+    //                    stack.Push(qian2 + qian1);
+    //                }
+
+    //            }
+    //        }
+    //        return score_stack.Peek();
+    //    }
+    //}
+    public class Solution13
     {
-        public int CalPoints(string[] arr)
+        public void Generate(int i, int[] nums, Stack<int> item, List<int[]> result)
         {
-            Stack stack = new Stack();
-            Stack<int> score_stack = new Stack<int>();
-
-            for (int i = 0; i < arr.Length; i++)
+            if (i >= nums.Length)
             {
-                int num = 0;
-
-                if (int.TryParse(arr[i], out num))
-                {
-                    stack.Push(arr[i]);
-                    if (score_stack.Count > 0)
-                    {
-                        score_stack.Push(num + score_stack.Peek());
-                    }
-                    else
-                    {
-                        score_stack.Push(num);
-                    }
-                }
-                else
-                {
-
-                    if (arr[i] == "C")
-                    {
-                        score_stack.Push(score_stack.Peek() - Convert.ToInt32(stack.Pop()));
-
-                    }
-                    if (arr[i] == "D")
-                    {
-                        score_stack.Push(score_stack.Peek() + Convert.ToInt32(stack.Peek()));
-                    }
-                    if (arr[i] == "+")
-                    {
-                        var qian1 = score_stack.Pop();
-                        var qian2 = score_stack.Pop();
-                        score_stack.Push(qian2);
-                        score_stack.Push(qian1);
-                        score_stack.Push(qian1 + qian2);
-                    }
-
-                }
+                return;
             }
-            return score_stack.Peek();
+            item.Push(nums[i]);
+            result.Add(item.ToArray());
+            Generate(i + 1, nums, item, result);
+            item.Pop();
+            Generate(i + 1, nums, item, result);
         }
     }
+    public class Solution
+    {
+
+        public IList<IList<int>> Subsets(int[] nums)
+        {
+            IList<IList<int>> result = new List<IList<int>>();
+            result.Add(new List<int>());//加一个空的
+            foreach (var item in nums)
+            {
+                int length = result.Count;
+                for (int i = 0; i < length; i++)
+                {
+                    List<int> subset = new List<int>(result[i]);
+                    subset.Add(item);
+                    result.Add(subset);
+                }
+            }
+            return result;
+
+        }
+    }
+
+
 }
 
