@@ -8,13 +8,14 @@ namespace StackTraining
     {
         static void Main(string[] args)
         {
-            TreeNode node1 = new TreeNode(1);
-            TreeNode node2 = new TreeNode(2);
-            TreeNode node3 = new TreeNode(2);
-            TreeNode node4 = new TreeNode(3);
-            TreeNode node5 = new TreeNode(4);
+            TreeNode node1 = new TreeNode(3);
+            TreeNode node2 = new TreeNode(1);
+            TreeNode node3 = new TreeNode(5);
+            TreeNode node4 = new TreeNode(0);
+            TreeNode node5 = new TreeNode(2);
             TreeNode node6 = new TreeNode(4);
-            TreeNode node7 = new TreeNode(3);
+            TreeNode node7 = new TreeNode(6);
+            TreeNode node8 = new TreeNode(3);
 
             node1.left = node2;
             node1.right = node3;
@@ -22,6 +23,7 @@ namespace StackTraining
             node2.right = node5;
             node3.left = node6;
             node3.right = node7;
+            node5.right = node8;
             Solution s = new Solution();
             //  s.HasPathSum(node1, 12);
             //  var list = s.LevelOrder(node1);
@@ -38,9 +40,26 @@ namespace StackTraining
             //Console.WriteLine($"Z={(int)'Z'}");
             //var b = s.IsPalindrome("A man, a plan, a canal: Panama");
             //Console.WriteLine(b);
+            var arrs = new int[] { 230, 863, 916, 585, 981, 404, 316, 785, 88, 12, 70, 435, 384, 778, 887, 755, 740, 337, 86, 92, 325, 422, 815, 650, 920, 125, 277, 336, 221, 847, 168, 23, 677, 61, 400, 136, 874, 363, 394, 199, 863, 997, 794, 587, 124, 321, 212, 957, 764, 173, 314, 422, 927, 783, 930, 282, 306, 506, 44, 926, 691, 568, 68, 730, 933, 737, 531, 180, 414, 751, 28, 546, 60, 371, 493, 370, 527, 387, 43, 541, 13, 457, 328, 227, 652, 365, 430, 803, 59, 858, 538, 427, 583, 368, 375, 173, 809, 896, 370, 789 };
+            //542
 
-            var b = s.IsSymmetric(node1);
-            Console.WriteLine(b);
+            //  var b = s.IsValidBST(node1);
+            //  var ii = s.TwoSum(arrs, 542);
+            //[[3,9],[7,12],[3,8],[6,8],[9,10],[2,9],[0,9],[3,9],[0,6],[2,8]]
+            var testData = new int[][] { new int[] { 3,9 }, new int[] { 7, 12}, new int[] { 3, 8 },
+                new int[] { 6, 8},
+                new int[] { 9, 10},
+                new int[] { 2, 9},
+                new int[] { 0, 9} ,
+                new int[] { 3, 9},
+                new int[] { 0, 6},
+                new int[] { 2, 8}};
+
+            //   var testData = new int[][] { new int[] { 1, 2 }, new int[] { 2, 3 }, new int[] { 3, 4 }, new int[] { 4, 5 } };
+            //  var testData = new int[][] { new int[] { 1, 6 }, new int[] { 2, 8 }, new int[] { 7, 12 }, new int[] { 10, 16 } };
+            //    var testData = new int[][] { new int[] { 10, 16 }, new int[] { 2, 8 }, new int[] { 1, 6 }, new int[] { 7, 12 } };
+            var count = s.FindMinArrowShots(testData);
+            Console.WriteLine(count);
             Console.ReadKey();
             Console.WriteLine("Hello World!");
         }
@@ -48,6 +67,130 @@ namespace StackTraining
     public class Solution
     {
 
+        public int FindMinArrowShots(int[][] points)
+        {
+            if (points.Length <= 0) return 0;
+            points = points.OrderBy(x => x[0]).ToArray();
+            int jianshu = 1;
+            var temp = points[0];
+            for (int i = 0; i < points.Length - 1; i++)
+            {
+                if (points[i + 1][0] <= temp[1])//下一个元素的头，和当前元素的尾比较
+                {
+                    temp[0] = points[i + 1][0];
+                    temp[1] = points[i + 1][1] < temp[1] ? points[i + 1][1] : temp[1];
+                    Console.WriteLine($"范围变化射击区间{temp[0]},{temp[1]}");
+                    //    Console.WriteLine("有一个设计区间");
+                }
+                else
+                {
+                    temp = points[i + 1];
+                    Console.WriteLine($"新的射击区间{temp[0]},{temp[1]}");
+                    jianshu++;
+                }
+            }
+            return jianshu;
+        }
+        /// <summary>
+        /// 目标函数的和
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public int[] TwoSum(int[] nums, int target)
+        {
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                var c = target - nums[i];
+                if (dict.ContainsKey(c))
+                {
+                    return new int[] { dict.GetValueOrDefault(c), i };
+                }
+
+                if (!dict.ContainsKey(nums[i]))
+                    dict.Add(nums[i], i);
+            }
+            throw new ArgumentException("No two sum solution");
+        }
+        /// <summary>
+        /// 验证二叉搜索树
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public static bool flag = true;
+        public bool IsValidBST(TreeNode root)
+        {
+            if (root == null) return true;
+            if (root.left == null && root.right == null) return true;
+
+
+            Verify(root, root.left, root.right, root.val, 1);
+            return flag;
+        }
+        public void Verify(TreeNode root, TreeNode left, TreeNode right, int rootVal, int type)
+        {
+            if (root.left == null && root.right == null)
+            {
+                return;
+            };
+            if (root.left == null)
+            {
+                if (type == 1)
+                {
+                    flag = root.val < root.right.val && rootVal < root.right.val;
+                }
+                if (type == 2)
+                {
+                    flag = root.val < root.right.val && rootVal > root.right.val;
+                }
+                if (type == 3)
+                {
+                    flag = root.val < root.right.val && rootVal < root.right.val;
+                }
+                return;
+            }
+            if (root.right == null)
+            {
+                if (type == 1)
+                {
+                    flag = root.val > root.left.val && rootVal > root.left.val;
+                }
+                if (type == 2)
+                {
+                    flag = root.val > root.left.val && rootVal > root.left.val;
+                }
+                if (type == 3)
+                {
+                    flag = root.val > root.left.val && rootVal < root.left.val;
+                }
+
+                return;
+            }
+            if (root.val > left.val && root.val < right.val)
+            {
+                if (type == 1)
+                {
+                    flag = left.val < rootVal && right.val > rootVal;
+                }
+                if (type == 2)
+                {
+                    flag = rootVal > left.val && rootVal > right.val;
+                }
+                if (type == 3)
+                {
+                    flag = rootVal < left.val && rootVal < right.val;
+                }
+                Verify(left, left.left, left.right, rootVal, 2);
+                Verify(right, right.left, right.right, rootVal, 3);
+            }
+            else
+            {
+                flag = false;
+                Console.WriteLine("不合法");
+            }
+            return;
+        }
         /// <summary>
         /// 验证回文串
         /// </summary>
@@ -438,24 +581,27 @@ namespace StackTraining
             }
             return false;
         }
+
+
+
     }
     /// <summary>
     /// 二叉树
     /// </summary>
-    public class TreeNode
-    {
-        /// <summary>
-        /// 根节点
-        /// </summary>
-        public int val { get; set; }
-        /// <summary>
-        /// 左子树
-        /// </summary>
-        public TreeNode left { get; set; }
-        public TreeNode right { get; set; }
-        public TreeNode(int node)
-        {
-            this.val = node;
-        }
-    }
+    //public class TreeNode
+    //{
+    //    /// <summary>
+    //    /// 根节点
+    //    /// </summary>
+    //    public int val { get; set; }
+    //    /// <summary>
+    //    /// 左子树
+    //    /// </summary>
+    //    public TreeNode left { get; set; }
+    //    public TreeNode right { get; set; }
+    //    public TreeNode(int node)
+    //    {
+    //        this.val = node;
+    //    }
+    //}
 }
