@@ -14,19 +14,20 @@ namespace StackTraining
             //xiaofang.GetPartner(zhangsan);
             //Console.ReadKey();
             TreeNode node1 = new TreeNode(1);
-            TreeNode node2 = new TreeNode(4);
+            TreeNode node2 = new TreeNode(2);
             TreeNode node3 = new TreeNode(3);
-            TreeNode node4 = new TreeNode(2);
-            TreeNode node5 = new TreeNode(4);
-            TreeNode node6 = new TreeNode(7);
-            TreeNode node7 = new TreeNode(9);
-            TreeNode node8 = new TreeNode(3);
-            TreeNode node9 = new TreeNode(5);
+            TreeNode node4 = new TreeNode(4);
+            TreeNode node5 = new TreeNode(5);
+            TreeNode node6 = new TreeNode(6);
+            TreeNode node7 = new TreeNode(7);
+            TreeNode node8 = new TreeNode(8);
+            TreeNode node9 = new TreeNode(9);
             node1.left = node2;
             node1.right = node3;
             node2.left = node4;
-
-
+            node2.right = node5;
+            node3.left = node6;
+            node3.right = node7;
 
             Solution s = new Solution();
             //  s.HasPathSum(node1, 12);
@@ -130,8 +131,10 @@ namespace StackTraining
             //Console.WriteLine(s.StrStr("abcdefiasdfsafda", "iasa"));
             //Console.ReadKey();
 
-            s.PrevTreeNode(node1);
+            //  var res = s.LongestCommonPrefix(new string[] { "flower", "flow", "flight" });
 
+            var res = s.FindBottomLeftValue(node1);
+            Console.WriteLine(res);
             Console.WriteLine("Hello World!");
             Console.ReadKey();
         }
@@ -139,6 +142,135 @@ namespace StackTraining
 
     public class Solution
     {
+        /// <summary>
+        /// 给定一个二叉树，在树的最后一行找到最左边的值
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public int FindBottomLeftValue(TreeNode root)
+        {
+            /*
+             思路：
+             1.层次遍历
+             2.记录遍历层数
+             3.如果是每层的第一个元素，放到stack里面
+             end.最后一个放的就是最后一层的第一个元素
+             */
+            Queue<KeyValuePair<TreeNode, int>> queue = new Queue<KeyValuePair<TreeNode, int>>();
+            Stack<KeyValuePair<int, TreeNode>> stack = new Stack<KeyValuePair<int, TreeNode>>();
+            queue.Enqueue(new KeyValuePair<TreeNode, int>(root, 0));
+            stack.Push(new KeyValuePair<int, TreeNode>(0, root));
+            while (queue.Count > 0)
+            {
+                var keyValuePair = queue.Dequeue();
+
+                var node = keyValuePair.Key;
+                var count = keyValuePair.Value;
+                if (stack.Peek().Key != count)
+                {
+                    stack.Push(new KeyValuePair<int, TreeNode>(count, node));
+                }
+                Console.WriteLine($"val = {node.val},count={count}");
+                if (node.left != null)
+                {
+                    queue.Enqueue(new KeyValuePair<TreeNode, int>(node.left, count + 1));
+                }
+                if (node.right != null)
+                {
+                    queue.Enqueue(new KeyValuePair<TreeNode, int>(node.right, count + 1));
+                }
+            }
+
+            return stack.Peek().Value.val;
+        }
+        public string LongestCommonPrefix(string[] strs)
+        {
+            Dictionary<int, char> dict = new Dictionary<int, char>();
+
+            int i = 0;
+            int j = 0;
+            char temp = strs[0][0];
+            var s = strs[i][j];
+
+
+            while (temp == s && i < strs.Length)
+            {
+                i++;
+            }
+
+
+            return "";
+        }
+        public int LengthOfLastWord(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return 0;
+            var arr = s.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            return arr[arr.Length - 1].Length;
+        }
+
+        public int TitleToNumber(string s)
+        {
+            Dictionary<string, int> dict = new Dictionary<string, int>();
+            dict.Add("A", 1);
+            dict.Add("B", 2);
+            dict.Add("C", 3);
+            dict.Add("D", 4);
+            dict.Add("E", 5);
+            dict.Add("F", 6);
+            dict.Add("G", 7);
+            dict.Add("H", 8);
+            dict.Add("I", 9);
+            dict.Add("J", 10);
+            dict.Add("K", 11);
+            dict.Add("L", 12);
+            dict.Add("M", 13);
+            dict.Add("N", 14);
+            dict.Add("O", 15);
+            dict.Add("P", 16);
+            dict.Add("Q", 17);
+            dict.Add("R", 18);
+            dict.Add("S", 19);
+            dict.Add("T", 20);
+            dict.Add("U", 21);
+            dict.Add("V", 22);
+            dict.Add("W", 23);
+            dict.Add("X", 24);
+            dict.Add("Y", 25);
+            dict.Add("Z", 26);
+            double res = 0;
+            for (int i = 0; i < s.Length; i++)
+            {
+                res += (Math.Pow(26, s.Length - i - 1)) * dict[s[i].ToString()];
+            }
+            return (int)res;
+        }
+        /// <summary>
+        /// 排序两个 列表，理解的不深入
+        /// </summary>
+        /// <param name="l1"></param>
+        /// <param name="l2"></param>
+        /// <returns></returns>
+        public ListNode MergeTwoLists(ListNode l1, ListNode l2)
+        {
+            if (l1 == null)
+            {
+                return l2;
+            }
+            else if (l2 == null)
+            {
+                return l1;
+            }
+            else if (l1.val < l2.val)
+            {
+                l1.next = MergeTwoLists(l1.next, l2);
+                return l1;
+            }
+            else
+            {
+                l2.next = MergeTwoLists(l1, l2.next);
+                return l2;
+            }
+        }
         public void PrevTreeNode(TreeNode root)
         {
             if (root == null) return;
@@ -522,21 +654,7 @@ namespace StackTraining
             return result;
         }
 
-        public ListNode MergeTwoLists(ListNode l1, ListNode l2)
-        {
-            ListNode head = new ListNode(0);
-            bool flag = false;
-            while (l1 != null)
-            {
-                head.next = l1;
-                head = head.next;
 
-                l1 = l1.next;
-            }
-
-
-            return head;
-        }
         /// <summary>
         /// 颜色分类
         /// </summary>
