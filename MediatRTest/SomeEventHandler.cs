@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +8,14 @@ namespace MediatRTest
 {
     public class SomeEventHandler : INotificationHandler<SomeEvent>, IDisposable
     {
-        private readonly ILogger _logger;
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IService2 _service2;
-        public SomeEventHandler()
+        private ILogger _logger;
+        private IServiceProvider _serviceProvider;
+        private IService2 _service2;
+        public SomeEventHandler(IService2 service2, ILogger logger, IServiceProvider serviceProvider)
         {
+            this._service2 = service2;
+            _logger = logger;
+            _serviceProvider = serviceProvider;
 
         }
         public void Dispose()

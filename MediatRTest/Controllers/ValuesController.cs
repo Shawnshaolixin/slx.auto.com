@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,24 +11,21 @@ namespace MediatRTest.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private IService1 _service1;
-        public ValuesController(IService1 service1)
+        private IMediator mediator;
+        public ValuesController(IMediator mediator)
         {
-            _service1 = service1;
+           this. mediator = mediator;
         }
 
         // GET api/values
         [HttpGet]
         public async Task<ActionResult<string>> Get()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("开始时间：{0}", DateTime.Now);
-            sb.AppendLine();
-            await _service1.Method();
-            sb.AppendFormat("结束时间：{0}", DateTime.Now);
-            sb.AppendLine();
 
-            return sb.ToString();
+            //   await mediator.Publish(new Ping());
+            //   await mediator.Publish(new SomeEvent("邵立新"));
+            await mediator.Send(new TestEvent(5));
+            return "ok";
         }
 
         // GET api/values/5

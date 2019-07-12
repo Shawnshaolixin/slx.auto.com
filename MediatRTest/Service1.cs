@@ -23,10 +23,7 @@ namespace MediatRTest
         {
             _context.CurrentUser = "test";
 
-            await _mediator.Publish(new SomeEvent()
-            {
-                Name = "邵立新啊"
-            });
+            await _mediator.Publish(new SomeEvent("邵立新") );
 
 
             await Task.CompletedTask;

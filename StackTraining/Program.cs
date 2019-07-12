@@ -26,8 +26,8 @@ namespace StackTraining
             node1.right = node3;
             node2.left = node4;
             node2.right = node5;
-            node3.left = node6;
-            node3.right = node7;
+            //node3.left = node6;
+            //node3.right = node7;
 
             Solution s = new Solution();
             //  s.HasPathSum(node1, 12);
@@ -133,15 +133,526 @@ namespace StackTraining
 
             //  var res = s.LongestCommonPrefix(new string[] { "flower", "flow", "flight" });
 
-            var res = s.FindBottomLeftValue(node1);
+            //Console.WriteLine(s.Search1(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 0));
+            //Console.WriteLine(s.Search1(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 1));
+            //Console.WriteLine(s.Search1(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 2));
+            //Console.WriteLine(s.Search1(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 3));
+            //Console.WriteLine(s.Search1(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 4));
+            //Console.WriteLine(s.Search1(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 5));
+            //Console.WriteLine(s.Search1(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 6));
+            //Console.WriteLine(s.Search1(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 7));
+            //Console.WriteLine(s.Search1(new int[] { 4, 5, 6, 7, 0, 1, 2 }, 8));
+
+            //  var res = s.TwoSum1(new int[] { -1, 0, 1, 2, -1, -4 },4);
+
+            //var res = s.SearchRange(new int[] { 1 }, 1);
+            //for (int i = 0; i < res.Length; i++)
+            //{
+            //    Console.WriteLine(res[i]);
+            //}
+            //   var res = s.FindMin(new int[] { 1 });
+            //   Console.WriteLine(res);
+
+            //  Console.WriteLine(s.Search21(new int[] { 2, 5, 6, 0, 0, 1, 2 }, 0));
+
+            //for (int i = 1; i <= 100; i++)
+            //{
+            //    Console.WriteLine($"{i}=" + s.IntToRoman(i));
+            //}
+            //var res = s.FindWords(new string[] { "Hello", "Alaska", "Dad", "Peace" });
+
+            //for (int i = 0; i < res.Length; i++)
+            //{
+            //    Console.WriteLine(res[i]);
+            //}
+            //    var res = s.MergeSort(new int[] { 6, 5, 7, 8, 3, 2, 4, 1 });
+            //  s.MoveZeroes(new int[] { 0, 0 });
+            var res = s.DiameterOfBinaryTree(node1);
             Console.WriteLine(res);
-            Console.WriteLine("Hello World!");
             Console.ReadKey();
         }
     }
 
     public class Solution
     {
+        /// <summary>
+        /// 二叉树的直径
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public int DiameterOfBinaryTree(TreeNode root)
+        {
+            if (root == null) return 0;
+            return 1 + TreeMaxDepth(root.left) + TreeMaxDepth(root.right);
+        }
+        public int TreeMaxDepth(TreeNode root)
+        {
+            List<int> result = new List<int>();
+            result.Add(0);
+            Stack<int> stack = new Stack<int>();
+            DepthSearch(root, stack, result);
+            return result.Max();
+        }
+        public void DepthSearch(TreeNode root, Stack<int> stack, List<int> result)
+        {
+            if (root == null)
+            {
+                return;
+            }
+            stack.Push(root.val);
+            if (root.left == null && root.right == null)
+            {
+                result.Add(stack.ToArray().Length);
+            }
+            DepthSearch(root.left, stack, result);
+            DepthSearch(root.right, stack, result);
+
+            stack.Pop();
+        }
+        /// <summary>
+        /// 移动0
+        /// </summary>
+        /// <param name="nums"></param>
+        public void MoveZeroes(int[] nums)
+        {
+            if (nums.Length <= 0) return;
+            int i = 0;
+            int begin = 0;
+            int end = nums.Length - 1;
+            while (begin < end)
+            {
+                if (nums[begin] == 0)
+                {
+                    i = begin;
+                    while (i < nums.Length - 1)
+                    {
+                        nums[i] = nums[i + 1];
+                        i++;
+                    }
+                    while (nums[end] == 0 && end > begin)
+                    {
+                        end--;
+                    }
+                    nums[nums.Length - 1] = 0;
+                }
+                else
+                {
+                    begin++;
+                }
+            }
+        }
+        /// <summary>
+        /// 翻转二叉树
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public TreeNode InvertTree(TreeNode root)
+        {
+            InvertTree1(root);
+            return root;
+        }
+        private void InvertTree1(TreeNode root)
+        {
+            if (root == null) return;
+            var temp = root.left;
+            root.left = root.right;
+            root.right = temp;
+            InvertTree1(root.left);
+            InvertTree1(root.right);
+        }
+        /// <summary>
+        /// 归并排序
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public int[] MergeSort(int[] array)
+        {
+            if (array.Length < 2) return array;
+            int mid = array.Length / 2;
+            int[] left = array.Take(mid).ToArray();
+            int[] right = array.Skip(mid).Take(array.Length - mid).ToArray();
+            var l = MergeSort(left);
+            var r = MergeSort(right);
+            var result = Merge(l, r);
+            return result;
+        }
+        public static int[] Merge(int[] left, int[] right)
+        {
+            int[] result = new int[left.Length + right.Length];
+            int i = 0;
+            int j = 0;
+            for (int index = 0; index < result.Length; index++)
+            {
+                if (i >= left.Length)
+                {
+                    result[index] = right[j++];
+                }
+                else if (j >= right.Length)
+                {
+                    result[index] = left[i++];
+                }
+                else if (left[i] > right[j])
+                {
+                    result[index] = right[j++];
+                }
+                else
+                {
+                    result[index] = left[i++];
+                }
+            }
+            return result;
+        }
+        public string[] FindWords(string[] words)
+        {
+            Dictionary<string, int> dict = new Dictionary<string, int>();
+            dict.Add("q", 1);
+            dict.Add("w", 1);
+            dict.Add("e", 1);
+            dict.Add("r", 1);
+            dict.Add("t", 1);
+            dict.Add("y", 1);
+            dict.Add("u", 1);
+            dict.Add("i", 1);
+            dict.Add("o", 1);
+            dict.Add("p", 1);
+            dict.Add("a", 2);
+            dict.Add("s", 2);
+            dict.Add("d", 2);
+            dict.Add("f", 2);
+            dict.Add("g", 2);
+            dict.Add("h", 2);
+            dict.Add("j", 2);
+            dict.Add("k", 2);
+            dict.Add("l", 2);
+
+
+            dict.Add("z", 3);
+            dict.Add("x", 3);
+            dict.Add("c", 3);
+            dict.Add("v", 3);
+            dict.Add("b", 3);
+            dict.Add("n", 3);
+            dict.Add("m", 3);
+            List<string> res = new List<string>();
+            for (int i = 0; i < words.Length; i++)
+            {
+                int j = 0;
+                int temp = dict[words[i][j].ToString().ToLower()];
+
+
+                while (temp == dict[words[i][j].ToString().ToLower()])
+                {
+                    temp = dict[words[i][j].ToString().ToLower()];
+                    j++;
+                }
+                res.Add(words[i]);
+            }
+            return res.ToArray();
+        }
+        public IList<string> LetterCombinations(string digits)
+        {
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            List<int> temp = new List<int>();
+            dict.Add(2, "abc");
+            dict.Add(3, "def");
+            dict.Add(4, "ghi");
+            dict.Add(5, "jkl");
+            dict.Add(6, "mno");
+            dict.Add(7, "pqrs");
+            dict.Add(8, "tuv");
+            dict.Add(9, "wxyz");
+            for (int i = 0; i < digits.Length; i++)
+            {
+                if (!temp.Contains(digits[i]))
+                {
+                    temp.Add(digits[i]);
+                }
+            }
+
+            return null;
+        }
+        public string IntToRoman(int num)
+        {
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+            dict.Add(1, "I");
+            dict.Add(4, "IV");
+            dict.Add(5, "V");
+            dict.Add(9, "IX");
+            dict.Add(10, "X");
+            dict.Add(40, "XL");
+            dict.Add(50, "L");
+            dict.Add(90, "XC");
+            dict.Add(100, "C");
+            dict.Add(400, "CD");
+            dict.Add(500, "D");
+            dict.Add(900, "CM");
+            dict.Add(1000, "M");
+
+            if (dict.ContainsKey(num)) return dict[num];
+            string str = "";
+            var a = dict.Where(i => i.Key <= num).Max(b => b.Key);
+            str += dict[a];
+            var temp = num - a;
+            while (temp > 0)
+            {
+                a = dict.Where(i => i.Key <= temp).Max(b => b.Key);
+                temp = temp - a;
+                str += dict[a];
+            }
+            return str;
+        }
+        public bool Search21(int[] nums, int target)
+        {
+            int start = 0;
+            int end = nums.Length - 1;
+            while (start <= end)
+            {
+                int mid = (start + end) / 2;
+                if (nums[mid] == target) return true;
+                if (nums[mid] < nums[end])//右侧递增
+                {
+                    if (nums[mid] > target)
+                    {
+                        end = mid - 1;
+                    }
+                    else
+                    {
+                        start = mid + 1;
+                    }
+                }
+                else//左侧递增
+                {
+                    if (nums[mid] > target)
+                    {
+                        end = mid - 1;
+
+                    }
+                    else
+                    {
+                        start = mid + 1;
+                    }
+                }
+            }
+            return false;
+        }
+        public int[] FindErrorNums(int[] nums)
+        {
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            int[] res = new int[2];
+            int sum = 0;
+            //1,2,4,4,5
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (!dict.ContainsKey(nums[i]))
+                {
+                    dict.Add(nums[i], 1);
+                    sum += nums[i];
+                }
+                else
+                {
+                    res[0] = nums[i];
+                }
+            }
+            var num = ((1 + nums.Length) * nums.Length / 2) - sum;
+            res[1] = num;
+            return res;
+        }
+        /// <summary>
+        /// 寻找旋转排序数组中的最小值
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int FindMin(int[] nums)
+        {
+            if (nums.Length == 0) return -1;
+            int start = 0;
+            int end = nums.Length - 1;
+            while (start <= end)
+            {
+                if (nums[start] > nums[end])
+                {
+                    start++;
+                }
+                else
+                {
+                    end--;
+                }
+            }
+            return nums[start];
+        }
+
+        /// <summary>
+        /// 在排序数组中查找元素的第一个和最后一个位置
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public int[] SearchRange(int[] nums, int target)
+        {
+            /*
+             * 思路，双指针。
+             * 
+             * 
+             * 
+             */
+            if (nums.Length == 0) return new int[] { -1, -1 };
+            int start = 0;
+            int end = nums.Length - 1;
+            int nums1 = -1;
+            int nums2 = -1;
+            while (start <= end)
+            {
+                int mid = (start + end) / 2;
+                if (nums[mid] == target)
+                {
+                    nums1 = mid;
+                    nums2 = mid;
+                    while (nums1 > start && nums[nums1 - 1] == target)
+                    {
+                        nums1 = nums1 - 1;
+                    }
+                    Console.WriteLine("index1=" + nums1);
+                    while (nums2 < end && nums[nums2 + 1] == target)
+                    {
+                        nums2 = nums2 + 1;
+                    }
+                    Console.WriteLine("index2=" + nums2);
+                    return new int[] { nums1, nums2 };
+                }
+                if (target < nums[mid])
+                {
+                    end = mid - 1;
+                }
+                if (target > nums[mid])
+                {
+                    start = mid + 1;
+                }
+            }
+            return new int[] { nums1, nums2 };
+        }
+        /// <summary>
+        /// 三数之和
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public IList<IList<int>> ThreeSum(int[] nums)
+        {
+            IList<IList<int>> result = new List<IList<int>>();
+            IList<int> list = new List<int>();
+            for (int i = 0; i < nums.Length - 2; i++)
+            {
+                for (int j = i + 1; j < nums.Length - 1; j++)
+                {
+                    for (int k = j + 1; k < nums.Length; k++)
+                    {
+                        if (nums[i] + nums[j] + nums[k] == 0)
+                        {
+                            list.Add(nums[i]);
+                            list.Add(nums[j]);
+                            list.Add(nums[k]);
+                            result.Add(list.ToArray());
+                            list.Clear();
+                        }
+                    }
+                }
+            }
+
+
+            return result;
+        }
+        /// <summary>
+        /// 搜索旋转排序数组 II
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public bool Search2(int[] nums, int target)
+        {
+
+            return false;
+        }
+        /// <summary>
+        /// 搜索旋转排序数组
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public int Search1(int[] nums, int target)
+        {
+            /*
+             思路：1.根据中间位置的数字和最后一个位置的数字判断哪边是单调递增的
+                    2.判断target在不在单调递增区间里面
+             */
+            if (nums.Length == 0) return -1;
+            int start = 0;
+            int end = nums.Length - 1;
+            while (start <= end)
+            {
+                int mid = (start + end) / 2;
+                if (nums[mid] == target) return mid;
+                if (nums[mid] < nums[end])
+                {
+                    //右侧是单调递增的
+                    if (target > nums[mid] && target <= nums[end])
+                    {
+                        start = mid + 1;
+                    }
+                    else
+                    {
+                        end = mid - 1;
+                    }
+                }
+                else
+                {
+                    //左侧是单调递增的
+                    if (target >= nums[start] && target < nums[mid])
+                    {
+                        end = mid - 1;
+                    }
+                    else
+                    {
+                        start = mid + 1;
+                    }
+                }
+            }
+            return -1;
+        }
+        /// <summary>
+        /// 二叉树的堂兄弟节点
+        /// </summary>
+        /// <param name="root"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool IsCousins(TreeNode root, int x, int y)
+        {
+            /*
+             1.声明一个元祖列表 存放 当前节点，当前层数，当前的父级节点
+             */
+            Queue<Tuple<TreeNode, int, TreeNode>> queue = new Queue<Tuple<TreeNode, int, TreeNode>>();
+            List<Tuple<TreeNode, int, TreeNode>> result = new List<Tuple<TreeNode, int, TreeNode>>();
+            queue.Enqueue(new Tuple<TreeNode, int, TreeNode>(root, 0, null));
+            while (queue.Count > 0)
+            {
+                var tuple = queue.Dequeue();
+
+                var node = tuple.Item1;
+                var count = tuple.Item2;
+                var parentNode = tuple.Item3;
+                result.Add(new Tuple<TreeNode, int, TreeNode>(node, count, parentNode));
+                if (node.left != null)
+                {
+                    queue.Enqueue(new Tuple<TreeNode, int, TreeNode>(node.left, count + 1, node));
+                }
+                if (node.right != null)
+                {
+                    queue.Enqueue(new Tuple<TreeNode, int, TreeNode>(node.right, count + 1, node));
+                }
+            }
+            var t1 = result.Where(t => t.Item1.val == x).FirstOrDefault();
+            var t2 = result.Where(t => t.Item1.val == y).FirstOrDefault();
+            return t1.Item3 != t2.Item3 && t1.Item2 == t2.Item2;
+        }
         /// <summary>
         /// 给定一个二叉树，在树的最后一行找到最左边的值
         /// </summary>
@@ -773,11 +1284,7 @@ namespace StackTraining
             return "";
 
         }
-        public void MoveZeroes(int[] nums)
-        {
 
-
-        }
         public int[] SortArrayByParityII(int[] A)
         {
             if (A.Length <= 0) return new int[] { };
