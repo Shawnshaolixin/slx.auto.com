@@ -175,6 +175,11 @@ namespace StackTraining
 
     public class Solution
     {
+
+        public void DeleteNode(ListNode node)
+        {
+
+        }
         /// <summary>
         /// 二叉树的直径
         /// </summary>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 
 namespace Rose
 {
@@ -7,15 +6,22 @@ namespace Rose
     {
         static void Main(string[] args)
         {
-             string url = "https://wenzi.zhibo8.cc/zhibo/nba/2019/0430265859.htm";
-            // string url = "https://www.baidu.com/";
-            HttpRequestMessage httpRequestMessage = new HttpRequestMessage();
-            httpRequestMessage.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36");
-            HttpClientHandler httpClientHandler = new HttpClientHandler();
-            HttpClient httpClient = new HttpClient(httpClientHandler);
-          var result = httpClient.GetStringAsync(new Uri(url)).GetAwaiter().GetResult();
-            Console.WriteLine(result);
+            Console.WriteLine("Hello World!");
+            // 然后你就可以根据IP和端口拿到对于的服务
+            var channel = new Channel("192.168.1.8", 8080, ChannelCredentials.Insecure);
+
             Console.ReadLine();
+        }
+    }
+    public class A
+    {
+        static A()
+        {
+            Console.WriteLine("静态构造方法被调用了");
+        }
+        public A()
+        {
+            Console.WriteLine("构造方法被调用了");
         }
     }
 }
