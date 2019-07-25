@@ -19,7 +19,7 @@ namespace ClientTest
 
 
 
-
+            //注册的服务介个，这个可以用polly 做负载均衡
             var services = AvaliableServices("UserService", "").Result;
 
             foreach (var service in services)
