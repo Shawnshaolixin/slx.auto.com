@@ -13,13 +13,28 @@ namespace ConsoleApp1
                  return "hello world";
              });
         }
+        static Task GetTestAsync()
+        {
+            return Task.Run(() =>
+            {
+
+                Console.WriteLine("GetTestAsync----");
+            });
+        }
         static Task<string> GetStringAsync()
         {
+            GetTestAsync();
+
+
+
             return Task.FromResult<string>("hehe");
+
         }
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
 
+
+            #region MyRegion
             //Console.WriteLine("main thread: starting a dedicated thread to do an asynchronous operation");
 
             //Thread dedicatedThread = new Thread(ComputeBoundOp);
@@ -45,8 +60,16 @@ namespace ConsoleApp1
 
             //Console.WriteLine("Hit <Enter> to end this program...");
 
-            var s = GetAsync().GetAwaiter().GetResult();
-       
+            #endregion
+            var type = typeof(Manager);
+            var methodInfo = type.GetMethod("GetName");
+            var instance = Activator.CreateInstance(type);
+
+
+            var result = methodInfo.Invoke(instance, new object[] { "shawn" });
+            Console.WriteLine(result);
+            var s = await GetAsync();
+
             Console.WriteLine(s);
 
             Console.ReadLine();
@@ -93,7 +116,10 @@ namespace ConsoleApp1
         {
             return "Manager GetPRogressRepost";
         }
-
+        public string GetName(string name)
+        {
+            return $"my name is {name}";
+        }
 
     }
 }
