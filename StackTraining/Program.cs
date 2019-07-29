@@ -167,15 +167,67 @@ namespace StackTraining
             //}
             //    var res = s.MergeSort(new int[] { 6, 5, 7, 8, 3, 2, 4, 1 });
             //  s.MoveZeroes(new int[] { 0, 0 });
-            var res = s.DiameterOfBinaryTree(node1);
-            Console.WriteLine(res);
+            //var res = s.DiameterOfBinaryTree(node1);
+            //Console.WriteLine(res);
+            Console.WriteLine(s.MajorityElement(new int[] { 3, 2, 3 }));
             Console.ReadKey();
         }
     }
 
     public class Solution
     {
-
+        /// <summary>
+        /// 众数
+        /// </summary>
+        Dictionary<int, int> dict = new Dictionary<int, int>();
+        public int MajorityElement(int[] nums)
+        {
+            foreach (var item in nums)
+            {
+                if (dict.ContainsKey(item))
+                {
+                    dict[item]++;
+                }
+                else
+                {
+                    dict.Add(item, 1);
+                }
+            }
+            foreach (var item in dict)
+            {
+                if (item.Value > nums.Length / 2) return item.Key;
+            }
+            return 0;
+        }
+        /// <summary>
+        /// 丑数
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public bool IsUgly(int num)
+        {
+            if (num == 0) return false;
+            while (num != 1)
+            {
+                if (num % 2 == 0)
+                {
+                    num = num / 2;
+                }
+                else if (num % 3 == 0)
+                {
+                    num = num / 3;
+                }
+                else if (num % 5 == 0)
+                {
+                    num = num / 5;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         public void DeleteNode(ListNode node)
         {
 
