@@ -8,6 +8,23 @@ namespace StackTraining
     {
         static void Main(string[] args)
         {
+
+
+            Solution solution = new Solution();
+            var b = solution.IsUnique("iluhwpyk");
+            //  var resu = solution.SortedArrayToBST(new int[] { -10, -3, 0, 5, 9 });
+            //ListNode headNode = new ListNode(1);
+            //var h4 = new ListNode(5);
+            //var h3 = new ListNode(4);
+            //var h2 = new ListNode(3);
+            //var h1 = new ListNode(2);
+            //headNode.next = h1;
+            //h1.next = h2;
+            //h2.next = h3;
+            //h3.next = h4;
+            //var result = Solution.KthToLast(headNode, 2);
+            //Console.WriteLine(result);
+            int i = 0;
             //Person zhangsan = new Man("张三", 5);
             //Person xiaofang = new Woman("小芳", 5);
             //zhangsan.GetPartner(xiaofang);
@@ -177,6 +194,116 @@ namespace StackTraining
     public class Solution
     {
         /// <summary>
+        /// 面试题 01.02. 判定是否互为字符重排
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <returns></returns>
+        public bool CheckPermutation(string s1, string s2)
+        {
+            int[] arr1 = new int[100];
+            int[] arr2 = new int[100];
+            for (int i = 0; i < s1.Length; i++)
+            {
+                arr1[s1[i] - 65]++;
+            }
+            for (int i = 0; i < s2.Length; i++)
+            {
+                arr2[s2[i] - 65]++;
+            }
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                if(arr1[i] == arr2[i])
+                {
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// 面试题 01.01. 判定字符是否唯一
+        /// </summary>
+        /// <param name="astr"></param>
+        /// <returns></returns>
+        public bool IsUnique(string astr)
+        {
+            int[] arr = new int[100];
+            for (int i = 0; i < astr.Length; i++)
+            {
+                char c = astr[i];
+                if (arr[c - 65] >= 1)
+                {
+                    return false;
+                }
+                else
+                {
+                    arr[c - 65]++;
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// 面试题 04.02. 最小高度树
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public TreeNode SortedArrayToBST(int[] nums)
+        {
+            if (nums.Length == 0) return null;
+            TreeNode node = new TreeNode(nums[nums.Length / 2]);
+            var leftNums = new int[nums.Length / 2];
+            var rightNums = new int[nums.Length - nums.Length / 2 - 1];
+            for (int i = 0; i < leftNums.Length; i++)
+            {
+                leftNums[i] = nums[i];
+            }
+            for (int i = 0; i < rightNums.Length; i++)
+            {
+                rightNums[i] = nums[nums.Length / 2 + i + 1];
+            }
+            node.left = SortedArrayToBST(leftNums);
+            node.right = SortedArrayToBST(rightNums);
+            return node;
+        }
+        /// <summary>
+        /// 面试题 02.02. 返回倒数第 k 个节点
+        /// </summary>
+        /// <param name="head"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public static int KthToLast(ListNode head, int k)
+        {
+
+            Stack<ListNode> stack = new Stack<ListNode>();
+            while (head != null)
+            {
+                Console.WriteLine(head.val);
+                stack.Push(head);
+                head = head.next;
+            }
+            ListNode node = null;
+            while (k > 0)
+            {
+                node = stack.Pop();
+                k--;
+            }
+            return node.val;
+        }
+        /// <summary>
+        /// 面试题 02.03. 删除中间节点
+        /// </summary>
+        /// <param name="node"></param>
+        public void DeleteNode(ListNode node)
+        {
+            node.val = node.next.val;
+            node.next = node.next.next;
+        }
+
+        /// <summary>
         /// 众数
         /// </summary>
         Dictionary<int, int> dict = new Dictionary<int, int>();
@@ -228,10 +355,7 @@ namespace StackTraining
             }
             return true;
         }
-        public void DeleteNode(ListNode node)
-        {
 
-        }
         /// <summary>
         /// 二叉树的直径
         /// </summary>

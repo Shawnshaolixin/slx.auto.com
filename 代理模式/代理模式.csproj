@@ -6,8 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NPOI" Version="2.4.1" />
-    <PackageReference Include="RabbitMQ.Client" Version="6.0.0-pre3" />
+    <Reference Include="mscorlib">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
