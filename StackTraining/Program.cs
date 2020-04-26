@@ -203,16 +203,20 @@ namespace StackTraining
             if (n > 25)
             {
                 WaysToChange(n - 25);
-            }else if (n > 10)
-            {
-
-            }else if (n > 5)
-            {
-                
-            }else if (n > 1)
+            }
+            else if (n > 10)
             {
 
             }
+            else if (n > 5)
+            {
+
+            }
+            else if (n > 1)
+            {
+
+            }
+            return 0;
         }
 
         /// <summary>
@@ -235,7 +239,7 @@ namespace StackTraining
             }
             for (int i = 0; i < arr1.Length; i++)
             {
-                if(arr1[i] == arr2[i])
+                if (arr1[i] == arr2[i])
                 {
 
                 }
@@ -2397,7 +2401,7 @@ namespace StackTraining
             IList<int> result = new List<int>();
             // 二叉树为空
             if (node == null) return result;
-            
+
             int i = 0; // 层
             Queue<KeyValuePair<TreeNode, int>> queue = new Queue<KeyValuePair<TreeNode, int>>();
 
