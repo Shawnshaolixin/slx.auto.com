@@ -194,6 +194,28 @@ namespace StackTraining
     public class Solution
     {
         /// <summary>
+        /// 面试题 08.11. 硬币
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public int WaysToChange(int n)
+        {
+            if (n > 25)
+            {
+                WaysToChange(n - 25);
+            }else if (n > 10)
+            {
+
+            }else if (n > 5)
+            {
+                
+            }else if (n > 1)
+            {
+
+            }
+        }
+
+        /// <summary>
         /// 面试题 01.02. 判定是否互为字符重排
         /// </summary>
         /// <param name="s1"></param>
@@ -2371,15 +2393,20 @@ namespace StackTraining
         /// <returns></returns>
         public IList<int> RightSideView(TreeNode node)
         {
+            // 结果集
             IList<int> result = new List<int>();
+            // 二叉树为空
             if (node == null) return result;
-            int i = 0;
+            
+            int i = 0; // 层
             Queue<KeyValuePair<TreeNode, int>> queue = new Queue<KeyValuePair<TreeNode, int>>();
 
+            // 根节点入队 第一层
             queue.Enqueue(new KeyValuePair<TreeNode, int>(node, i));
             int temp = 0;
             while (queue.Count > 0)
             {
+                //如果队列有值
                 var pair = queue.Dequeue();
                 var preious = pair.Key;
                 var depth = pair.Value;
