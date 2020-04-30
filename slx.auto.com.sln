@@ -103,6 +103,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp4", "ConsoleApp4\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "代理模式", "代理模式\代理模式.csproj", "{C934BCB3-7B79-46DD-81D8-BE36CC669A82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp5", "ConsoleApp5\ConsoleApp5.csproj", "{A6ED90A5-C086-4BA1-AED9-0A5C102A9CE4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -297,6 +299,10 @@ Global
 		{C934BCB3-7B79-46DD-81D8-BE36CC669A82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C934BCB3-7B79-46DD-81D8-BE36CC669A82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C934BCB3-7B79-46DD-81D8-BE36CC669A82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6ED90A5-C086-4BA1-AED9-0A5C102A9CE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6ED90A5-C086-4BA1-AED9-0A5C102A9CE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6ED90A5-C086-4BA1-AED9-0A5C102A9CE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6ED90A5-C086-4BA1-AED9-0A5C102A9CE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -335,6 +341,7 @@ Global
 		{8BDF9BAA-1E84-43E9-B9F5-BD97BB94F2EE} = {8782971C-661D-46A8-81E3-07FB2A591936}
 		{087CB7BA-0B85-4BE5-92E5-9415992EF475} = {28B51768-F2B6-475F-A983-0E1A6F8948C3}
 		{C934BCB3-7B79-46DD-81D8-BE36CC669A82} = {28B51768-F2B6-475F-A983-0E1A6F8948C3}
+		{A6ED90A5-C086-4BA1-AED9-0A5C102A9CE4} = {28B51768-F2B6-475F-A983-0E1A6F8948C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0728A049-654A-4D17-A1E5-350AAAD0B47A}
