@@ -1,18 +1,106 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace StackTraining
 {
     class Program
     {
-      
+        static void QuickSort(int[] arr, int low, int hight)
+        {
+
+            if (low < hight)
+            {
+                var index = GetIndex(arr, low, hight);
+                QuickSort(arr, 0, index - 1);
+                QuickSort(arr, index + 1, hight);
+            }
+
+        }
+        static int GetIndex(int[] arr, int low, int hight)
+        {
+            int temp = arr[low];
+            while (low < hight)
+            {
+                while (low < hight && arr[hight] >= temp)
+                {
+                    hight--;
+                }
+                arr[low] = arr[hight];
+                while (low < hight && arr[low] <= temp)
+                {
+                    low++;
+                }
+                arr[hight] = arr[low];
+
+            }
+            arr[low] = temp;
+
+            return low;
+        }
         static void Main(string[] args)
         {
-            
 
+            //string str = "1222233344555555";
+
+            //int firstIndex = 0;
+            //int lastIndex = 1;
+
+
+            //while (lastIndex < str.Length)
+            //{
+
+            //    if (str[firstIndex] == str[lastIndex])
+            //    {
+            //        if ((lastIndex - firstIndex - 1) % 2 == 0)
+            //        {
+            //            //  Console.WriteLine($"删除这个元素 索引是{lastIndex}");
+
+            //        }
+            //        else
+            //        {
+            //            Console.Write($"{str[lastIndex]}.");
+
+            //        }
+            //        lastIndex++;
+            //    }
+            //    else
+            //    {
+            //        Console.Write($"{str[firstIndex]}.");
+
+            //        firstIndex = lastIndex;
+            //        lastIndex++;
+            //    }
+            //}
+
+            //#region 字典法
+            //Dictionary<int, int> dict = new Dictionary<int, int>();
+            //for (int k = 0; k < str.Length; k++)
+            //{
+            //    int num = str[k];
+            //    if (dict.ContainsKey(num))
+            //    {
+            //        dict[num]++;
+            //    }
+            //    else
+            //    {
+            //        dict.Add(num, 1);
+            //    }
+            //}
+            //for (int k = 0; k < str.Length; k++)
+            //{
+            //    if (!(dict[str[k]] % 2 == 0))
+            //    {
+            //        Console.Write(str[k]);
+            //    }
+
+            //}
+            //#endregion
+            Console.ReadKey();
             Solution solution = new Solution();
-            var b = solution.IsUnique("iluhwpyk");
+            //  solution.LetterCombinations("234");
+            //  var b = solution.IsUnique("iluhwpyk");
             //  var resu = solution.SortedArrayToBST(new int[] { -10, -3, 0, 5, 9 });
             //ListNode headNode = new ListNode(1);
             //var h4 = new ListNode(5);
@@ -25,6 +113,7 @@ namespace StackTraining
             //h3.next = h4;
             //var result = Solution.KthToLast(headNode, 2);
             //Console.WriteLine(result);
+
             int i = 0;
             //Person zhangsan = new Man("张三", 5);
             //Person xiaofang = new Woman("小芳", 5);
@@ -44,10 +133,13 @@ namespace StackTraining
             node1.right = node3;
             node2.left = node4;
             node2.right = node5;
-            //node3.left = node6;
-            //node3.right = node7;
+            node3.left = node6;
+            node3.right = node7;
 
             Solution s = new Solution();
+            s.Flatten(node1);
+            Console.WriteLine("遍历完成");
+            Console.ReadKey();
             //  s.HasPathSum(node1, 12);
             //  var list = s.LevelOrder(node1);
             // var l = s.RightSideView(node1);
@@ -63,20 +155,20 @@ namespace StackTraining
             //Console.WriteLine($"Z={(int)'Z'}");
             //var b = s.IsPalindrome("A man, a plan, a canal: Panama");
             //Console.WriteLine(b);
-            var arrs = new int[] { 230, 863, 916, 585, 981, 404, 316, 785, 88, 12, 70, 435, 384, 778, 887, 755, 740, 337, 86, 92, 325, 422, 815, 650, 920, 125, 277, 336, 221, 847, 168, 23, 677, 61, 400, 136, 874, 363, 394, 199, 863, 997, 794, 587, 124, 321, 212, 957, 764, 173, 314, 422, 927, 783, 930, 282, 306, 506, 44, 926, 691, 568, 68, 730, 933, 737, 531, 180, 414, 751, 28, 546, 60, 371, 493, 370, 527, 387, 43, 541, 13, 457, 328, 227, 652, 365, 430, 803, 59, 858, 538, 427, 583, 368, 375, 173, 809, 896, 370, 789 };
+            // var arrs = new int[] { 230, 863, 916, 585, 981, 404, 316, 785, 88, 12, 70, 435, 384, 778, 887, 755, 740, 337, 86, 92, 325, 422, 815, 650, 920, 125, 277, 336, 221, 847, 168, 23, 677, 61, 400, 136, 874, 363, 394, 199, 863, 997, 794, 587, 124, 321, 212, 957, 764, 173, 314, 422, 927, 783, 930, 282, 306, 506, 44, 926, 691, 568, 68, 730, 933, 737, 531, 180, 414, 751, 28, 546, 60, 371, 493, 370, 527, 387, 43, 541, 13, 457, 328, 227, 652, 365, 430, 803, 59, 858, 538, 427, 583, 368, 375, 173, 809, 896, 370, 789 };
             //542
 
             //  var b = s.IsValidBST(node1);
             //  var ii = s.TwoSum(arrs, 542);
             //[[3,9],[7,12],[3,8],[6,8],[9,10],[2,9],[0,9],[3,9],[0,6],[2,8]]
-            var testData = new int[][] { new int[] { 3,9 }, new int[] { 7, 12}, new int[] { 3, 8 },
-                new int[] { 6, 8},
-                new int[] { 9, 10},
-                new int[] { 2, 9},
-                new int[] { 0, 9} ,
-                new int[] { 3, 9},
-                new int[] { 0, 6},
-                new int[] { 2, 8}};
+            //var testData = new int[][] { new int[] { 3,9 }, new int[] { 7, 12}, new int[] { 3, 8 },
+            //    new int[] { 6, 8},
+            //    new int[] { 9, 10},
+            //    new int[] { 2, 9},
+            //    new int[] { 0, 9} ,
+            //    new int[] { 3, 9},
+            //    new int[] { 0, 6},
+            //    new int[] { 2, 8}};
 
             //   var testData = new int[][] { new int[] { 1, 2 }, new int[] { 2, 3 }, new int[] { 3, 4 }, new int[] { 4, 5 } };
             //  var testData = new int[][] { new int[] { 1, 6 }, new int[] { 2, 8 }, new int[] { 7, 12 }, new int[] { 10, 16 } };
@@ -103,13 +195,19 @@ namespace StackTraining
             //     Console.Read();
             //  s.Test(new int[] { 1, 1, 2 });
             //  Console.WriteLine(result);
-            // s.Rotate(new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6 }, new int[] { 7, 8, 9 } });
+            s.Rotate(new int[][] { new int[] { 1, 2, 3, 4 }, new int[] { 5, 6, 7, 8 }, new int[] { 9, 10, 11, 12 }, new int[] { 13, 14, 15, 16 } });
             // var r = s.CanJump(new int[] { 5, 9, 3, 2, 1, 0, 2, 3, 2, 1, 0, 0 });//2,3,1,1,4
             //   var r = s.CanJump(new int[] { 3, 2, 1, 0, 4 });//2,3,1,1,4
             ///  var r = s.NumJewelsInStones("aA", "aAAbbbb");
-            //   var r = s.RemoveElement(new int[] { 3, 2, 2, 3, 2, 3, 1, 2, 3, 4 }, 2);
+            //  var r = s.RemoveElement(new int[] { 3, 2, 2, 3 }, 3);
             //  Console.WriteLine(r);
-            //  Console.WriteLine(s.RemoveElement(new int[] { 0, 1, 2, 2, 3, 0, 4, 2 }, 2));
+            // Console.WriteLine(s.RemoveElement(new int[] { 0, 1, 2, 2, 3, 0, 4, 2 }, 2));
+
+            //    var res = s.ShipWithinDays(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 5);
+            var res = s.DetectCapitalUse("AbcdF");
+
+            Console.WriteLine("----------------结果是" + res);
+            Console.ReadKey();
             //  Console.WriteLine(s.RemoveElement(new int[] { 3, 2, 21, 2, 3, 4 }, 4));
             //  Console.WriteLine(s.RemoveElement(new int[] { 3, 2, 2, 3, 2, 3, 4 }, 3));
             //  Console.WriteLine(s.RemoveElement(new int[] { 2, 2, 2, 2, 2, 2, }, 2));
@@ -187,13 +285,201 @@ namespace StackTraining
             //  s.MoveZeroes(new int[] { 0, 0 });
             //var res = s.DiameterOfBinaryTree(node1);
             //Console.WriteLine(res);
-            Console.WriteLine(s.MajorityElement(new int[] { 3, 2, 3 }));
+            //  Console.WriteLine(s.MajorityElement(new int[] { 3, 2, 3 }));
             Console.ReadKey();
         }
     }
 
     public class Solution
     {
+
+        public bool DetectCapitalUse(string word)
+        {
+            if (word.Length <= 1)
+            {
+                return true;
+            }
+
+            // 如果首字母是小写
+            if (word[0] >= 'a' && word[0] <= 'z')
+            {
+
+                for (int i = 1; i < word.Length; i++)
+                {
+                    if (!(word[i] >= 'a' && word[i] <= 'z')) return false;
+                }
+            }
+            else
+            {
+                if (word[1] >= 'a' && word[1] <= 'z')
+                {
+                    for (int i = 1; i < word.Length; i++)
+                    {
+                        if (!(word[i] >= 'a' && word[i] <= 'z')) return false;
+                    }
+                }
+                else
+                {
+                    for (int i = 1; i < word.Length; i++)
+                    {
+                        if (!(word[i] >= 'A' && word[i] <= 'Z')) return false;
+                    }
+                }
+
+            }
+
+            return true;
+        }
+        public IList<bool> KidsWithCandies(int[] candies, int extraCandies)
+        {
+            bool[] bs = new bool[candies.Length];
+            int max = candies.Max();
+            for (int i = 0; i < candies.Length; i++)
+            {
+                if (max <= candies[i] + extraCandies)
+                {
+                    bs[i] = true;
+                }
+            }
+            return bs;
+        }
+
+        public string GenerateTheString(int n)
+        {
+            if (n % 2 == 0)
+            {
+                return (new string('a', n - 1)) + "b";
+            }
+            return new string('a', n);
+        }
+        public int[] SortedSquares(int[] A)
+        {
+            int[] B = new int[A.Length];
+            for (int i = 0; i < A.Length; i++)
+            {
+                B[i] = A[i] * A[i];
+            }
+            Array.Sort(B);
+            return B;
+        }
+        /// <summary>
+        /// 在 D 天内送达包裹的能力
+        /// </summary>
+        /// <param name="weights"></param>
+        /// <param name="D"></param>
+        /// <returns></returns>
+        public int ShipWithinDays(int[] weights, int D)
+        {
+            int lo = weights.Max();
+            int hi = weights.Sum() + 1;
+            while (lo < hi)
+            {
+                int mid = lo + (hi - lo) / 2;
+                if (canShip(weights, D, mid))
+                {
+                    hi = mid;
+
+                }
+                else
+                {
+                    lo = mid + 1;
+                }
+
+            }
+            return lo;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="weights"></param>
+        /// <param name="D">表示运输天数</param>
+        /// <param name="K">这艘船的承载量</param>
+        /// <returns></returns>
+        private bool canShip(int[] weights, int D, int K)
+        {
+            int curr = K;// cur 表示当前船可用承载量
+            foreach (var weight in weights)
+            {
+                if (weight > K) return false;
+                if (curr < weight)
+                {
+                    curr = K;
+                    D--;
+                }
+                curr -= weight;
+            }
+            return D > 0;
+        }
+        /// <summary>
+        /// 电话号码的字母组合
+        /// </summary>
+        /// <param name="digits"></param>
+        /// <returns></returns>
+        public IList<string> LetterCombinations(string digits)
+        {
+            IList<string> output = new List<string>();
+            Dictionary<char, string> dict = new Dictionary<char, string>();
+            dict.Add('2', "abc");
+            dict.Add('3', "def");
+            dict.Add('4', "ghi");
+            dict.Add('5', "jkl");
+            dict.Add('6', "mno");
+            dict.Add('7', "pqrs");
+            dict.Add('8', "tuv");
+            dict.Add('9', "wxyz");
+            // abc, def,jhi
+            if (digits.Length != 0)
+            {
+                Backtrack(output, dict, "", digits);
+            }
+            return output;
+
+        }
+        /// <summary>
+        /// 回溯
+        /// </summary>
+        /// <param name="output"></param>
+        /// <param name="phone"></param>
+        /// <param name="combination">组合</param>
+        /// <param name="next_digits">下一个数字</param>
+        public void Backtrack(IList<string> output, Dictionary<char, string> phone, string combination, string next_digits)
+        {
+            if (next_digits.Length == 0)
+            {
+                output.Add(combination);
+            }
+            else
+            {
+                char digit = Convert.ToChar(next_digits.Substring(0, 1));
+                string letters = phone[digit];
+                for (int i = 0; i < letters.Length; i++)
+                {
+                    Backtrack(output, phone, combination + letters[i], next_digits.Substring(1));
+                }
+            }
+
+        }
+        public string FindLongestWord(string s, IList<string> d)
+        {
+            foreach (var item in d)
+            {
+                int first = 0;
+                int last = 0;
+                while (last <= item.Length - 1)
+                {
+                    if (s[first] == item[last])
+                    {
+                        first++;
+                        last++;
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            return null;
+        }
         /// <summary>
         /// 面试题 08.11. 硬币
         /// </summary>
@@ -557,28 +843,28 @@ namespace StackTraining
             }
             return res.ToArray();
         }
-        public IList<string> LetterCombinations(string digits)
-        {
-            Dictionary<int, string> dict = new Dictionary<int, string>();
-            List<int> temp = new List<int>();
-            dict.Add(2, "abc");
-            dict.Add(3, "def");
-            dict.Add(4, "ghi");
-            dict.Add(5, "jkl");
-            dict.Add(6, "mno");
-            dict.Add(7, "pqrs");
-            dict.Add(8, "tuv");
-            dict.Add(9, "wxyz");
-            for (int i = 0; i < digits.Length; i++)
-            {
-                if (!temp.Contains(digits[i]))
-                {
-                    temp.Add(digits[i]);
-                }
-            }
+        //public IList<string> LetterCombinations(string digits)
+        //{
+        //    Dictionary<int, string> dict = new Dictionary<int, string>();
+        //    List<int> temp = new List<int>();
+        //    dict.Add(2, "abc");
+        //    dict.Add(3, "def");
+        //    dict.Add(4, "ghi");
+        //    dict.Add(5, "jkl");
+        //    dict.Add(6, "mno");
+        //    dict.Add(7, "pqrs");
+        //    dict.Add(8, "tuv");
+        //    dict.Add(9, "wxyz");
+        //    for (int i = 0; i < digits.Length; i++)
+        //    {
+        //        if (!temp.Contains(digits[i]))
+        //        {
+        //            temp.Add(digits[i]);
+        //        }
+        //    }
 
-            return null;
-        }
+        //    return null;
+        //}
         public string IntToRoman(int num)
         {
             Dictionary<int, string> dict = new Dictionary<int, string>();
@@ -1464,19 +1750,22 @@ namespace StackTraining
             if (nums.Length <= 0) return 0;
             if (nums.Length == 1) return nums[0] == val ? 0 : 1;
             int end = nums.Length - 1;
-            for (int i = 0; i < nums.Length; i++)
+            int start = 0;
+            while (start <= end)
             {
-                if (nums[i] == val)
+                if (nums[start] == val)
                 {
-                    while (nums[end] == val && end > i)
-                    {
-                        end--;
-                    }
-                    nums[i] = nums[end];
-                    nums[end] = val;
+                    int temp = nums[start];
+                    nums[start] = nums[end];
+                    nums[end] = temp;
+                    end--;
+                }
+                else
+                {
+                    start++;
                 }
             }
-            return end;
+            return end + 1;
         }
         public string LicenseKeyFormatting(string S, int K)
         {
@@ -1683,17 +1972,71 @@ namespace StackTraining
 
         public void Rotate(int[][] matrix)
         {
-            var temp = 0;
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                for (int j = 0; j < matrix[i].Length; j++)
-                {
-                    temp = matrix[i][j];
 
-                    matrix[i][j] = matrix[matrix[i].Length - 1 - j][i];
-                    matrix[matrix[i].Length - 1 - j][i] = temp;
+
+            //var temp = matrix[0][0];//第一个位置 的1，先保存
+            //var temp1 = matrix[0][1];//第二个位置的2，先保存
+            //var temp2 = matrix[0][2];//第三个位置的3.先保存
+
+            //matrix[0][0] = matrix[2][0];//7放到第一个位置
+            //matrix[0][1] = matrix[1][0];//4放到第二个位置，
+
+            //matrix[1][0] = matrix[2][1];//
+            //matrix[1][1] = matrix[1][1];
+
+            //matrix[2][0] = matrix[2][2];
+            //matrix[2][1] = matrix[1][2];
+
+
+            //matrix[0][2] = temp;//1放到第三个位置
+            //matrix[1][2] = temp1;
+            //matrix[2][2] = temp2;
+
+
+
+
+            var temp = matrix[0][0];
+            matrix[0][0] = matrix[3][0];
+            var temp1 = matrix[0][1];
+            matrix[0][1] = matrix[2][0];
+
+
+
+            int first = 0;
+            int last = matrix.Length;
+            while (first <= last)
+            {
+                int[] arrs = new int[last - first];
+                //把第一排 先临时存起来
+                for (int i = 0; i < arrs.Length; i++)
+                {
+                    arrs[i] = matrix[first][i];
                 }
+                for (int i = 0; i < last - first; i++)
+                {
+                    var t = 0;
+                    var num = matrix[i][0];
+                    matrix[i][last - first] = num;
+
+
+                }
+                for (int i = 0; i < arrs.Length; i++)
+                {
+                    matrix[i][last - first - 1] = arrs[i];
+                }
+                first++;
+                last--;
             }
+
+
+
+
+
+
+
+
+
+
         }
         public int[] PlusOne(int[] digits)
         {
@@ -2027,17 +2370,21 @@ namespace StackTraining
         /// <param name="root"></param>
         public void Flatten(TreeNode root)
         {
-            if (root == null) return;
-            Console.WriteLine(root.val);
-            TreeNode result = new TreeNode(root.val);
-            if (root.left != null)
+            if (root == null)
             {
-                Flatten(root.left);
+                return;
             }
-            if (root.right != null)
+            Flatten(root.left);
+            Flatten(root.right);
+            TreeNode temp = root.right;
+            root.right = root.left;
+            root.left = null;
+            while (root.right != null)
             {
-                Flatten(root.right);
+                root = root.right;
             }
+            root.right = temp;
+
         }
         /// <summary>
         /// 寻找两个有序数组的中位数
@@ -2047,9 +2394,6 @@ namespace StackTraining
         /// <returns></returns>
         public double FindMedianSortedArrays(int[] nums1, int[] nums2)
         {
-
-
-
             return 0;
         }
         /// <summary>
