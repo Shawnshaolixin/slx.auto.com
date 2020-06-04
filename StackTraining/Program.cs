@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 
 namespace StackTraining
 {
@@ -39,8 +38,106 @@ namespace StackTraining
 
             return low;
         }
+        static void RandomTest()
+        {
+            //这个比如是100个
+            int[] arrs = { 1, 4, 5, 7, 8, 2, 10 };//少了3，6，9的
+            int[] tempArrs = new int[10];//原来里面应该有10个的。
+
+
+            for (int i = 0; i < arrs.Length; i++)
+            {
+                int num = arrs[i];//第一次取出来是1，给他放到应该在的位置。
+                tempArrs[num - 1] = num;
+            }
+            for (int i = 0; i < tempArrs.Length; i++)
+            {
+                if (tempArrs[i] == 0)
+                {
+                    Console.WriteLine($"少了{i + 1}");
+                }
+            }
+        }
+        static void Test()
+        {
+            string str = "abccddeeef";
+            int[] arrs = new int[str.Length];//这个是一个标记数组
+            for (int i = 0; i < str.Length; i++) //循环每个字母
+            {
+                for (int j = 0; j < str.Length; j++)//循环每个字母，和第一次循环的字母做比较
+                {
+                    if (j != i)//如果 第一次循环和第二个循环是一个字母，就不计算
+                    {
+                        if (str[i] == str[j])//如果有重复的，下表就弄成1
+                        {
+                            arrs[i] = 1;
+                        }
+                    }
+                }
+            }
+            int index = 1;
+            char resultChar = ' ';
+            for (int i = 0; i < arrs.Length; i++)//找标记里面的
+            {
+                if (arrs[i] == 0)//第一个下标是0的，也就是第一个没有重复的数字
+                {
+                    resultChar = str[i];//他的位置对应的字母就是想要的
+                    index = i + 1; //这个是想要的位置
+                    break;
+                }
+            }
+            Console.WriteLine($"只出现一次的字母是{resultChar},位置是：{index}");
+        }
         static void Main(string[] args)
         {
+            #region MyRegion
+            //RandomTest();
+            //Test();
+            //string str = "abaccddeeef";
+
+
+
+
+            //Dictionary<char, int> dict = new Dictionary<char, int>();
+            //char resultChar = ' ';
+            //int index = 1; //存位置
+            //               //这个循环 可以计算出 每个字母出现了几次
+            //for (int z = 0; z < str.Length; z++)
+            //{
+            //    // 包含两个以上的 就不是符合条件的
+            //    if (dict.ContainsKey(str[z]))
+            //    {
+            //        dict[str[z]]++;
+            //    }
+            //    else//第一次加进来的
+            //    {
+            //        dict.Add(str[z], 1);
+            //    }
+            //}
+            ////这个循环取出第一个出现一次的
+            //foreach (var item in dict)
+            //{
+            //    if (item.Value == 1)
+            //    {
+            //        resultChar = item.Key;
+            //        break;
+            //    }
+            //}
+            ////这个循环去找这个字母的位置
+            //for (int z = 0; z < str.Length; z++)
+            //{
+            //    if (str[z] == resultChar)
+            //    {
+            //        index = z + 1;
+            //        break;
+            //    }
+            //}
+            //Console.WriteLine($"只出现一次的字母是{resultChar},位置是：{index}");
+
+            //int a = 16 + 32 + 64 + 128;
+            //Console.WriteLine(a >> 4);
+            //Console.ReadKey();
+            #endregion
 
             //string str = "1222233344555555";
 
@@ -97,7 +194,7 @@ namespace StackTraining
 
             //}
             //#endregion
-            Console.ReadKey();
+            //  Console.ReadKey();
             Solution solution = new Solution();
             //  solution.LetterCombinations("234");
             //  var b = solution.IsUnique("iluhwpyk");
@@ -137,7 +234,9 @@ namespace StackTraining
             node3.right = node7;
 
             Solution s = new Solution();
-            s.Flatten(node1);
+            s.PrevTreeNode(node1);
+
+            //   s.Flatten(node1);
             Console.WriteLine("遍历完成");
             Console.ReadKey();
             //  s.HasPathSum(node1, 12);
@@ -1279,9 +1378,9 @@ namespace StackTraining
         public void PrevTreeNode(TreeNode root)
         {
             if (root == null) return;
-            Console.WriteLine(root.val);
             PrevTreeNode(root.left);
             PrevTreeNode(root.right);
+            Console.WriteLine(root.val); //在这里输出就是后序遍历（左右根）
         }
 
         public int F(int n)
