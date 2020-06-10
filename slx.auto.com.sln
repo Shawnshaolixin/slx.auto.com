@@ -111,7 +111,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFCore.Data", "EFCore.Data\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp6", "ConsoleApp6\ConsoleApp6.csproj", "{9CB55746-41B7-456B-93E8-55BD1271A377}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFacAopDemo", "AutoFacAopDemo\AutoFacAopDemo.csproj", "{9A0CF128-4EBF-4906-91F4-8EFAEFC4BC87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFacAopDemo", "AutoFacAopDemo\AutoFacAopDemo.csproj", "{9A0CF128-4EBF-4906-91F4-8EFAEFC4BC87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeetCodeContinue", "LeetCodeContinue\LeetCodeContinue.csproj", "{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -327,6 +329,10 @@ Global
 		{9A0CF128-4EBF-4906-91F4-8EFAEFC4BC87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A0CF128-4EBF-4906-91F4-8EFAEFC4BC87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A0CF128-4EBF-4906-91F4-8EFAEFC4BC87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -370,6 +376,7 @@ Global
 		{6C1570B7-0BD2-482D-91A1-2E01600907E4} = {28B51768-F2B6-475F-A983-0E1A6F8948C3}
 		{9CB55746-41B7-456B-93E8-55BD1271A377} = {28B51768-F2B6-475F-A983-0E1A6F8948C3}
 		{9A0CF128-4EBF-4906-91F4-8EFAEFC4BC87} = {8782971C-661D-46A8-81E3-07FB2A591936}
+		{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2} = {1691693C-03FC-4F78-9382-24CE66D286D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0728A049-654A-4D17-A1E5-350AAAD0B47A}

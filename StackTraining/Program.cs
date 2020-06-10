@@ -1378,9 +1378,10 @@ namespace StackTraining
         public void PrevTreeNode(TreeNode root)
         {
             if (root == null) return;
+            Console.WriteLine(root.val); //在这里输出就是后序遍历（左右根）
             PrevTreeNode(root.left);
             PrevTreeNode(root.right);
-            Console.WriteLine(root.val); //在这里输出就是后序遍历（左右根）
+       
         }
 
         public int F(int n)
