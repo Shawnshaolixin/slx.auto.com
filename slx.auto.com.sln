@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.489
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "slx.auto.com.host", "slx.auto.com.host\slx.auto.com.host.csproj", "{D202F9E5-FDFE-4547-861C-9FB3F0144DB4}"
 EndProject
@@ -101,7 +101,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutofacTest", "AutofacTest\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp4", "ConsoleApp4\ConsoleApp4.csproj", "{087CB7BA-0B85-4BE5-92E5-9415992EF475}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "代理模式", "代理模式\代理模式.csproj", "{C934BCB3-7B79-46DD-81D8-BE36CC669A82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "代理模式", "代理模式\代理模式.csproj", "{C934BCB3-7B79-46DD-81D8-BE36CC669A82}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp5", "ConsoleApp5\ConsoleApp5.csproj", "{A6ED90A5-C086-4BA1-AED9-0A5C102A9CE4}"
 EndProject
@@ -113,7 +113,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp6", "ConsoleApp6\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFacAopDemo", "AutoFacAopDemo\AutoFacAopDemo.csproj", "{9A0CF128-4EBF-4906-91F4-8EFAEFC4BC87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeetCodeContinue", "LeetCodeContinue\LeetCodeContinue.csproj", "{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeetCodeContinue", "LeetCodeContinue\LeetCodeContinue.csproj", "{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmitDemo", "EmitDemo\EmitDemo.csproj", "{B8AAA7FD-7757-4BB7-864F-0552657F4252}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -333,6 +335,10 @@ Global
 		{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8AAA7FD-7757-4BB7-864F-0552657F4252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8AAA7FD-7757-4BB7-864F-0552657F4252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8AAA7FD-7757-4BB7-864F-0552657F4252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8AAA7FD-7757-4BB7-864F-0552657F4252}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
