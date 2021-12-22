@@ -1,32 +1,22 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace WebApplication1
+namespace SocketServer
 {
-    public class Program
+    class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
             LabelReceiveService.StartReceive();
             Console.ReadKey();
-            CreateWebHostBuilder(args).Build().Run();
         }
-
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            var config = new ConfigurationBuilder().AddCommandLine(args).Build();
-            return WebHost.CreateDefaultBuilder(args)
-                   .UseStartup<Startup>();
-        }
-
     }
-
     /// <summary>
     /// 接受
     /// </summary>
@@ -52,7 +42,7 @@ namespace WebApplication1
         {
             if (!IsUdpcRecvStart) // 未监听的情况，开始监听
             {
-                localIpep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8899); // 本机IP和监听端口号
+                localIpep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 40003); // 本机IP和监听端口号
                 udpcRecv = new UdpClient(localIpep);
                 thrRecv = new Thread(ReceiveMessage);
                 thrRecv.Start();
@@ -93,51 +83,6 @@ namespace WebApplication1
                     break;
                 }
             }
-        }
-
-    }
-
-
-    class Program1
-    {
-        /// <summary>
-        /// 用于UDP发送的网络服务类
-        /// </summary>
-        private static UdpClient udpcSend = null;
-
-        static IPEndPoint localIpep = null;
-
-        public static void Main1111(string[] args)
-        {
-            localIpep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8888); // 本机IP和监听端口号
-            udpcSend = new UdpClient(localIpep);
-
-
-            // 实名发送
-            string msg = null;
-            while ((msg = Console.ReadLine()) != null)
-            {
-                Thread thrSend = new Thread(SendMessage);
-                thrSend.Start(msg);
-            }
-            Console.ReadKey();
-        }
-
-        /// <summary>
-        /// 发送信息
-        /// </summary>
-        /// <param name="obj"></param>
-        private static void SendMessage(object obj)
-        {
-            try
-            {
-                string message = (string)obj;
-                byte[] sendbytes = Encoding.Unicode.GetBytes(message);
-                IPEndPoint remoteIpep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8899); // 发送到的IP地址和端口号
-                udpcSend.Send(sendbytes, sendbytes.Length, remoteIpep);
-                //udpcSend.Close();
-            }
-            catch { }
         }
 
     }

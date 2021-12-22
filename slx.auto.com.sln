@@ -115,7 +115,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFacAopDemo", "AutoFacAo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LeetCodeContinue", "LeetCodeContinue\LeetCodeContinue.csproj", "{0E4EDB96-C997-4D56-ADEE-76676D6D0BC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmitDemo", "EmitDemo\EmitDemo.csproj", "{B8AAA7FD-7757-4BB7-864F-0552657F4252}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmitDemo", "EmitDemo\EmitDemo.csproj", "{B8AAA7FD-7757-4BB7-864F-0552657F4252}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupperSocketDome1", "SupperSocketDome1\SupperSocketDome1.csproj", "{223AEC69-B9CB-44BD-8DAE-156EBDDB6545}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketServer", "SocketServer\SocketServer.csproj", "{420AEC22-12BB-4E09-B2C9-10D834AACD4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -339,6 +343,14 @@ Global
 		{B8AAA7FD-7757-4BB7-864F-0552657F4252}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8AAA7FD-7757-4BB7-864F-0552657F4252}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8AAA7FD-7757-4BB7-864F-0552657F4252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{223AEC69-B9CB-44BD-8DAE-156EBDDB6545}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{223AEC69-B9CB-44BD-8DAE-156EBDDB6545}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{223AEC69-B9CB-44BD-8DAE-156EBDDB6545}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{223AEC69-B9CB-44BD-8DAE-156EBDDB6545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{420AEC22-12BB-4E09-B2C9-10D834AACD4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{420AEC22-12BB-4E09-B2C9-10D834AACD4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{420AEC22-12BB-4E09-B2C9-10D834AACD4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{420AEC22-12BB-4E09-B2C9-10D834AACD4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
