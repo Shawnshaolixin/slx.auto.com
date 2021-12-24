@@ -9,6 +9,141 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 416.分隔等和子集
+        /// 给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等
+        /// 输入：nums = [1,5,11,5]
+        /// 输出：true
+        /// 解释：数组可以分割成[1, 5, 5] 和[11] 。
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public bool CanPartition(int[] nums)
+        {
+            var sum = nums.Sum();
+            if (sum % 2 == 1)
+            {
+                return false;
+            }
+            int bagSize = sum / 2;
+            //w[i]=nums[i]
+            //v[i]=nums[i]
+            int[][] dp = new int[nums.Length + 1][];
+            for (int i = 0; i < dp.Length; i++)
+            {
+                dp[i] = new int[bagSize + 1];
+                dp[i][0] = 0;
+            }
+
+            for (int i = 1; i <= nums.Length; i++)
+            {
+                for (int j = 1; j <= bagSize; j++)
+                {
+                    if (j < nums[i - 1])
+                    {
+                        dp[i][j] = dp[i - 1][j];
+                    }
+                    else
+                    {
+                        dp[i][j] = Math.Max(dp[i - 1][j], dp[i - 1][j - nums[i - 1]] + nums[i - 1]);
+                    }
+                }
+            }
+            //for (int i = 0; i < dp.Length; i++)
+            //{
+            //    for (int j = 0; j < dp[i].Length; j++)
+            //    {
+            //        Console.Write(dp[i][j] + "\t");
+            //    }
+            //    Console.WriteLine();
+            //}
+            return dp[nums.Length][bagSize] == bagSize;
+        }
+        /// <summary>
+        /// 01背包
+        /// </summary>
+        /// <param name="weight">物品的重量</param>
+        /// <param name="value">物品的价值</param>
+        /// <param name="bagSize">背包的重量</param>
+        public static void TestWeightBagProblem(int[] w, int[] v, int bagSize)
+        {
+            // 定义变量：Vi = 第i个物品的价值
+            //           Wi = 第i个物品的体积
+            //           V(i,j)=当前背包的容量j,前i个物品最佳组合对应的价值，
+            //抽象化：（X1,X2,...,Xn) 其中Xi去0或1，表示第i个物品选或不选
+
+            //1.建立模型，即求max(V1X1+V2X2+...+VnXn);
+            //2.寻找约束条件，W1X1+W2X2+...+WnXn<bogSize;
+            //3.寻找递推关系公式，面对当前商品有两种可能性：
+            //1).包的容量比该商品体积小，装不下，此时的价值与前一个价值是一样的，V(i,j)=V(i-1,j);
+            //2).还有足够的容量可以装下该商品，但是装了也不一定达到当前最优的价值，所以要在装与不装之间选择最优的一个V(i,j)=max{v(i-1,j),V(i-1,j-w(i))+v(i)}
+            //其中V(i-1,j)表示不装，V(i-1,j-w(i))+v(i)表示装了第i个商品，背包容量减少w(i),但是价值增加了v(i)
+            /*
+             为啥能装的情况这样求：
+                可以这么理解：如果要达到V(i,j)这个状态有两种方式：
+                1.第i件商品没有装进去 v(i-1,j)
+                2.第i件商品装进去了,问：装进去之前是什么状态？装进去之前肯定是V(i-1,j-w(i))
+             */
+
+
+            int[][] dp = new int[w.Length + 1][];
+            for (int i = 0; i <= w.Length; i++)
+            {
+                dp[i] = new int[bagSize + 1];
+                dp[i][0] = 0;
+            }
+
+            for (int i = 1; i <= w.Length; i++)
+            {
+                for (int j = 1; j <= bagSize; j++)
+                {
+                    if (j < w[i - 1])
+                    {
+                        dp[i][j] = dp[i - 1][j];
+                    }
+                    else
+                    {
+                        dp[i][j] = Math.Max(dp[i - 1][j], dp[i - 1][j - w[i - 1]] + v[i - 1]);
+                    }
+                }
+            }
+            for (int i = 0; i < dp.Length; i++)
+            {
+                for (int j = 0; j < dp[i].Length; j++)
+                {
+                    Console.Write(dp[i][j] + "\t");
+                }
+                Console.WriteLine();
+            }
+        }
+        /// <summary>
+        /// 139.单词拆分(动态规划）
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="wordDict"></param>
+        /// <returns></returns>
+        public bool WordBreak(string s, IList<string> wordDict)
+        {
+            // s中以i-1结尾的字符串是否可被wordDict 拆分
+            bool[] dp = new bool[s.Length + 1];
+            dp[0] = true;
+
+            HashSet<string> hashSet = new HashSet<string>(wordDict);
+
+            for (int i = 1; i <= s.Length; i++)
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    var str = s.Substring(i, j);
+                    if (dp[j] && wordDict.Contains(str))
+                    {
+                        dp[i] = true;
+                        break;
+                    }
+                }
+            }
+            return dp[dp.Length - 1];
+        }
+        /// <summary>
         /// 螺旋矩阵
         /// </summary>
         /// <param name="matrix"></param>
@@ -20,21 +155,23 @@ namespace LeetCodeContinue
             {
                 return order;
             }
+            // 定义 行和列
             int rows = matrix.Length, columns = matrix[0].Length;
+            // 定义 上下左右
             int left = 0, right = columns - 1, top = 0, bottom = rows - 1;
-            while (left<=right && top <=bottom)
+            while (left <= right && top <= bottom)
             {
                 for (int column = left; column <= right; column++)
                 {
                     order.Add(matrix[top][column]);
                 }
-                for (int row = top+1; row <= bottom; row++)
+                for (int row = top + 1; row <= bottom; row++)
                 {
                     order.Add(matrix[row][right]);
                 }
-                if (left<right && top <bottom)
+                if (left < right && top < bottom)
                 {
-                    for (int column = right-1; column > left; column--)
+                    for (int column = right - 1; column > left; column--)
                     {
                         order.Add(matrix[bottom][column]);
                     }
@@ -628,19 +765,7 @@ namespace LeetCodeContinue
                 }
             }
         }
-        public bool CanPartition(int[] nums)
-        {
-            // 1,5,11,5
-            // 背包的总容量是 22 一半容量是 11
-            // dp 数组 dp[i]表示，容量为 i的 背包，所背的物品价值可以最大为dp[i]
 
-            int[] dp = new int[10001];
-            for (int i = 0; i < nums.Length; i++)
-            {
-
-            }
-            return false;
-        }
         public int LongestPalindromeSubseq(string s)
         {
 
@@ -2291,11 +2416,6 @@ namespace LeetCodeContinue
             }
             var sortResult = from pair in dict orderby pair.Value descending, pair.Key ascending select pair;
             return sortResult.Take(k).Select(c => c.Key).ToList();
-        }
-        public bool WordBreak(string s, IList<string> wordDict)
-        {
-
-            return false;
         }
 
         public IList<IList<string>> Partition(string s)
