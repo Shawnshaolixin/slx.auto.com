@@ -9,6 +9,127 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 643.子数组最大平均数1
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public double FindMaxAverage(int[] nums, int k)
+        {
+            int[] preSum = new int[nums.Length + 1];
+            for (int i = 0; i < nums.Length; i++)
+            {
+                preSum[i + 1] = preSum[i] + nums[i];
+            }
+
+            int max = int.MinValue;
+            for (int i = k-1; i < preSum.Length; i++)
+            {
+                // Math.Max();
+            }
+            return 0;
+        }
+
+
+
+        public int[] MaxSlidingWindow(int[] nums, int k)
+        {
+
+            return null;
+        }
+        public ListNode GetIntersectionNode(ListNode headA, ListNode headB)
+        {
+            Stack<int> stack1 = new Stack<int>();
+            Stack<int> stack2 = new Stack<int>();
+            while (headA != null)
+            {
+                stack1.Push(headA.val);
+                headA = headA.next;
+            }
+            while (headB != null)
+            {
+                stack2.Push(headA.val);
+                headB = headB.next;
+            }
+            return null;
+
+        }
+        /// <summary>
+        /// 59.螺旋矩阵II
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public int[][] GenerateMatrix(int n)
+        {
+            int[][] matrix = new int[n][];
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                matrix[i] = new int[n];
+            }
+            int x = 0;
+            int y = 0;
+            int z = 0;
+            for (int i = 0; i < n * n; i++)
+            {
+
+                matrix[y][x] = i + 1;
+                if (x < n - z - 1 && y == z)// 上边
+                {
+                    x++;
+                }
+                else if (y < n - z - 1 && x == n - z - 1)// 右边
+                {
+                    y++;
+                }
+                else if (y == n - z - 1 && x > z)// 下边
+                {
+                    x--;
+                }
+                else if (y > z + 1 && x == z)// 左边
+                {
+                    y--;
+                }
+                else
+                {
+                    z++;
+                    x++;
+                }
+            }
+            return matrix;
+        }
+        public int FindTargetSumWays(int[] nums, int target)
+        {
+            //dp[i][j] 表示：从数组 nums中 0-i的元素进行加减可以得到j的方法数量
+            //dp[i][j] = dp[i-1][j-nums[i]]+dp[i-1][j+nums[i]]
+            return 0;
+        }
+        /// <summary>
+        /// 1049.最后一块石头的重量2
+        /// </summary>
+        /// <param name="stones"></param>
+        /// <returns></returns>
+        public int LastStoneWeightII(int[] stones)
+        {
+            //stones = [2,7,4,1,8,1]
+
+            //w[i]=stones[i];// 物品的重量（体积）
+            //v[i]=stones[i];// 物品的价值
+            // dp[j] = max(dp[j],dp[j-w[i]]+v[i]);
+            var sum = stones.Sum();
+            var bagSize = sum / 2;
+            int[] dp = new int[bagSize + 1];
+            dp[0] = 0;
+
+            for (int i = 0; i < stones.Length; i++)
+            {
+                for (int j = bagSize; j >= stones[i]; j--)
+                {
+                    dp[j] = Math.Max(dp[j], dp[j - stones[i]] + stones[i]);
+                }
+            }
+            return 0;
+        }
+        /// <summary>
         /// 416.分隔等和子集
         /// 给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等
         /// 输入：nums = [1,5,11,5]
@@ -2333,7 +2454,7 @@ namespace LeetCodeContinue
         /// <param name="nums"></param>
         /// <param name="target"></param>
         /// <returns></returns>
-        public int FindTargetSumWays(int[] nums, int target)
+        public int FindTargetSumWays1(int[] nums, int target)
         {
             Backtrack(nums, target, 0, 0);
             return count;

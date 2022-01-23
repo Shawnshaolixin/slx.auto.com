@@ -10,6 +10,8 @@ namespace StringTrain
     {
         public class ComparerTest : IComparer<String>
         {
+           
+            
             public int Compare(String x, String y)
             {
                 return string.CompareOrdinal(x, y);
@@ -17,6 +19,7 @@ namespace StringTrain
         }
         static void Gen(string item, int n, List<string> result)
         {
+            
             if (n == 0)
             {
                 return;
