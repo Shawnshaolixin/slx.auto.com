@@ -213,9 +213,9 @@ namespace HM1
                 {0, 0, 0,1}
             });
             DenseMatrix scale = DenseMatrix.OfArray(new[,] {
-                {1.0*scal, 0,0,1},
-                {0, 1*scal, 0,1},
-                {0, 0, 1*scal,1},
+                {1.0*scal, 0,0,0},
+                {0, 1*scal, 0,0},
+                {0, 0, 1*scal,0},
                 {0, 0, 0,1}
             });
             DenseMatrix move = DenseMatrix.OfArray(new[,] {
@@ -224,7 +224,7 @@ namespace HM1
                 {0, 0, 1,1},
                 {0, 0, 0,1}
             });
-            model = move * scale * rotate * model;
+            model = rotate * model;
             return model;
         }
 
@@ -263,7 +263,7 @@ namespace HM1
                 {0, 0, 1,0}
             });
             float halfEyeAngleRadian = (float)(eye_fov / 2.0 / 180.0 * MathF.PI);
-            float t = zNear + MathF.Tan(halfEyeAngleRadian);
+            float t = zNear * MathF.Tan(halfEyeAngleRadian);
             float r = t * aspect_ratio;
             float l = (-1) * r;//left x轴最小值
             float b = (-1) * t;//bottom y轴的最大值

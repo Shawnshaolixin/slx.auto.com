@@ -81,7 +81,7 @@ namespace HM2
         int next_id = 0;
         Vector3[] frame_buf;
         float[] depth_buf;
-
+        private List<Vector2> pos;//抗锯齿的点
         Dictionary<int, List<Vector3>> pos_buf = new Dictionary<int, List<Vector3>>();
         Dictionary<int, List<Vector3>> ind_buf = new Dictionary<int, List<Vector3>>();
         Dictionary<int, List<Vector3>> col_buf = new Dictionary<int, List<Vector3>>();
@@ -92,6 +92,11 @@ namespace HM2
             height = h;
             frame_buf = new Vector3[w * h]; //new List<Vector3>(w * h);
             depth_buf = new float[w * h]; // new List<float>(w * h);
+            pos = new List<Vector2>(4);
+            pos.Add(new Vector2(0.25f, 0.25f));
+            pos.Add(new Vector2(0.75f, 0.25f));
+            pos.Add(new Vector2(0.25f, 0.75f));
+            pos.Add(new Vector2(0.75f, 0.75f));
         }
         int Get_Next_Id()
         {
@@ -134,8 +139,8 @@ namespace HM2
             var buf = pos_buf[pos_buffer.pos_id];
             var ind = ind_buf[ind_buffer.ind_id];
             var col = col_buf[col_buffer.col_id];
-            float f1 = (50 - 0.1f) / 2.0f;
-            float f2 = (50.0f + 0.1f) / 2.0f;
+            float f1 = (100 - 0.1f) / 2.0f;
+            float f2 = (100.0f + 0.1f) / 2.0f;
 
             DenseMatrix mvp = projection * view * model;
             //  DenseVector
@@ -291,6 +296,7 @@ namespace HM2
             draw_line(t.b(), t.a());
         }
 
+
         public void rasterize_triangle(Triangle t)
         {
             // todo 光栅化三角形
@@ -306,19 +312,65 @@ namespace HM2
             max_x = (int)MathF.Ceiling(max_x);
             min_y = (int)MathF.Floor(min_y);
             max_y = (int)MathF.Ceiling(max_y);
-            bool MSAA = false;
+            bool MSAA = true;
             if (MSAA)
-            {
-
-            }
-            else
             {
                 for (int x = (int)min_x; x <= max_x; x++)
                 {
                     for (int y = (int)min_y; y < max_y; y++)
                     {
+                        // 记录最小深度
+                        float minDepth = float.MaxValue;
+                        // 四个小点中落入三角形中的点的数量
+                        int count = 0;
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (insideTriangle(x + pos[i].X, y + pos[i].Y, t.v))
+                            {
+                                var tup = computeBarycentric2D(x + pos[i].X, y + pos[i].Y, t.v);
+                                float alpha = tup.Item1;
+                                float beta = tup.Item2;
+                                float gamma = tup.Item3;
+                                // 归一化
+                                float w_reciprocal = 1.0f / (alpha / v[0].W + beta / v[1].W + gamma / v[2].W);
+
+                                // 深度 插值
+                                float z_interpolated = alpha * v[0].Z / v[0].W + beta * v[1].Z / v[1].W +
+                                                       gamma * v[2].Z / v[2].W;
+                                z_interpolated *= w_reciprocal;
+                                minDepth = MathF.Min(minDepth, z_interpolated);
+                                count++;
+
+                            }
+                        }
+
+                        if (count != 0)
+                        {
+                            if (depth_buf[get_index(x, y)] > minDepth)
+                            {
+                                Vector3 color = t.getColor() * count / 4.0f;
+                                Vector3 point = new Vector3(x, y, minDepth);
+                                depth_buf[get_index(x, y)] = minDepth;
+                                set_pixel(point,color);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int x = (int)min_x; x <= max_x; x++)
+                {
+                    for (int y = (int)min_y; y <= max_y; y++)
+                    {
                         if (insideTriangle(x + 0.5f, y + 0.5f, t.v))
                         {
+
+                            if (x == 136)
+                            {
+
+                            }
+                            // 计算重心坐标
                             var tup = computeBarycentric2D(x + 0.5f, y + 0.5f, t.v);
                             float alpha = tup.Item1;
                             float beta = tup.Item2;
@@ -334,10 +386,10 @@ namespace HM2
                                 Vector3 color = t.getColor();
                                 Vector3 point = new Vector3(x, y, z_interpolated);
                                 depth_buf[get_index(x, y)] = z_interpolated;
-                                
-                                set_pixel(point,color);
+
+                                set_pixel(point, color);
                             }
-                             
+
                         }
                     }
                 }
@@ -416,7 +468,8 @@ namespace HM2
         }
         public int get_index(int x, int y)
         {
-            return (height - y) * width + x;
+            var index = (height - 1 - y) * width + x;
+            return index;
         }
     }
 }

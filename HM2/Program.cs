@@ -13,6 +13,7 @@ namespace HM2
     {
         static void Main(string[] args)
         {
+            
             Console.WriteLine("Hello World!");
             HM1();
 
@@ -33,13 +34,13 @@ namespace HM2
             //Mat image = new Mat(700, 700, MatType.CV_32FC3,);
 
             List<Vector3> pos = new List<Vector3>();
-            pos.Add(new Vector3(2, 0, -2));
-            pos.Add(new Vector3(0, 2, -2));
-            pos.Add(new Vector3(-2, 0, -2));
+            pos.Add(new Vector3(2, 0, -2) );
+            pos.Add(new Vector3(0, 2, -2) );
+            pos.Add(new Vector3(-2, 0, -2) );
 
             pos.Add(new Vector3(3.5f, -1, -5));
-            pos.Add(new Vector3(2.5f, 1.5f, -5));
-            pos.Add(new Vector3(-1, 0.5f, -5));
+            pos.Add(new Vector3(2.5f, 1.5f, -5) );
+            pos.Add(new Vector3(-3, 0.5f, -5) );
 
             List<Vector3> ind = new List<Vector3>();
             ind.Add(new Vector3(0, 1, 2));
@@ -119,6 +120,7 @@ namespace HM2
 
         static DenseMatrix get_model_matrix(float rotation_angle, float scal = 1)
         {
+
             DenseMatrix model = DenseMatrix.OfArray(new[,] {
                 {1.0, 0,0,0},
                 {0, 1, 0,0},
@@ -133,18 +135,18 @@ namespace HM2
                 {0, 0, 0,1}
             });
             DenseMatrix scale = DenseMatrix.OfArray(new[,] {
-                {1.0*scal, 0,0,1},
-                {0, 1*scal, 0,1},
-                {0, 0, 1*scal,1},
-                {0, 0, 0,1}
-            });
-            DenseMatrix move = DenseMatrix.OfArray(new[,] {
                 {1.0, 0,0,1},
                 {0, 1, 0,1},
                 {0, 0, 1,1},
                 {0, 0, 0,1}
             });
-            model = move * scale * rotate * model;
+            //DenseMatrix move = DenseMatrix.OfArray(new[,] {
+            //    {1.0, 0,0,1},
+            //    {0, 1, 0,1},
+            //    {0, 0, 1,1},
+            //    {0, 0, 0,1}
+            //});
+           model =   rotate * model;
             return model;
         }
 
@@ -176,32 +178,31 @@ namespace HM2
                 {0, 0, 0,1}
             });
 
-            DenseMatrix P2O = DenseMatrix.OfArray(new[,] {
+            DenseMatrix m = DenseMatrix.OfArray(new[,] {
                 {zNear, 0,0,0.0},
                 {0, zNear, 0,0},
                 {0, 0, zNear+zFar,(-1)*zFar*zNear},
                 {0, 0, 1,0}
             });
-            float halfEyeAngleRadian = (float)(eye_fov / 2.0 / 180.0 * MathF.PI);
-            float t = zNear + MathF.Tan(halfEyeAngleRadian);
-            float r = t * aspect_ratio;
-            float l = (-1) * r;//left x轴最小值
-            float b = (-1) * t;//bottom y轴的最大值
+            float halfEyeAngleRadian = (float)(eye_fov / 2.0 * MathF.PI / 180.0 );
+            float top = zNear * MathF.Tan(halfEyeAngleRadian);
+            float right = top * aspect_ratio;
+            float left = (-1) * right;//left x轴最小值
+            float bottom = (-1) * top;//bottom y轴的最大值
 
-            DenseMatrix ortho1 = DenseMatrix.OfArray(new[,] {
-                {2/(r-l), 0,0,0.0},
-                {0, 2/(t-b), 0,0},
+            DenseMatrix n = DenseMatrix.OfArray(new[,] {
+                {2/(right-left), 0,0,0.0},
+                {0, 2/(top -bottom), 0,0},
                 {0, 0, 2/(zNear-zFar),0},
                 {0, 0, 0,1}
             });
-            DenseMatrix ortho2 = DenseMatrix.OfArray(new[,] {
-                {1, 0,0.0,(-1)*(r+l)/2},
-                { 0,1,0,(-1)*(t+b)/2},
+            DenseMatrix p = DenseMatrix.OfArray(new[,] {
+                {1, 0,0.0,(-1)*(right+left)/2},
+                { 0,1,0,(-1)*(top +bottom)/2},
                 {0,0,1,(-1)*(zNear+zFar)/2},
                 {0, 0, 0,1}
             });
-            DenseMatrix matrix_ortho = ortho1 * ortho2;
-            projection = matrix_ortho * P2O;
+            projection = projection* n * p * m;
             return projection;
         }
     }
