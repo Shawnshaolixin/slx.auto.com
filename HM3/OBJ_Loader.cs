@@ -175,6 +175,10 @@ namespace HM3
         }
         public static Vector3 getElement(List<Vector3> elements, string index)
         {
+            if (index=="")
+            {
+                
+            }
             int idx = Convert.ToInt32(index);
             if (idx < 0)
                 idx = (elements.Count) + idx;
@@ -258,12 +262,13 @@ namespace HM3
             {
                 var curline = files[i];
                 // 顶点
+                var datas = curline.Split(new char[]{' '},StringSplitOptions.RemoveEmptyEntries);
                 var key = curline.Split(" ")[0];
                 if (key == ("v"))
                 {
-                    var x = float.Parse(curline.Split(" ")[1]);
-                    var y = float.Parse(curline.Split(" ")[2]);
-                    var z = float.Parse(curline.Split(" ")[3]);
+                    var x = float.Parse(datas[1].Trim());
+                    var y = float.Parse(datas[2].Trim());
+                    var z = float.Parse(datas[3].Trim());
                     Vector3 vpos = new Vector3(x, y, z);
                     Positions.Add(vpos);
 
@@ -272,8 +277,8 @@ namespace HM3
                 // 贴图
                 if (key == ("vt"))
                 {
-                    var x = float.Parse(curline.Split(" ")[1]);
-                    var y = float.Parse(curline.Split(" ")[2]);
+                    var x = float.Parse(datas[1].Trim());
+                    var y = float.Parse(datas[2].Trim());
 
                     Vector2 vtex = new Vector2(x, y);
                     TCoords.Add(vtex);
@@ -282,9 +287,9 @@ namespace HM3
                 // 法线
                 if (curline.StartsWith("vn"))
                 {
-                    var x = float.Parse(curline.Split(" ")[1]);
-                    var y = float.Parse(curline.Split(" ")[2]);
-                    var z = float.Parse(curline.Split(" ")[3]);
+                    var x = float.Parse(datas[1].Trim());
+                    var y = float.Parse(datas[2].Trim());
+                    var z = float.Parse(datas[3].Trim());
                     Vector3 vnor = new Vector3(x, y, z);
                     Normals.Add(vnor);
                 }

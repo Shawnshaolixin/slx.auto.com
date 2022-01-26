@@ -13,11 +13,89 @@ namespace HM3
     {
         static void Main(string[] args)
         {
+            //Blinn-Phone
+            // diffuse 漫反射
+            // 漫反射光=Kd 表示表面的能力接受系数三通道 就代表颜色 I/r^2 表示：到达这个点的能量，n*l：表示表面能吸收多少能力
+            // 漫反射公式 Ld=Kd*(I/r^2)*Max(0,n*l);
+
+            //specular 高光
+            //高光=Ls, Ks= 系数一般是白色 I/r^2 ：到达这个点的光的能量n:法线，
+            //h半程向量：I+V/|I+V|=V 是观测方向，I是点和光之间的向量
+            //p:表示高光的范围一般100-200之间，和余弦函数公式有关系
+            //高光公式 Ls=Ks*(I/r^2)*Max(0,n*h)^p
+
+            //ambient 环境光
+            //
+            // La= Ka * Ia 
             Console.WriteLine("Hello World!");
             HM1();
 
         }
 
+        public class light
+        {
+            public light(Vector3 _pos, Vector3 _intensity)
+            {
+                position = _pos;
+                intensity = _intensity;
+            }
+            /// <summary>
+            /// 光的位置
+            /// </summary>
+            public Vector3 position;
+            /// <summary>
+            /// 光的强度
+            /// </summary>
+            public Vector3 intensity;
+        }
+        public static Vector3 phone_fragment_shader(fragment_shader_payload payload)
+        {
+            // 环境光
+            Vector3 ka = new Vector3(0.005f, 0.005f, 0.005f);
+            // 漫反射系数
+            Vector3 kd = payload.color;
+            // 高光系数
+            Vector3 ks = new Vector3(0.7937f, 0.7937f, 0.7937f);
+
+            var l1 = new light(new Vector3(20, 20, 20), new Vector3(500, 500, 500));
+            var l2 = new light(new Vector3(-20, 20, 0), new Vector3(500, 500, 500));
+            List<light> lights = new List<light>() { l1, l2 };
+            Vector3 amb_light_intensity = new Vector3(10, 10, 10);
+            Vector3 eye_pos = new Vector3(0, 0, 10);
+
+            float p = 150;
+
+            Vector3 color = payload.color;
+            Vector3 point = payload.view_pos;
+            Vector3 normal = payload.normal;
+
+            Vector3 result_color = new Vector3(0, 0, 0);
+            Vector3 v = Vector3.Normalize(eye_pos - point);// 视线向量
+
+            foreach (var light in lights)
+            {
+                Vector3 l = Vector3.Normalize(light.position - point);
+                Vector3 h = Vector3.Normalize(v + l);// 半程向量
+                var r2 = MathF.Pow(Vector3.Distance(light.position, point), 2);
+                // var r2=(light.position-point).squaredNorm
+                var ambient = ka * (amb_light_intensity);
+
+                var diffuse = kd * (light.intensity / r2 * MathF.Max(0.0f, Vector3.Dot(normal, l)));
+
+                var specular = ks * (light.intensity / r2 * MathF.Pow(MathF.Max(0.0f, Vector3.Dot(normal, h)), p));
+
+                result_color += ambient + diffuse + specular;
+            }
+
+            return result_color * 255.0f;
+        }
+
+        public static Vector3 normal_fragment_shader(fragment_shader_payload payload)
+        {
+            Vector3 return_color = (Vector3.Normalize(payload.normal) + new Vector3(1.0f, 1.0f, 1.0f)) / 2.0f;
+            Vector3 result = return_color * 255;
+            return result;
+        }
         private static void HM1()
         {
 
@@ -31,7 +109,16 @@ namespace HM3
             Loader loader = new Loader();
             string obj_path = "../models/spot/";
             var fullPath = Path.GetFullPath("../../..");
-            bool loadout = loader.LoadFile("models/spot/spot_triangulated_good.obj");
+
+
+            List<string> paths = new List<string>();
+            paths.Add("models/download/FinalBaseMesh.obj");
+            paths.Add("models/spot/spot_triangulated_good.obj");
+            paths.Add("models/cube/cube.obj");
+            paths.Add("models/bunny/bunny.obj");
+            paths.Add("models/43-obj/obj/Wolf_One_obj.obj");
+
+            bool loadout = loader.LoadFile(paths[1]);
             foreach (Mesh mesh in loader.LoadedMeshes)
             {
                 for (int i = 0; i < mesh.Vertices.Count; i += 3)
@@ -79,7 +166,7 @@ namespace HM3
             //    return;
 
             //}
-
+            r.set_fragment_shader(phone_fragment_shader);
             while (key != 27)
             {
                 //key = Console.ReadKey(false).KeyChar;

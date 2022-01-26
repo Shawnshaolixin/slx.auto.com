@@ -11,29 +11,30 @@ namespace HM3
     {
     }
 
-    public class fragment_shader_payload
+    public class fragment_shader_payload: Shader
     {
-        fragment_shader_payload(Vector3 col, Vector3 nor, Vector2 tc, Texture tex)
+        public fragment_shader_payload(Vector3 col, Vector3 nor, Vector2 tc, Texture tex)
         {
             color = col;
             normal = nor;
             texture = tex;
             tex_coords = tc;
-
+            
         }
 
         public fragment_shader_payload()
         {
 
         }
-        private Vector3 view_pos;
-        private Vector3 color;
-        private Vector3 normal;
-        private Vector2 tex_coords;
-        private Texture texture;
+        public Vector3 view_pos;
+        public Vector3 color;
+        public Vector3 normal;
+        public Vector2 tex_coords;
+        public Texture texture;
+
     }
 
-    public class vertex_shader_payload
+    public class vertex_shader_payload: Shader
     {
         Vector3 position;
     }

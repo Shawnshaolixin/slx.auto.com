@@ -72,6 +72,8 @@ namespace HM3
         void draw_line(Vector3 begin, Vector3 end);
         void rasterize_wireframe(Triangle t);
     }
+
+    public delegate Vector3 fragment_shader(fragment_shader_payload payload);
     public class Rasterizer //: IReasterizer
     {
         DenseMatrix model;
@@ -86,7 +88,12 @@ namespace HM3
         Dictionary<int, List<Vector3>> pos_buf = new Dictionary<int, List<Vector3>>();
         Dictionary<int, List<Vector3>> ind_buf = new Dictionary<int, List<Vector3>>();
         Dictionary<int, List<Vector3>> col_buf = new Dictionary<int, List<Vector3>>();
-
+        private fragment_shader fragment_shader;
+        public Shader shader;
+        public void set_fragment_shader(fragment_shader _shader)
+        {
+            fragment_shader = _shader;
+        }
         public Rasterizer(int w, int h)
         {
             width = w;
@@ -161,15 +168,16 @@ namespace HM3
                 {
                     return v2;
                 }).ToArray();
-                //DenseVector[] mm = new DenseVector[3];
-                //mm[0] = view * model * t.v[0];
-                //mm[1] = view * model * t.v[1];
-                //mm[2] = view * model * t.v[2];
+                DenseVector[] mm = new DenseVector[3];
+                mm[0] = view * model * t.v[0];
+                mm[1] = view * model * t.v[1];
+                mm[2] = view * model * t.v[2];
 
-                //Vector3[] viewspace_pos = new Vector3[3];
-                //viewspace_pos[0] = new Vector3((float)mm[0].Values[0], (float)mm[0].Values[1], (float)mm[0].Values[2]);
-                //viewspace_pos[1] = new Vector3((float)mm[1].Values[0], (float)mm[1].Values[1], (float)mm[1].Values[2]);
-                //viewspace_pos[2] = new Vector3((float)mm[2].Values[0], (float)mm[2].Values[1], (float)mm[2].Values[2]);
+                // 观测的点
+                Vector3[] viewspace_pos = new Vector3[3];
+                viewspace_pos[0] = new Vector3((float)mm[0].Values[0], (float)mm[0].Values[1], (float)mm[0].Values[2]);
+                viewspace_pos[1] = new Vector3((float)mm[1].Values[0], (float)mm[1].Values[1], (float)mm[1].Values[2]);
+                viewspace_pos[2] = new Vector3((float)mm[2].Values[0], (float)mm[2].Values[1], (float)mm[2].Values[2]);
 
                 //三角形每个顶点 都进行mvp变换
                 DenseVector[] v =
@@ -187,14 +195,16 @@ namespace HM3
 
                 }
 
-                //DenseMatrix inv_trans = ((view * model).Inverse().Transpose()) as DenseMatrix;
+                DenseMatrix inv_trans = ((view * model).Inverse().Transpose()) as DenseMatrix;
 
-                //DenseVector[] n =
-                //{
-                //    inv_trans * to_vec4(t.normal[0], 0.0f),
-                //    inv_trans * to_vec4(t.normal[1], 0.0f),
-                //    inv_trans * to_vec4(t.normal[2], 0.0f),
-                //};
+                //变成了 三维空间的 法线
+                DenseVector[] n =
+                {
+                    inv_trans * to_vec4(newtri.normal[0], 0.0f),
+                    inv_trans * to_vec4(newtri.normal[1], 0.0f),
+                    inv_trans * to_vec4(newtri.normal[2], 0.0f),
+                };
+
                 ////Viewport transformation  每个顶点都经过视口变换
                 for (int i = 0; i < v.Length; ++i)
                 {
@@ -212,17 +222,17 @@ namespace HM3
 
                 }
 
-                //for (int i = 0; i < 3; ++i)
-                //{
-                //    newtri.setNormal(i, new Vector3((float)n[i].Values[0], (float)n[i].Values[1], (float)n[i].Values[2]));
+                for (int i = 0; i < 3; ++i)
+                {
+                    newtri.setNormal(i, new Vector3((float)n[i].Values[0], (float)n[i].Values[1], (float)n[i].Values[2]));
 
-                //}
+                }
                 // 每个顶点设置个颜色
                 newtri.setColor(0, 148, 121.0f, 92.0f);
                 newtri.setColor(1, 148, 121.0f, 92.0f);
-                newtri.setColor(2, 148, 255.0f, 92.0f);
-                rasterize_triangle(newtri, null);
-               rasterize_wireframe(newtri);
+                newtri.setColor(2, 148, 121.0f, 92.0f);
+                rasterize_triangle(newtri, viewspace_pos);
+               // rasterize_wireframe(newtri);
 
             }
 
@@ -386,7 +396,7 @@ namespace HM3
             }
         }
 
-
+       
 
         public void rasterize_wireframe(Triangle t)
         {
@@ -394,9 +404,23 @@ namespace HM3
             draw_line(t.c(), t.b());
             draw_line(t.b(), t.a());
         }
+        static Vector3 interpolate(float alpha, float beta, float gamma, Vector3 vert1, Vector3 vert2, Vector3 vert3, float weight)
+        {
+            return (alpha * vert1 + beta * vert2 + gamma * vert3) / weight;
+        }
 
+        static Vector2 interpolate(float alpha, float beta, float gamma, Vector2 vert1, Vector2 vert2, Vector2 vert3, float weight)
+        {
+            var u = (alpha * vert1.X + beta * vert2.X + gamma * vert3.X);
+            var v = (alpha * vert1.Y + beta * vert2.Y + gamma * vert3.Y);
 
-        public void rasterize_triangle(Triangle t, Vector3[] viewPos)
+            u /= weight;
+            v /= weight;
+
+            return new Vector2(u, v);
+        }
+
+        public void rasterize_triangle(Triangle t, Vector3[] view_pos)
         {
             // todo 光栅化三角形
             var v = t.toVector4();
@@ -495,11 +519,18 @@ namespace HM3
 
                             if (depth_buf[get_index(x, y)] > z_interpolated)
                             {
-                                Vector3 color = t.getColor();
-                                Vector3 point = new Vector3(x, y, z_interpolated);
-                                depth_buf[get_index(x, y)] = z_interpolated;
 
-                                set_pixel(point, color);
+                                // Vector3 point = new Vector3(x, y, z_interpolated);
+                                depth_buf[get_index(x, y)] = z_interpolated;
+                                var interpolated_color = interpolate(alpha, beta, gamma, t.color[0], t.color[1], t.color[2], 1);
+                                var interpolated_normal = interpolate(alpha, beta, gamma, t.normal[0], t.normal[1], t.normal[2], 1);
+                                var interpolated_texcoords = interpolate(alpha, beta, gamma, t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], 1);
+                                var interpolated_shadingcoords = interpolate(alpha, beta, gamma, view_pos[0], view_pos[1], view_pos[2], 1);
+                                fragment_shader_payload payload = new fragment_shader_payload(interpolated_color, Vector3.Normalize(interpolated_normal), interpolated_texcoords, null);
+                                payload.view_pos = interpolated_shadingcoords; // 看的位置点
+                                var pixel_color = fragment_shader(payload);
+                                set_pixel(new Vector3(x, y, 0), pixel_color);
+                            
                             }
 
                         }
@@ -546,6 +577,7 @@ namespace HM3
             if (point.X < 0 || point.X >= width ||
                 point.Y < 0 || point.Y >= height) return;
             var ind = Convert.ToInt32((height - 1 - point.Y) * width + point.X);
+
             frame_buf[ind] = color;
         }
 
