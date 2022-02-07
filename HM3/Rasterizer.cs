@@ -89,7 +89,13 @@ namespace HM3
         Dictionary<int, List<Vector3>> ind_buf = new Dictionary<int, List<Vector3>>();
         Dictionary<int, List<Vector3>> col_buf = new Dictionary<int, List<Vector3>>();
         private fragment_shader fragment_shader;
+        public Texture texture;
         public Shader shader;
+
+        public void set_texture(Texture _texture)
+        {
+            texture = _texture;
+        }
         public void set_fragment_shader(fragment_shader _shader)
         {
             fragment_shader = _shader;
@@ -232,7 +238,7 @@ namespace HM3
                 newtri.setColor(1, 148, 121.0f, 92.0f);
                 newtri.setColor(2, 148, 121.0f, 92.0f);
                 rasterize_triangle(newtri, viewspace_pos);
-               // rasterize_wireframe(newtri);
+                //rasterize_wireframe(newtri);
 
             }
 
@@ -396,7 +402,7 @@ namespace HM3
             }
         }
 
-       
+
 
         public void rasterize_wireframe(Triangle t)
         {
@@ -431,10 +437,10 @@ namespace HM3
 
             var min_y = MathF.Min(v[0].Y, MathF.Min(v[1].Y, v[2].Y));
             var max_y = MathF.Max(v[0].Y, MathF.Max(v[1].Y, v[2].Y));
-            min_x = (int)MathF.Floor(min_x);
-            max_x = (int)MathF.Ceiling(max_x);
-            min_y = (int)MathF.Floor(min_y);
-            max_y = (int)MathF.Ceiling(max_y);
+            min_x = (int)MathF.Floor(min_x) - 1;
+            max_x = (int)MathF.Ceiling(max_x) + 1;
+            min_y = (int)MathF.Floor(min_y) - 1;
+            max_y = (int)MathF.Ceiling(max_y) + 1;
             bool MSAA = false;
             if (MSAA)
             {
@@ -522,15 +528,16 @@ namespace HM3
 
                                 // Vector3 point = new Vector3(x, y, z_interpolated);
                                 depth_buf[get_index(x, y)] = z_interpolated;
+                               
                                 var interpolated_color = interpolate(alpha, beta, gamma, t.color[0], t.color[1], t.color[2], 1);
                                 var interpolated_normal = interpolate(alpha, beta, gamma, t.normal[0], t.normal[1], t.normal[2], 1);
                                 var interpolated_texcoords = interpolate(alpha, beta, gamma, t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], 1);
                                 var interpolated_shadingcoords = interpolate(alpha, beta, gamma, view_pos[0], view_pos[1], view_pos[2], 1);
-                                fragment_shader_payload payload = new fragment_shader_payload(interpolated_color, Vector3.Normalize(interpolated_normal), interpolated_texcoords, null);
+                                fragment_shader_payload payload = new fragment_shader_payload(interpolated_color, Vector3.Normalize(interpolated_normal), interpolated_texcoords, texture);
                                 payload.view_pos = interpolated_shadingcoords; // 看的位置点
                                 var pixel_color = fragment_shader(payload);
                                 set_pixel(new Vector3(x, y, 0), pixel_color);
-                            
+
                             }
 
                         }
@@ -540,7 +547,7 @@ namespace HM3
         }
         static Tuple<float, float, float> computeBarycentric2D(float x, float y, Vector3[] v)
         {
-            float c1 = (x * (v[1].Y - v[2].Y) + (v[2].X - v[1].X) * y + v[1].X * v[2].Y - v[2].X * v[1].Y) / (v[0].X * (v[1].Y - v[2].Y) + (v[2].X - v[1].X) * v[0].Y + v[1].Y * v[2].Y - v[2].X * v[1].Y);
+            float c1 = (x * (v[1].Y - v[2].Y) + (v[2].X - v[1].X) * y + v[1].X * v[2].Y - v[2].X * v[1].Y) / (v[0].X * (v[1].Y - v[2].Y) + (v[2].X - v[1].X) * v[0].Y + v[1].X * v[2].Y - v[2].X * v[1].Y);
             float c2 = (x * (v[2].Y - v[0].Y) + (v[0].X - v[2].X) * y + v[2].X * v[0].Y - v[0].X * v[2].Y) / (v[1].X * (v[2].Y - v[0].Y) + (v[0].X - v[2].X) * v[1].Y + v[2].X * v[0].Y - v[0].X * v[2].Y);
             float c3 = (x * (v[0].Y - v[1].Y) + (v[1].X - v[0].X) * y + v[0].X * v[1].Y - v[1].X * v[0].Y) / (v[2].X * (v[0].Y - v[1].Y) + (v[1].X - v[0].X) * v[2].Y + v[0].X * v[1].Y - v[1].X * v[0].Y);
             return new Tuple<float, float, float>(c1, c2, c3);

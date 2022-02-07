@@ -22,7 +22,7 @@ namespace HM3
         }
         private Mat image_data { get; set; }
         public int width { get; set; }
-        int height { get; set; }
+       public int height { get; set; }
 
         public Vector3 getColor(float u, float v)
         {

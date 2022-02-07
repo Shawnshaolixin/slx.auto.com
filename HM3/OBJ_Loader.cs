@@ -245,7 +245,7 @@ namespace HM3
                 return false;
             }
             //加载到所有模型数据 
-            string[] files = File.ReadAllLines(Path.GetFullPath("../../..") + "/" + path);
+            string[] files = File.ReadAllLines( path);
             List<Vector3> Positions = new List<Vector3>();
             List<Vector2> TCoords = new List<Vector2>();
             List<Vector3> Normals = new List<Vector3>();
@@ -575,49 +575,7 @@ namespace HM3
             }
             return oVerts;
         }
-
-        public void GenVerticesFromRawOBJ(List<Vertex> oVerts, List<Vector3> iPositions, List<Vector3> iTCoords,
-             List<Vector3> iNormals, string icurline)
-        {
-            List<string> sface, svert;
-            Vertex vVert;
-            sface = icurline.Split(" ").ToList();
-            bool noNormal = false;
-
-            // 遍历每一个面
-            for (int i = 0; i < sface.Count; i++)
-            {
-                int vtype;
-                svert = sface[i].Split("/").ToList();
-                if (svert.Count == 1)
-                {
-                    // 只有一个位置信息
-                    vtype = 1;
-                }
-
-                if (svert.Count == 2)
-                {
-                    // 位置和纹理
-                    vtype = 2;
-                }
-
-                if (svert.Count == 3)
-                {
-                    if (svert[1] != "")
-                    {
-                        // 位置，纹理 和 法线
-                        vtype = 4;
-                    }
-                    else
-                    {
-                        // 位置和法线
-                        vtype = 3;
-                    }
-                }
-
-
-            }
-        }
+ 
 
         public void VertexTriangluation(List<int> oIndices, List<Vertex> iVerts)
         {
