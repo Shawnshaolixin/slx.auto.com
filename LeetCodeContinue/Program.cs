@@ -17,7 +17,10 @@ namespace LeetCodeContinue
             var max = code.FindMaxAverage(new[] { 1, 12, -5, -6, 50, 3 },  4);
             //  LeetCode.TestWeightBagProblem(new int[] { 1, 3, 4,4 }, new int[] { 15, 20, 30,57 }, 4);
             //  var res=  code.LastStoneWeightII(new int[] { 2, 7, 4, 1, 8, 1 });
-            var res = code.GenerateMatrix(5);
+          var res = code.GenerateMatrix(5);
+         var result=   code.CountKDifference(new int[] { 1 }, 1);
+            code.SimplifiedFractions(6);
+            Console.WriteLine("res===>"+result);
             for (int i = 0; i < res.Length; i++)
             {
                 for (int j = 0; j < res[i].Length; j++)

@@ -365,7 +365,7 @@ namespace HM3
                 }
             }
             Rasterizer r = new Rasterizer(700, 700);
-            r.set_texture(new Texture(fullPath + hmap_path));
+            r.set_texture(new Texture(fullPath + texture_path));
             var eye_pos = new DenseVector(new[] { 0, 0, 10.0 }); //眼睛位置，摄像机位置？
             //Mat image = new Mat(700, 700, MatType.CV_32FC3,);
 
@@ -393,7 +393,7 @@ namespace HM3
             //    return;
 
             //}
-            r.set_fragment_shader(displacement_fragment_shader);
+            r.set_fragment_shader(texture_fragment_shader);
             while (key != 27)
             {
                 //key = Console.ReadKey(false).KeyChar;

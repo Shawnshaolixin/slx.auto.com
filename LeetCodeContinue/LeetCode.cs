@@ -9,6 +9,98 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 1447.最简分数
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public IList<string> SimplifiedFractions(int n)
+        {
+            HashSet<string> set = new HashSet<string>();
+            IList<string> list = new List<string>();
+            if (n == 0 || n == 1)
+            {
+                return list;
+            }
+            if (n == 2)
+            {
+                list.Add("1/2");
+                return list;
+            }
+
+            // 分母
+            for (int j = 1; j <= n; j++)
+            {  // 分子
+                for (int i = 1; i < j; i++)
+                {
+                    Console.WriteLine($"{i}/{j},{getMinValue(i, j)}");
+
+                    var value = getMinValue(i, j);
+                    if (!set.Contains(value))
+                    {
+                        set.Add(value);
+                    }
+                }
+            }
+            return set.ToArray();
+        }
+        public string getMinValue(int a, int b)
+        {
+            //6/4=1 yu 2
+            //4/2=2 yu 0
+            //至此，最大公约数为2
+            // 返回 2/3
+
+
+            int temp_a = a;
+            int temp_b = b;
+            while (temp_b % temp_a != 0)
+            {
+                var yushu = temp_b % temp_a;
+                var shang = temp_b / temp_a;
+                temp_b = temp_a;
+                temp_a = yushu;
+            }
+            // Console.WriteLine("最大公约数="+ temp_a);
+            if (temp_a == 1)
+            {
+                return a + "/" + b;
+            }
+            else
+            {
+                return (a / temp_a) + "/" + (b / temp_a);
+            }
+
+        }
+        public int CountKDifference(int[] nums, int k)
+        {
+
+            int fastIndex = nums.Length - 1;
+            int lowIndex = 0;
+            int result = 0;
+            while (lowIndex < fastIndex)
+            {
+                if (Math.Abs(nums[lowIndex] - nums[fastIndex]) == k)
+                {
+                    result++;
+                }
+                if (fastIndex > lowIndex)
+                {
+                    fastIndex--;
+                    if (fastIndex <= lowIndex)
+                    {
+                        lowIndex++;
+                        fastIndex = nums.Length - 1;
+                    }
+                }
+                else
+                {
+                    lowIndex++;
+                    fastIndex = nums.Length - 1;
+                }
+            }
+            return result;
+        }
+        /// <summary>
         /// 643.子数组最大平均数1
         /// </summary>
         /// <param name="nums"></param>
@@ -23,7 +115,7 @@ namespace LeetCodeContinue
             }
 
             int max = int.MinValue;
-            for (int i = k-1; i < preSum.Length; i++)
+            for (int i = k - 1; i < preSum.Length; i++)
             {
                 // Math.Max();
             }
