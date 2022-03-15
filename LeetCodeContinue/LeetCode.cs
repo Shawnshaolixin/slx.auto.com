@@ -6,10 +6,304 @@ using System.Threading.Tasks;
 
 namespace LeetCodeContinue
 {
+    public class Node
+    {
+        public int val;
+        public IList<Node> children;
+
+        public Node() { }
+
+        public Node(int _val)
+        {
+            val = _val;
+        }
+
+        public Node(int _val, IList<Node> _children)
+        {
+            val = _val;
+            children = _children;
+        }
+    }
     public class LeetCode
     {
         /// <summary>
-        /// 1447.最简分数
+        /// 599.两个列表的最小索引总和
+        /// </summary>
+        /// <param name="list1"></param>
+        /// <param name="list2"></param>
+        /// <returns></returns>
+        public string[] FindRestaurant(string[] list1, string[] list2)
+        {
+            int[] result1 = new int[list2.Length];
+            List<string> list = new List<string>();
+            Dictionary<string, int> dict = new Dictionary<string, int>();
+            for (int i = 0; i < list1.Length; i++)
+            {
+                dict.Add(list1[i], i);
+            }
+            List<string> result = new List<string>();
+            for (int i = 0; i < list2.Length; i++)
+            {
+                if (dict.ContainsKey(list2[i]))
+                {
+                    result1[i] = i + dict[list2[i]];
+                    if (result1[i] == 0)
+                    {
+                        list.Add(list2[i]);
+                        return list.ToArray();
+                    }
+                }
+            }
+            int minValue = int.MaxValue;
+
+            for (int i = 0; i < result1.Length; i++)
+            {
+                if (result1[i] == 0)
+                {
+                    continue;
+                }
+                if (result1[i] < minValue)
+                {
+                    minValue = result1[i];
+                }
+            }
+            for (int i = 0; i < result1.Length; i++)
+            {
+                if (minValue == result1[i])
+                {
+                    list.Add(list2[i]);
+                }
+            }
+            return list.ToArray();
+        }
+        double rad, xc, yc;
+        /// <summary>
+        /// 478.在圆内随机生成点
+        /// </summary>
+        /// <param name="radius"></param>
+        /// <param name="x_center"></param>
+        /// <param name="y_center"></param>
+        public LeetCode(double radius, double x_center, double y_center)
+        {
+            rad = radius;
+            xc = x_center;
+            yc = y_center;
+        }
+        public LeetCode()
+        {
+
+        }
+        public double[] RandPoint()
+        {
+            double x0 = xc - rad;
+            double y0 = yc - rad;
+
+            while (true)
+            {
+                //double xg = x0 + Math.Round() * rad * 2;
+                //double
+            }
+        }
+        /// <summary>
+        /// N叉树的前序遍历
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public IList<int> Preorder(Node root)
+        {
+            // 根左右
+            List<int> result = new List<int>();
+            Preorder(root, result);
+            return result;
+        }
+        public void Preorder(Node root, List<int> result)
+        {
+            if (root == null)
+            {
+                return;
+            }
+            result.Add(root.val);
+            foreach (var item in root.children)
+            {
+                Preorder(item, result);
+            }
+
+        }
+        /// <summary>
+        /// 94.二叉树的中序遍历
+        /// 为什么叫前序、后序、中序
+        /// 根据 根说的，根在前 根左右 前序
+        /// 根在中 左中右 中序
+        /// 根在后 左右中 后序
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public IList<int> InorderTraversal(TreeNode root)
+        {
+            // 左 中 右
+            List<int> result = new List<int>();
+            Inorder(root, result);
+            return result;
+        }
+        public void Inorder(TreeNode root, List<int> result)
+        {
+            if (root == null)
+            {
+                return;
+            }
+            Inorder(root.left, result);
+            result.Add(root.val);
+            Inorder(root.right, result);
+        }
+        public int FindCenter(int[][] edges)
+        {
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            for (int i = 0; i < edges.Length; i++)
+            {
+                var items = edges[i];
+                if (!dict.ContainsKey(items[0]))
+                {
+                    dict.Add(items[0], 1);
+                }
+                else
+                {
+                    dict[items[0]]++;
+                }
+                if (!dict.ContainsKey(items[1]))
+                {
+                    dict.Add(items[1], 1);
+                }
+                else
+                {
+                    dict[items[1]]++;
+                }
+            }
+
+
+            foreach (var item in dict)
+            {
+                if (item.Value == edges.Length - 1)
+                {
+                    return item.Key;
+                }
+            }
+            return 0;
+        }
+        /// <summary>
+        /// 1024.视频拼接
+        /// 你将会获得一系列视频片段，这些片段来自于一项持续时长为 time 秒的体育赛事。这些片段可能有所重叠，也可能长度不一。
+
+        ///  使用数组 clips 描述所有的视频片段，其中 clips[i] = [starti, endi] 表示：某个视频片段开始于 starti 并于 endi 结束。
+        ///  甚至可以对这些片段自由地再剪辑：
+
+        ///例如，片段[0, 7] 可以剪切成[0, 1] + [1, 3] + [3, 7] 三部分。
+        ///我们需要将这些片段进行再剪辑，并将剪辑后的内容拼接成覆盖整个运动过程的片段（[0, time]）。
+        ///返回所需片段的最小数目，如果无法完成该任务，则返回 -1 
+
+        ///输入：clips = [[0,2],[4,6],[8,10],[1,9],[1,5],[5,9]], time = 10
+        ///输出：3
+        ///解释：
+        ///选中[0, 2], [8,10], [1,9] 这三个片段。
+        ///然后，按下面的方案重制比赛片段：
+        ///将[1, 9] 再剪辑为[1, 2] + [2,8] + [8,9] 。
+        ///现在手上的片段为[0, 2] + [2,8] + [8,10]，而这些覆盖了整场比赛[0, 10]。
+        /// 思路：动态规划，背包问题，而且是 01 背包，这个片段要么取 ，要么不取。
+        /// 
+        /// </summary>
+        /// <param name="clips"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public int VideoStitching(int[][] clips, int time)
+        {
+            // 状态转移方程
+            // 当 次数 =i时，最小的片段数量
+            int[] dp = new int[time + 1];
+            for (int i = 0; i < dp.Length; i++)
+            {
+                dp[i] = int.MaxValue - 1;
+            }
+            dp[0] = 0;
+            for (int i = 1; i <= time; i++)
+            {
+                foreach (int[] clip in clips)
+                {
+                    if (clip[0] < i && i <= clip[1])
+                    {
+                        dp[i] = Math.Min(dp[i], dp[clip[0]] + 1);
+                    }
+                }
+            }
+            return dp[time] == int.MaxValue - 1 ? -1 : dp[time];
+        }
+        /// <summary>
+        /// 1380.矩阵中的幸运数字
+        /// </summary>
+        /// <param name="matrix"></param>
+        /// <returns></returns>
+        public IList<int> LuckyNumbers(int[][] matrix)
+        {
+            List<int> res = new List<int>();
+            // 遍历行
+            for (int i = 0; i < matrix.Length; i++)
+            {
+
+                // 遍历列
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    int[] arr = new int[matrix.Length];
+                    if (IsLuckyUnmber(matrix, i, j, arr))
+                    {
+                        res.Add((matrix[i][j]));
+                    }
+                }
+            }
+            return res;
+        }
+
+        private bool IsLuckyUnmber(int[][] matrix, int i, int j, int[] arr)
+        {
+
+            for (int k = 0; k < matrix.Length; k++)
+            {
+                var col = matrix[k][j];
+                arr[k] = col;
+            }
+
+            return IsMin(matrix[i], j) && IsMax(arr, i);
+        }
+
+        public bool IsMin(int[] arr, int index)
+        {
+            int min = arr[0];
+            int minIndex = 0;
+            for (int i = 1; i < arr.Length; i++)
+            {
+                if (arr[i] < min)
+                {
+                    min = arr[i];
+                    minIndex = i;
+                }
+            }
+
+            return index == minIndex;
+        }
+        public bool IsMax(int[] arr, int index)
+        {
+            int max = arr[0];
+            int maxIndex = 0;
+            for (int i = 1; i < arr.Length; i++)
+            {
+                if (arr[i] > max)
+                {
+                    max = arr[i];
+                    maxIndex = i;
+                }
+            }
+
+            return index == maxIndex;
+        }
+        /// <summary>
+        /// 1447.最简分数(用到了辗转相除法）
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>

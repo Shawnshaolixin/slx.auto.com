@@ -15,7 +15,7 @@ namespace HM3
         {
 
 
-         //   File file = new File
+            //   File file = new File
             List<int> ints = new List<int>();
             ints.Add(1);
             ints.Add(2);
@@ -139,7 +139,7 @@ namespace HM3
             foreach (var light in lights)
             {
                 Vector3 l = Vector3.Normalize(light.position - point);
-                Vector3 h1 = Vector3.Normalize(view+l);
+                Vector3 h1 = Vector3.Normalize(view + l);
                 var r2 = MathF.Pow(Vector3.Distance(light.position, point), 2);
                 var ambient = ka * (amb_light_intensity);
 
@@ -242,8 +242,9 @@ namespace HM3
             Vector3 ka = new Vector3(0.005f, 0.005f, 0.005f);
             Vector3 kd = texture_color / 255.0f;
             Vector3 ks = new Vector3(0.7937f, 0.7937f, 0.7937f);
-
-
+            var rd = new Random();
+            //var l1 = new light(new Vector3(rd.Next(20, 100), rd.Next(20, 100), rd.Next(20, 100)), new Vector3(500, 500, 500));
+            //var l2 = new light(new Vector3(-rd.Next(20, 100), rd.Next(20, 100), 0), new Vector3(500, 500, 500));
             var l1 = new light(new Vector3(20, 20, 20), new Vector3(500, 500, 500));
             var l2 = new light(new Vector3(-20, 20, 0), new Vector3(500, 500, 500));
 
@@ -283,9 +284,10 @@ namespace HM3
             Vector3 kd = payload.color;
             // 高光系数
             Vector3 ks = new Vector3(0.7937f, 0.7937f, 0.7937f);
-
-            var l1 = new light(new Vector3(20, 20, 20), new Vector3(500, 500, 500));
-            var l2 = new light(new Vector3(-20, 20, 0), new Vector3(500, 500, 500));
+            var rd = new Random();
+            //  rd.Next(20,100)
+            var l1 = new light(new Vector3(rd.Next(20, 100), rd.Next(20, 100), rd.Next(20, 100)), new Vector3(500, 500, 500));
+            var l2 = new light(new Vector3(-rd.Next(20, 100), rd.Next(20, 100), 0), new Vector3(500, 500, 500));
             List<light> lights = new List<light>() { l1, l2 };
             Vector3 amb_light_intensity = new Vector3(10, 10, 10);
             Vector3 eye_pos = new Vector3(0, 0, 10);
