@@ -8,12 +8,10 @@ namespace LeetCodeContinue
 {
     public class Skiplist
     {
-
         public Skiplist()
         {
 
         }
-
         public bool Search(int target)
         {
             return false;
@@ -23,7 +21,6 @@ namespace LeetCodeContinue
         {
 
         }
-
         public bool Erase(int num)
         {
             return false;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace StringTrain
 {
@@ -10,8 +11,8 @@ namespace StringTrain
     {
         public class ComparerTest : IComparer<String>
         {
-           
-            
+
+
             public int Compare(String x, String y)
             {
                 return string.CompareOrdinal(x, y);
@@ -19,7 +20,7 @@ namespace StringTrain
         }
         static void Gen(string item, int n, List<string> result)
         {
-            
+
             if (n == 0)
             {
                 return;
@@ -52,13 +53,13 @@ namespace StringTrain
             /// <returns></returns>
             public bool HasPathSum(TreeNode root, int sum)
             {
-                  List<int[]> stackList = new List<int[]>();
+                List<int[]> stackList = new List<int[]>();
                 Stack<int> item = new Stack<int>();
                 Get(root, stackList, item);
                 var count = stackList.Count();
                 return false;
             }
-      
+
             public void Get(TreeNode root, List<int[]> stackList, Stack<int> item)
             {
                 if (root == null)//叶子节点
@@ -71,7 +72,7 @@ namespace StringTrain
                     var list = item.ToArray();
                     stackList.Add(list);
                 }
-                Get(root.left,stackList, item);
+                Get(root.left, stackList, item);
                 Get(root.right, stackList, item);
                 item.Pop();
             }
@@ -165,9 +166,86 @@ namespace StringTrain
             }
 
         }
+
+        /// <summary>
+        /// 自己实现的数组类
+        /// </summary>
+        //public class MyArray
+        //{
+        //    /// <summary>
+        //    /// 数组的长度
+        //    /// </summary>
+        //    public int Length { get; set; }
+
+        //    /// <summary>
+        //    /// 初始化数组
+        //    /// </summary>
+        //    /// <param name="type">类型</param>
+        //    /// <param name="lenght">长度</param>
+        //    /// <returns></returns>
+        //    public static MyArray CreateInstance(Type type, int lenght)
+        //    {
+        //        // 核心方法：调用系统提供的功能根据类型 和长度 去申请一块内存
+        //        return 系统功能.申请内存(type, length);
+        //    }
+        //    public void SetValue(object value, int index)
+        //    {
+        //        Type type = value.GetType();
+        //        // 根据类型和索引位置，计算偏移量，放到刚刚申请内存的哪个位置
+
+        //        系统功能.SetValue(value, 自己计算的地址偏移量);
+        //    }
+        //    /// <summary>
+        //    /// 获取数组中的值
+        //    /// </summary>
+        //    /// <param name="index">索引</param>
+        //    /// <returns></returns>
+        //    public object GetValue(int index)
+        //    {
+        //        return 系统功能.GetValue(自己计算的地址偏移量); ;
+        //    }
+        //}
+
+        /// <summary>
+        /// 自己实现的计时器
+        /// </summary>
+        public class MyJishiqi
+        {
+            public float _hao_sceond;
+
+            /// <summary>
+            /// 传毫秒
+            /// </summary>
+            /// <param name="hao_sceond"></param>
+            public MyJishiqi(float hao_sceond)
+            {
+                _hao_sceond = hao_sceond;
+            }
+            public void Start(Action callback)
+            {
+                float curr_hao_Sceond = 0;
+                while (_hao_sceond > curr_hao_Sceond)
+                {
+                    Thread.Sleep(100);
+                    curr_hao_Sceond += 100;
+                }
+                //执行回调函数
+                callback();
+            }
+
+        }
+
         static void Main(string[] args)
         {
-
+            MyJishiqi jishiq = new MyJishiqi(3000);
+            jishiq.Start(() =>
+            {
+                Console.WriteLine("计时器执行了");
+            });
+            Console.ReadKey();
+            Array array = Array.CreateInstance(typeof(int), 4);
+            array.SetValue(1, 0);
+            array.GetValue(0);
             #region 二叉树的遍历
             TreeNode node1 = new TreeNode(1);
             TreeNode node2 = new TreeNode(2);
@@ -198,7 +276,7 @@ namespace StringTrain
             var b = s.HasPathSum(node1, 10);
             //  s.InorderTraversal(node1);
             //var b = s.IsSameTree(p, q);
-      //      var d = s.MinDepth(node1);
+            //      var d = s.MinDepth(node1);
             // Console.WriteLine(d);
             //   ForeachTree(node1);
             Console.ReadKey();

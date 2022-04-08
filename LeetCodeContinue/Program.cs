@@ -2,23 +2,65 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace LeetCodeContinue
 {
     class Program
     {
+        private static void GetRanges(string bt, string et, string deviceId)
+        {
+            var beginTime = Convert.ToDateTime(bt);
+            var endTime = Convert.ToDateTime(et);
+
+            while (beginTime < endTime)
+            {
+                var strBt = beginTime;
+                var newEndtime = beginTime.AddMinutes(10);
+
+                if (newEndtime > endTime)
+                {
+                    beginTime = endTime;
+                }
+                else
+                {
+                    beginTime = newEndtime;
+                }
+                Console.WriteLine($"分组：{strBt},{beginTime}");
+            }
+        }
+
         private const int Lower31BitMask = 0x7FFFFFFF;
         static void Main(string[] args)
         {
 
 
+            var b = BitConverter.GetBytes(7);
+            Skiplist skiplist = new Skiplist();
+            skiplist.Add(1);
+
+            //GetRanges("2022-03-17 12:11:05.120", "2022-03-17 16:44:34.431", "");
+            //Console.ReadKey();
 
             LeetCode code = new LeetCode();
+            code.Convert1("PAYPALISHIRING", 6);
+            code.Convert1("PAYPALISHIRING", 5);
+            code.Convert1("PAYPALISHIRING", 4);
+            code.Convert1("PAYPALISHIRING", 3);
+            code.Convert1("PAYPALISHIRING", 2);
+            Console.WriteLine(7 / 2); // 商
+            Console.WriteLine(7 % 2); // 余
+            Console.ReadKey();
+            int[][] images = new int[3][];
+            images[0] = new int[] { 100 };
+            images[1] = new int[] { 200 };
+            images[2] = new int[] { 100 };
+            code.ImageSmoother(images);
             TreeNode root = new TreeNode(1);
             var right = new TreeNode(2);
             right.left = new TreeNode(3);
             root.right = right;
-            var result3 = code.FindRestaurant(new string[] { "KFC","K" }, new string[] { "KFC","K" });
+            var result3 = code.FindRestaurant(new string[] { "KFC", "K" }, new string[] { "KFC", "K" });
             Console.WriteLine(result3);
 
             code.InorderTraversal(root);

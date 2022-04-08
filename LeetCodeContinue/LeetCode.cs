@@ -27,6 +27,137 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 6.Z字形变换
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="numRows"></param>
+        /// <returns></returns>
+        public string Convert1(string s, int numRows)
+        {
+            var length = s.Length / 2 + 1;
+            Console.WriteLine("length=" + length);
+
+            string[][] result = new string[numRows][];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = new string[length];
+            }
+            int index = 0;
+            int index_1 = 0;
+            int cursor = 0;
+            bool flag=false;
+            while (index < numRows)
+            {
+                index++;
+                if (index == numRows)
+                {
+                    if (index_1 <= s.Length)
+                    {
+                        index = 0;
+                    }
+                    flag = true;
+                }
+                if (index == 0)
+                {
+                    flag = false;
+                }
+                if (flag)
+                {
+                    cursor++;
+                }
+            }
+
+            return null;
+        }
+        /// <summary>
+        /// 796.旋转字符串
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="goal"></param>
+        /// <returns></returns>
+        public bool RotateString(string s, string goal)
+        {
+
+
+            if (s.Length != goal.Length)
+            {
+                return false;
+            }
+            Stack<char> stack = new Stack<char>();
+            int index = goal.Length - 1;
+            int s_index = 0;
+            while (index >= 0 && s_index <= s.Length - 1)
+            {
+                stack.Push(goal[index]);
+                index--;
+                while (stack.Count > 0 && stack.Peek() == s[s_index])
+                {
+                    stack.Pop();
+                    s_index++;
+                }
+            }
+            return stack.Count <= 0;
+        }
+        public int CountPrimeSetBits(int left, int right)
+        {
+            for (int i = left; i <= right; i++)
+            {
+                byte b = Convert.ToByte(i);
+            }
+            return 0;
+        }
+        /// <summary>
+        /// 判定是否为质数
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        private static bool IsNo(int number)
+        {
+            if (number < 2)
+            {
+                return false;
+            }
+            for (int i = 2; i < number; i++)
+            {
+                if (number % i == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public int[][] ImageSmoother(int[][] img)
+        {
+            int m = img.Length;
+            int n = img[0].Length;
+            int[][] ret = new int[m][];
+            for (int i = 0; i < img.Length; i++)
+            {
+                ret[i] = new int[n];
+            }
+            for (int i = 0; i < img.Length; i++)
+            {
+                for (int j = 0; j < img[i].Length; j++)
+                {
+                    int num = 0;
+                    int sum = 0;
+                    for (int x = i - 1; x <= i + 1; x++)
+                    {
+                        for (int y = j - 1; y <= j + 1; y++)
+                        {
+                            if (x >= 0 && y >= 0 && x < m && y < n)
+                            {
+                                num++;
+                                sum += img[x][y];
+                            }
+                        }
+                    }
+                    ret[i][j] = sum / num;
+                }
+            }
+            return ret;
+        }
+        /// <summary>
         /// 599.两个列表的最小索引总和
         /// </summary>
         /// <param name="list1"></param>
