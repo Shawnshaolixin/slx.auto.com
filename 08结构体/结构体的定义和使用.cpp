@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 #include <string>
+#include <ctime>
 struct Student
 {
 	// 成员列表
@@ -14,16 +15,48 @@ struct Teacher {
 	int id;
 	string name;
 	int age;
-	struct Student student;
+	struct Student arr_student[5];
 };
 void print(const Student* s) {
 	cout << s->age << endl;
 }
+void allocateSpace(struct Teacher tArr[], int len)
+{
+	for (int i = 0; i < len; i++)
+	{
+		tArr[i].age = 10;
+		tArr[i].id = i;
+		tArr[i].name = "老师";
+		int stu_len = sizeof(tArr[i].arr_student) / sizeof(tArr[i].arr_student[0]);
+		for (int j = 0; j < stu_len; j++)
+		{
+			tArr[i].arr_student[j].age = 222;
+			tArr[i].arr_student[j].name = "学生";
+			int random = rand() % 61 + 40;
+			tArr[i].arr_student[j].score = random;
+		}
+	}
+
+	for (size_t i = 0; i < len; i++)
+	{
+		cout << "第" << i << "个老师的名字是：" << tArr[i].name << endl;
+		int stu_len = sizeof(tArr[i].arr_student) / sizeof(tArr[i].arr_student[0]);
+		cout << "ta的学生有" << stu_len << "个" << endl;
+		for (int j = 0; j < stu_len; j++)
+		{
+			cout << "学生的名字：" << tArr[i].arr_student[j].name << "，分数：" << tArr[i].arr_student[j].score << endl;
+		}
+	}
+};
+
 // 2.1 struct Student s1;
 // 2.2 struct Student s2 ={};
 // 2.3 在定义结构体时顺便创建结构体变量
 int main()
 {
+	srand((unsigned int)time(NULL));
+	struct Teacher tArr[3];
+	allocateSpace(tArr, sizeof(tArr) / sizeof(tArr[0]));
 
 	struct Student s1;
 	s1.name = "张三";

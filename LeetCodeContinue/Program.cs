@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 
 namespace LeetCodeContinue
@@ -31,10 +33,40 @@ namespace LeetCodeContinue
         }
 
         private const int Lower31BitMask = 0x7FFFFFFF;
+        public static string getMD5ByHashAlgorithm(string path)
+
+        {
+            if (!File.Exists(path))
+                throw new ArgumentException(string.Format("<{0}>, 不存在", path));
+            var bufferSize = 1024 * 16;//自定义缓冲区大小16K 
+            byte[] buffer = new byte[bufferSize];
+            Stream inputStream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            HashAlgorithm hashAlgorithm = new MD5CryptoServiceProvider();
+            var readLength = 0;//每次读取长度 
+            var output = new byte[bufferSize];
+            while ((readLength = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                //计算MD5 
+                hashAlgorithm.TransformBlock(buffer, 0, readLength, output, 0);
+            }
+            //完成最后计算，必须调用(由于上一部循环已经完成所有运算，所以调用此方法时后面的两个参数都为0) 
+            hashAlgorithm.TransformFinalBlock(buffer, 0, 0);
+            var md5 = BitConverter.ToString(hashAlgorithm.Hash);
+            hashAlgorithm.Clear();
+            inputStream.Close();
+            md5 = md5.Replace("-", "");
+            return md5;
+        }
+
         static void Main(string[] args)
         {
-
-
+            string path = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot (1).unity3d";
+          var md5_1=  getMD5ByHashAlgorithm(path);
+            string path1 = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot.unity3d";
+            var md5_2 = getMD5ByHashAlgorithm(path1);
+            Console.WriteLine("md5_1=>"+md5_1);
+            Console.WriteLine("md5_2=>"+md5_2);
+            Console.ReadKey();
             var b = BitConverter.GetBytes(7);
             Skiplist skiplist = new Skiplist();
             skiplist.Add(1);
