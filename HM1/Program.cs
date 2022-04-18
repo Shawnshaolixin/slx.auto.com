@@ -228,6 +228,7 @@ namespace HM1
             return model;
         }
 
+     
         static DenseMatrix get_view_matrix(DenseVector eye_pos)
         {
             DenseMatrix view = DenseMatrix.OfArray(new[,] {

@@ -198,6 +198,15 @@ public:
 		cout << "11111拷贝构造函数执行了" << endl;;
 		a_age = a.a_age;
 	}
+	A(int&) {
+		cout << "走1了。。。。。。。。。。" << endl;
+	}
+	A(int,int) {
+		cout << "走2了。。。。。。。。。。。。。" << endl;
+	}
+	A(string) {
+		cout << "走3了......................." << endl;
+	}
 };
 int A::a_course = 10;
 int main() {
@@ -205,7 +214,10 @@ int main() {
 	cout << "空对象占多少字节：" << sizeof(ccc) << endl;
 	cout << "空年龄：" << ccc.a_age << endl;
 	cout << "空年龄：" << ccc.Add_age(ccc).Add_age(ccc).Add_age(ccc).a_age << endl;
-
+	A("asd");
+	A(12, 12);
+	int a = 10;
+ 
 	//test01();
 	//// 实例化 
 	//Circle c1;
