@@ -27,6 +27,16 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 386. 字典序排数
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public IList<int> LexicalOrder(int n)
+        {
+
+            return null;
+        }
+        /// <summary>
         /// 6.Z字形变换
         /// </summary>
         /// <param name="s"></param>
@@ -45,7 +55,7 @@ namespace LeetCodeContinue
             int index = 0;
             int index_1 = 0;
             int cursor = 0;
-            bool flag=false;
+            bool flag = false;
             while (index < numRows)
             {
                 index++;
