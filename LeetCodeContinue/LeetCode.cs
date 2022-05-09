@@ -6,6 +6,45 @@ using System.Threading.Tasks;
 
 namespace LeetCodeContinue
 {
+    /// <summary>
+    ///   最近的请求次数
+    /// </summary>
+    public class RecentCounter
+    {
+        List<int> list = new List<int>();
+
+        public RecentCounter()
+        {
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="t">t:是毫秒</param>
+        /// <returns></returns>
+        public int Ping(int t)
+        {
+            int count = 0;
+
+            list.Add(t);
+            var lastIndex = list.Count() - 1;
+            int value = list[lastIndex];
+            while (t - value <= 3000 && lastIndex >= 0)
+            {
+                count++;
+                if (lastIndex == 0)
+                {
+                    return count;
+                }
+                lastIndex--;
+                value = list[lastIndex];
+
+            }
+
+            return count;
+
+        }
+    }
     public class Node
     {
         public int val;
@@ -26,6 +65,139 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+
+        /// <summary>
+        /// 442. 数组中重复的数据
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public IList<int> FindDuplicates(int[] nums)
+        {
+            //4,3,2,7,8,2,3,1
+            //7,3,2,4,8,2,3,1
+            //3,3,2,4,8,2,7,1
+            //2,3,3,4,8,2,7,1
+            //3,2,3,4,8,2,7,1
+
+            //->3 往 索引=2 的位置放 发现 重复了  放到列表里面
+            //3,2,3,4,1,2,7,8
+            //1,2,3,4,3,2,7,8
+            // 发现3已经填充过列表里面了  index++;到2了，发现索引1的位置刚好是2 发现重复了，放到结果列表里面
+            
+            HashSet<int> set = new HashSet<int>();
+            int lowIndex = 0;
+            int len = nums.Length;
+            while (lowIndex < len)
+            {
+
+                while (nums[lowIndex] != lowIndex + 1)
+                {
+                    int temp = nums[nums[lowIndex] - 1];
+                    if (temp == nums[lowIndex])
+                    {
+                       
+                            set.Add(temp);
+                    
+
+                      //  lowIndex++;
+                        break;
+                    }
+                    else
+                    {
+                        nums[nums[lowIndex] - 1] = nums[lowIndex];
+                        nums[lowIndex] = temp;
+
+                    }
+                }
+                lowIndex++;
+            }
+            int[] arrs = new int[set.Count];
+            int index = 0;
+            foreach (var item in set)
+            {
+                arrs[index] = item;
+                index++;
+            }
+           
+
+            return arrs;
+        }
+        /// <summary>
+        /// 148.排序链表
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode SortList(ListNode head)
+        {
+
+            // 4-2-1-3;
+            //
+            ListNode newHead;
+
+            while (head != null)
+            {
+                if (head.next == null)
+                {
+                    continue;
+                }
+                if (head.val > head.next.val)
+                {
+
+                    ListNode tempNext = head.next;
+                    head.next = head.next.next;
+                    tempNext.next = head;
+                    head = tempNext;
+                }
+                else
+                {
+                    newHead = head;
+                    head = head.next;
+                }
+            }
+            return head;
+        }
+        /// <summary>
+        /// 350.两个数组的交集2
+        /// </summary>
+        /// <param name="nums1"></param>
+        /// <param name="nums2"></param>
+        /// <returns></returns>
+        public int[] Intersect(int[] nums1, int[] nums2)
+        {
+            List<int> list = new List<int>();
+            if (nums1.Length <= 0 || nums2.Length <= 0)
+            {
+                return list.ToArray();
+            }
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            for (int i = 0; i < nums1.Length; i++)
+            {
+                if (dict.ContainsKey(nums1[i]))
+                {
+                    dict[nums1[i]]++;
+                }
+                else
+                {
+                    dict.Add(nums1[i], 1);
+                }
+            }
+            for (int i = 0; i < nums2.Length; i++)
+            {
+                if (dict.ContainsKey(nums2[i]))
+                {
+                    if (dict[nums2[i]] > 0)
+                    {
+                        dict[nums2[i]]--;
+                        list.Add(nums2[i]);
+                    }
+                    else
+                    {
+                        dict.Remove(nums2[i]);
+                    }
+                }
+            }
+            return list.ToArray();
+        }
         /// <summary>
         /// 386. 字典序排数
         /// </summary>
@@ -877,43 +1049,34 @@ namespace LeetCodeContinue
         /// <returns></returns>
         public string LongestCommonPrefix(string[] strs)
         {
-            // ["flower","flow","flight"]
-            if (strs.Length <= 0)
+            int len = 0;
+            while (len < strs[0].Length)
             {
-                return "";
-            }
-            var prefixStr = strs[0];
-            int index = prefixStr.Length;
-            char[] charPrefixStr = prefixStr.ToCharArray();
-            while (index > 0)
-            {
-                for (int i = 1; i < strs.Length; i++)
+                for (int i = 0; i < strs.Length - 1; i++)
                 {
-                    var str = strs[i];
-                    for (int j = 0; j < str.Length; j++)
+                    if (strs[i].Length <= len || strs[i + 1].Length <= len)
                     {
-                        if (str[j] == charPrefixStr[j])
-                        {
-                            break;
-                        }
-                        else
-                        {
-
-                        }
+                        // Console.WriteLine("长度不够跳出了");
+                        return strs[0].Substring(0, len);
+                    }
+                    char qian = strs[i][len]; // 前一个数的 第j为字母
+                    char hou = strs[i + 1][len]; // 后一位数的 第j 为字母
+                    if (qian != hou)
+                    {
+                        // 有一个不等的就可以跳出来了
+                        return strs[0].Substring(0, len);
                     }
                 }
-                index++;
-
+                len++;
             }
-
-            return null;
+            return strs[0].Substring(0, len);
         }
 
         //public int Reverse(int x)
         //{
         //    int rev = 0;
         //    while (x != 0)
-        //    {
+        //    {     
         //        if (rev < int.MinValue / 10 || rev > int.MaxValue / 10)
         //        {
         //            return 0;
@@ -1225,85 +1388,7 @@ namespace LeetCodeContinue
             return -1;
         }
 
-        /// <summary>
-        /// 148. 排序链表
-        /// </summary>
-        /// <param name="head"></param>
-        /// <returns></returns>
-        public ListNode SortList(ListNode head)
-        {
-            // 没有元素或者只有一个元素 ，直接return
-            if (head == null || head.next == null)
-            {
-                return head;
-            }
-            // 只有两个元素
-            if (head.next.next == null)
-            {
-                ListNode second1 = head.next;
-                if (head.val > second1.val)
-                {
-                    return head;
-                }
-                else
-                {
-                    second1.next = head;
-                    head.next = null;
-                    return second1;
-                }
-            }
 
-            // 先分割，利用快慢指针分割
-
-            ListNode fast = head;
-            ListNode slow = head;
-            while (true)
-            {
-                if (fast == null || fast.next == null)
-                {
-                    break;
-                }
-
-                fast = fast.next.next;
-                slow = slow.next;
-            }
-            // 后半部分的开头
-            ListNode second = slow.next;
-            second = SortList(second);
-
-            // 前半部分开投
-            slow.next = null;
-            ListNode first = head;
-            first = SortList(first);
-
-            // 合并
-            ListNode result = new ListNode();
-            head = result;
-            while (first != null && second != null)
-            {
-                if (first.val < second.val)
-                {
-                    result.next = first;
-                    first = first.next;
-                }
-                else
-                {
-                    result.next = second;
-                    second = second.next;
-                }
-                result = result.next;
-            }
-
-            if (first != null)
-            {
-                result.next = first;
-            }
-            else
-            {
-                result.next = second;
-            }
-            return head.next;
-        }
         /// <summary>
         /// 129. 求根节点到叶节点数字之和
         /// </summary>
@@ -2891,76 +2976,34 @@ namespace LeetCodeContinue
             {
                 return result;
             }
-            Dictionary<string, bool> dict = new Dictionary<string, bool>();
             Array.Sort(nums);
-            int oneIndex = 0;
-            int twoIndex = 1;
-            int threeIndex = 2;
-            while (oneIndex < nums.Length - 2)
+
+            int low = 0;
+            int right = nums.Length - 1;
+
+            int left = low + 1;
+
+            while (low < right)
             {
+                int n1 = nums[low];
+                int n2 = nums[left];
+                int n3 = nums[right];
 
-                var targetValue = nums[oneIndex] + nums[twoIndex];
-                //while (targetValue == currTargetValue)
-                //{
-                //    twoIndex++;
-                //    threeIndex = twoIndex + 1;
-                //    if (twoIndex == nums.Length - 1)
-                //    {
-                //        oneIndex++;
-                //        twoIndex = oneIndex + 1;
-                //        threeIndex = twoIndex + 1;
-                //    }
-                //    if (twoIndex > nums.Length - 2)
-                //    {
-                //        break;
-                //    }
-                //}
-
-                //currTargetValue = targetValue;
-
-                int index = -1;
-                if (nums.Length == 3)
+                if (n1 + n2 == n3)
                 {
-                    index = targetValue + nums[2] == 0 ? 2 : -1;
+                    result.Add(new int[] { n1, n2, n3 });
+                    low++;
+                    left = low + 1;
                 }
-                else
+                if (n1 + n2 < n3)
                 {
-                    index = BinarySearch(nums, threeIndex, nums.Length - 1, -targetValue);
-
+                    left++;
                 }
 
-                if (index != -1)
-                {
-                    int[] arr = new int[3];
-                    arr[0] = nums[oneIndex];
-                    arr[1] = nums[twoIndex];
-                    arr[2] = nums[index];
-                    var key = arr[0].ToString() + arr[1].ToString() + arr[2].ToString();
-                    if (dict.ContainsKey(key))
-                    {
-
-                    }
-                    else
-                    {
-                        dict.Add(key, true);
-                        result.Add(arr.ToList());
-                    }
-
-                }
-                twoIndex++;
-                threeIndex = twoIndex + 1;
-                if (twoIndex == nums.Length - 1)
-                {
-                    oneIndex++;
-                    twoIndex = oneIndex + 1;
-                    threeIndex = twoIndex + 1;
-                }
-                if (twoIndex > nums.Length - 2)
-                {
-                    break;
-                }
             }
-            return result;
+
+
+            return null;
         }
         public IList<IList<int>> ThreeSum1(int[] nums)
         {

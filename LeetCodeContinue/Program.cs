@@ -60,21 +60,32 @@ namespace LeetCodeContinue
 
         static void Main(string[] args)
         {
-            string path = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot (1).unity3d";
-          var md5_1=  getMD5ByHashAlgorithm(path);
-            string path1 = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot.unity3d";
-            var md5_2 = getMD5ByHashAlgorithm(path1);
-            Console.WriteLine("md5_1=>"+md5_1);
-            Console.WriteLine("md5_2=>"+md5_2);
-            Console.ReadKey();
-            var b = BitConverter.GetBytes(7);
-            Skiplist skiplist = new Skiplist();
-            skiplist.Add(1);
+            //string path = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot (1).unity3d";
+            //var md5_1 = getMD5ByHashAlgorithm(path);
+            //string path1 = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot.unity3d";
+            //var md5_2 = getMD5ByHashAlgorithm(path1);
+            //Console.WriteLine("md5_1=>" + md5_1);
+            //Console.WriteLine("md5_2=>" + md5_2);
+            //Console.ReadKey();
+            //var b = BitConverter.GetBytes(7);
+            //Skiplist skiplist = new Skiplist();
+            //skiplist.Add(1);
 
             //GetRanges("2022-03-17 12:11:05.120", "2022-03-17 16:44:34.431", "");
             //Console.ReadKey();
 
             LeetCode code = new LeetCode();
+            //  var list_result = code.Intersect(new int[] { 1, 2, 2, 1 }, new int[] { 2, 2 });
+            ListNode head = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3))));
+            // code.SortList(head);
+            //RecentCounter recent = new RecentCounter();
+            //Console.WriteLine(recent.Ping(1));
+            //Console.WriteLine(recent.Ping(100));
+            //Console.WriteLine(recent.Ping(3001));
+            //Console.WriteLine(recent.Ping(3002));
+            var ss = code.LongestCommonPrefix(new string[] { "fl" });
+            code.FindDuplicates(new int[] { 4, 3, 2, 7, 8, 2, 3, 1 });
+            Console.WriteLine(ss);
             code.Convert1("PAYPALISHIRING", 6);
             code.Convert1("PAYPALISHIRING", 5);
             code.Convert1("PAYPALISHIRING", 4);
