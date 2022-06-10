@@ -6,6 +6,23 @@ using System.Threading.Tasks;
 
 namespace LeetCodeContinue
 {
+    public class Solution
+    {
+        /// <summary>
+        /// 497. 非重叠矩形中的随机点
+        /// </summary>
+        /// <param name="rects"></param>
+        public Solution(int[][] rects)
+        {
+
+        }
+
+        public int[] Pick()
+        {
+            return null;
+        }
+    }
+
     /// <summary>
     ///   最近的请求次数
     /// </summary>
@@ -63,9 +80,648 @@ namespace LeetCodeContinue
             children = _children;
         }
     }
+    public class Node1
+    {
+        public int val;
+        public Node1 left;
+        public Node1 right;
+        public Node1 next;
+
+        public Node1() { }
+
+        public Node1(int _val)
+        {
+            val = _val;
+        }
+
+        public Node1(int _val, Node1 _left, Node1 _right, Node1 _next)
+        {
+            val = _val;
+            left = _left;
+            right = _right;
+            next = _next;
+        }
+    }
     public class LeetCode
     {
+        /// <summary>
+        /// 215. 数组中的第K个最大元素
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public int FindKthLargest(int[] nums, int k)
+        {
+            int index = 0;
+         
 
+            while (k > index)
+            {
+                int max = nums[0];
+                int maxIndex = 0;
+                for (int i = 0; i < nums.Length - index; i++)
+                {
+                    if (nums[i] > max)
+                    {
+                        max = nums[i];
+                        maxIndex = i;
+                    }
+                }
+                int temp = nums[nums.Length - index - 1];//最后一个数
+                nums[nums.Length - index - 1] = nums[maxIndex];
+                nums[maxIndex] = temp;
+                index++;
+            }
+            return nums[nums.Length - k];
+        }
+
+        /// <summary>
+        /// 1037. 有效的回旋镖
+        /// </summary>
+        /// <param name="points"></param>
+        /// <returns></returns>
+        public bool IsBoomerang(int[][] points)
+        {
+            //points = [[1,1],[2,3],[3,2]]
+            // 直线定义 y= kx+b;
+            // k 斜率 = (points[0][0]-points[1][0])/(points[0][1]-points[1][1])
+
+            int x1 = points[0][0], y1 = points[0][1];
+            int x2 = points[1][0], y2 = points[1][1];
+            int x3 = points[2][0], y3 = points[2][1];
+            return (y2 - y1) * (x3 - x2) != (y3 - y2) * (x2 - x1);
+        }
+        int res = 0;
+        /// <summary>
+        /// 1022. 从根到叶的二进制数之和
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public int SumRootToLeaf(TreeNode root)
+        {
+            DFS(root, 0);
+            return res;
+        }
+        void DFS(TreeNode root, int preSum)
+        {
+            if (root == null)
+            {
+                return;
+            }
+            preSum = preSum * 2 + root.val;
+            if (root.left == null && root.right == null)
+            {
+                res += preSum;
+            }
+            DFS(root.left, preSum);
+            DFS(root.right, preSum);
+        }
+        /// <summary>
+        /// 剑指 Offer II 045. 二叉树最底层最左边的值
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public int FindBottomLeftValue(TreeNode root)
+        {
+            IList<IList<int>> result = new List<IList<int>>();
+            if (root == null)
+            {
+                return 0;
+            }
+            Queue<KeyValuePair<TreeNode, int>> queue = new Queue<KeyValuePair<TreeNode, int>>();
+            KeyValuePair<TreeNode, int> keyValuePair = new KeyValuePair<TreeNode, int>(root, 1);
+            Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+            queue.Enqueue(keyValuePair);
+            //  dict.Add(1, new List<int> { root.val });
+            while (queue.Count > 0)
+            {
+                var temp = queue.Dequeue();
+                var temp_tree = temp.Key;
+                var level = temp.Value;
+                Console.WriteLine("value=" + temp_tree.val + ",level=" + level);
+                if (dict.ContainsKey(level))
+                {
+                    dict[level].Add(temp_tree.val);
+                }
+                else
+                {
+                    dict.Add(level, new List<int> { temp_tree.val });
+                }
+                if (temp_tree.left != null)
+                {
+                    queue.Enqueue(new KeyValuePair<TreeNode, int>(temp_tree.left, level + 1));
+                }
+                if (temp_tree.right != null)
+                {
+                    queue.Enqueue(new KeyValuePair<TreeNode, int>(temp_tree.right, level + 1));
+                }
+            }
+            foreach (var item in dict)
+            {
+                result.Add(item.Value);
+            }
+            return result[result.Count - 1][0];
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="words"></param>
+        /// <param name="word1"></param>
+        /// <param name="word2"></param>
+        /// <returns></returns>
+        public int FindClosest(string[] words, string word1, string word2)
+        {
+            if (words.Length <= 0)
+            {
+                return 0;
+            }
+            int index1 = -1;
+            int index2 = -1;
+            int min = words.Length;
+            int[] table = new int[words.Length];
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i] == word1)
+                {
+                    table[i] = 1;
+                    index1 = i;
+                }
+                else if (words[i] == word2)
+                {
+                    table[i] = -1;
+                    index2 = i;
+                }
+                else
+                {
+                    table[i] = 0;
+                }
+
+            }
+            int curr_value = 0;
+            int curr_index = 0;
+            int min_value = int.MaxValue;
+
+            // List<int> result = new List<int>();
+            for (int i = 0; i < table.Length; i++)
+            {
+                if (table[i] != 0)
+                {
+                    if (curr_value + table[i] == 0)// 证明碰见了异性了
+                    {
+                        var val = i - curr_index;
+                        if (val == 1)
+                        {
+                            return 1;
+                        }
+                        if (val < min_value)
+                        {
+                            min_value = val;
+                        }
+                    }
+                    else // 证明同性
+                    {
+                        curr_value = table[i];
+                    }
+                    curr_value = table[i];
+                    curr_index = i;
+                }
+            }
+            return min_value;
+        }
+        /// <summary>
+        /// 699. 掉落的方块
+        /// </summary>
+        /// <param name="positions"></param>
+        /// <returns></returns>
+        public IList<int> FallingSquares(int[][] positions)
+        {
+            for (int i = 0; i < positions.Length; i++)
+            {
+                var item = positions[i];
+                //item[0] 等于左边界
+                //item[1] 边长
+            }
+            return null;
+        }
+        /// <summary>
+        /// 28 实现 strStr()
+        /// </summary>
+        /// <param name="haystack"></param>
+        /// <param name="needle"></param>
+        /// <returns></returns>
+        public int StrStr(string haystack, string needle)
+        {
+            if (haystack == needle)
+            {
+                return 0;
+            }
+            int leftIndex = 0;
+            int hayIndex = 0;
+            int needIndex = 0;
+            if (needle.Length <= 0)
+            {
+                return 0;
+            }
+            while (leftIndex <= haystack.Length - needle.Length)
+            {
+                hayIndex = leftIndex;
+                while (haystack[hayIndex] == needle[needIndex])
+                {
+                    hayIndex++;
+                    needIndex++;
+                    if (needIndex >= needle.Length)
+                    {
+                        return leftIndex;
+                    }
+                }
+                leftIndex++;
+                needIndex = 0;
+
+            }
+            return -1;
+        }
+        public Node1 Connect(Node1 root)
+        {
+
+            if (root == null)
+            {
+                return null;
+            }
+            Queue<KeyValuePair<Node1, int>> queue = new Queue<KeyValuePair<Node1, int>>();
+            KeyValuePair<Node1, int> keyValuePair = new KeyValuePair<Node1, int>(root, 1);
+            Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+            queue.Enqueue(keyValuePair);
+            //  dict.Add(1, new List<int> { root.val });
+            KeyValuePair<Node1, int> preKVP = keyValuePair;
+            while (queue.Count > 0)
+            {
+                var temp = queue.Dequeue();
+                if (temp.Value != 1)
+                {
+                    if (temp.Value == preKVP.Value)
+                    {
+                        preKVP.Key.next = temp.Key;
+                    }
+                    preKVP = temp;
+                }
+                var temp_tree = temp.Key;
+                var level = temp.Value;
+                Console.WriteLine("value=" + temp_tree.val + ",level=" + level);
+                if (dict.ContainsKey(level))
+                {
+                    dict[level].Add(temp_tree.val);
+                }
+                else
+                {
+                    dict.Add(level, new List<int> { temp_tree.val });
+                }
+                if (temp_tree.left != null)
+                {
+                    queue.Enqueue(new KeyValuePair<Node1, int>(temp_tree.left, level + 1));
+                }
+                if (temp_tree.right != null)
+                {
+                    queue.Enqueue(new KeyValuePair<Node1, int>(temp_tree.right, level + 1));
+                }
+            }
+
+            // return result;
+
+            return root;
+        }
+        /// <summary>
+        /// 广度优先搜索BFS
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public IList<IList<int>> LevelOrder2(TreeNode root)
+        {
+
+            IList<IList<int>> result = new List<IList<int>>();
+            if (root == null)
+            {
+                return null;
+            }
+            Queue<KeyValuePair<TreeNode, int>> queue = new Queue<KeyValuePair<TreeNode, int>>();
+            KeyValuePair<TreeNode, int> keyValuePair = new KeyValuePair<TreeNode, int>(root, 1);
+            Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+            queue.Enqueue(keyValuePair);
+            //  dict.Add(1, new List<int> { root.val });
+            while (queue.Count > 0)
+            {
+                var temp = queue.Dequeue();
+                var temp_tree = temp.Key;
+                var level = temp.Value;
+                Console.WriteLine("value=" + temp_tree.val + ",level=" + level);
+                if (dict.ContainsKey(level))
+                {
+                    dict[level].Add(temp_tree.val);
+                }
+                else
+                {
+                    dict.Add(level, new List<int> { temp_tree.val });
+                }
+                if (temp_tree.left != null)
+                {
+                    queue.Enqueue(new KeyValuePair<TreeNode, int>(temp_tree.left, level + 1));
+                }
+                if (temp_tree.right != null)
+                {
+                    queue.Enqueue(new KeyValuePair<TreeNode, int>(temp_tree.right, level + 1));
+                }
+            }
+            foreach (var item in dict)
+            {
+                result.Add(item.Value);
+            }
+            return result;
+        }
+        public bool IsUnivalTree(TreeNode root)
+        {
+            if (root == null)
+            {
+                return true;
+            }
+            if (root.left != null)
+            {
+                if (root.val != root.left.val || !IsUnivalTree(root.left))
+                {
+                    return false;
+                }
+            }
+            if (root.right != null)
+            {
+                if (root.val != root.right.val || !IsUnivalTree(root.right))
+                {
+                    return false;
+                }
+            }
+            return true;
+            ;
+        }
+        public int MinMoves2(int[] nums)
+        {
+            if (nums.Length == 0 || nums.Length == 1)
+            {
+                return 0;
+            }
+            if (nums.Length == 2)
+            {
+                return Math.Abs(nums[0] - nums[1]);
+            }
+
+            var targetValue = nums[2];
+            int index = 2;
+            while (targetValue == 0 && index < nums.Length)
+            {
+                targetValue = nums[index];
+                index++;
+            }
+            var max = MathF.Max(nums[0], nums[1]);
+            var min = MathF.Min(nums[0], nums[1]);
+            if (targetValue > min && targetValue < max)
+            {
+
+            }
+            if (targetValue < min)
+            {
+                targetValue = (int)min;
+            }
+            if (targetValue > max)
+            {
+                targetValue = (int)max;
+            }
+
+            var count = Math.Abs(nums[0] - nums[1]);
+
+            for (int i = 2; i < nums.Length; i++)
+            {
+                count += (int)MathF.Abs(nums[i] - targetValue);
+            }
+            return count;
+        }
+        /// <summary>
+        /// 462. 最少移动次数使数组元素相等 II
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int MinMoves21(int[] nums)
+        {
+            if (nums.Length == 0 || nums.Length == 1)
+            {
+                return 0;
+            }
+            int[] infos_arr = new int[2];
+
+            int[][] dp = new int[nums.Length + 1][];
+            for (int i = 0; i < dp.Length; i++)
+            {
+                dp[i] = new int[2];
+            }
+            dp[1][0] = 0;// 表示 nums的长度是1 的时候， index=0，表示需要移动的次数
+            dp[1][1] = nums[0];// index=1 表示目标值
+
+            //    var targetValue = (int)Math.Ceiling((nums[0] + nums[1]) / 2.0);
+
+
+            //dp[2][0] = Math.Abs(nums[0] - targetValue) + Math.Abs(nums[1] - targetValue);
+            //dp[2][1] = (nums[0] + nums[1]) / 2; ;
+
+
+            for (int i = 1; i < nums.Length; i++)
+            {
+                int mid = (int)Math.Ceiling((dp[i][1] + nums[i]) / 2.0);
+                int a = (int)Math.Abs(dp[i][1] - mid) * i + (int)MathF.Abs(mid - nums[i]);
+                int b = Math.Abs(dp[i][1] - nums[i]);
+                dp[i + 1][0] = dp[i][0] + Math.Min(a, b);
+                dp[i + 1][1] = a > b ? dp[i][1] : mid;
+            }
+            return dp[nums.Length][0];
+        }
+
+        public string Trans(int num)
+        {
+            string[] strArr = new string[] { "", "十", "百", "千", "万" };
+            string[] numStrArr = new string[] { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九" };
+            string str = num.ToString();
+            int index = str.Length - 1;
+            string result = "";
+            while (index >= 0)
+            {
+                int curNum = str[str.Length - index - 1] - 48;
+                var numStr = numStrArr[curNum];
+                if (curNum == 0)
+                {
+                    result += numStr;
+                }
+                else
+                {
+                    result += (numStr + strArr[index]);
+                }
+                index--;
+            }
+            //while (result.EndsWith("零"))
+            //{
+            //    if (result.Length==1)
+            //    {
+            //        return result;
+            //    }
+            //    result = result.Substring(0, result.Length - 2);
+            //}
+            return result;
+        }
+        /// <summary>
+        /// 面试题 04.06. 后继者
+        /// </summary>
+        /// <param name="root"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public TreeNode InorderSuccessor(TreeNode root, TreeNode p)
+        {
+            TreeNode result_treeNode = p;
+
+            Inorder(root, p);
+            return null;
+        }
+        static bool flag = false;
+        private void Inorder(TreeNode root, TreeNode p)
+        {
+
+            if (root == null)
+            {
+
+            }
+            Inorder(root.left, p);
+            if (!flag)
+            {
+                if (root.val == p.val)
+                {
+                    flag = true;
+                }
+            }
+            else
+            {
+
+            }
+
+            Inorder(root.right, p);
+
+        }
+
+        /// <summary>
+        /// 面试题 01.05. 一次编辑
+        /// </summary>
+        /// <param name="first"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public bool OneEditAway(string first, string second)
+        {
+            var len = Math.Abs(first.Length - second.Length);
+
+            if (len > 1)
+            {
+                return false;
+            }
+            int num = 0;
+            if (len == 0)// 一样长
+            {
+
+                for (int i = 0; i < first.Length; i++)
+                {
+                    char c = first[i];
+                    char c_1 = second[i];
+                    if (c != c_1)
+                    {
+                        num++;
+                        if (num > 1)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                return num <= 1;
+            }
+
+            string long_str = "";
+            string short_str = "";
+
+            if (first.Length > second.Length)
+            {
+                long_str = first;
+                short_str = second;
+            }
+            else
+            {
+                long_str = second;
+                short_str = first;
+            }
+
+            int long_index = 0;
+            int short_index = 0;
+
+
+            while (num <= 1 && short_index < short_str.Length)
+            {
+                char c = long_str[long_index];
+                char c_1 = short_str[short_index];
+                if (c != c_1)
+                {
+                    num++;
+                    long_index++;
+                    continue;
+                }
+                long_index++;
+                short_index++;
+                if (num > 1)
+                {
+                    return false;
+                }
+            }
+
+            return num <= 1;
+        }
+        /// <summary>
+        /// 942. 增减字符串匹配
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public int[] DiStringMatch(string s)
+        {
+
+            int[] arr = new int[s.Length + 1];
+
+            for (int i = 0; i <= s.Length; i++)
+            {
+                arr[i] = i;
+            }
+
+            int lowIndex = 0;
+            int fastIndex = arr.Length - 1;
+            int[] result = new int[s.Length + 1];
+            int index = 0;
+            while (lowIndex < fastIndex)
+            {
+                for (int i = 0; i < s.Length; i++)
+                {
+                    if (s[i] == 'D')
+                    {
+                        result[index] = arr[fastIndex];
+                        fastIndex--;
+
+                    }
+                    else
+                    {
+                        result[index] = arr[lowIndex];
+                        lowIndex++;
+
+                    }
+                    index++;
+                }
+            }
+            result[result.Length - 1] = arr[lowIndex];
+            return result;
+        }
         /// <summary>
         /// 442. 数组中重复的数据
         /// </summary>
@@ -83,7 +739,7 @@ namespace LeetCodeContinue
             //3,2,3,4,1,2,7,8
             //1,2,3,4,3,2,7,8
             // 发现3已经填充过列表里面了  index++;到2了，发现索引1的位置刚好是2 发现重复了，放到结果列表里面
-            
+
             HashSet<int> set = new HashSet<int>();
             int lowIndex = 0;
             int len = nums.Length;
@@ -95,11 +751,11 @@ namespace LeetCodeContinue
                     int temp = nums[nums[lowIndex] - 1];
                     if (temp == nums[lowIndex])
                     {
-                       
-                            set.Add(temp);
-                    
 
-                      //  lowIndex++;
+                        set.Add(temp);
+
+
+                        //  lowIndex++;
                         break;
                     }
                     else
@@ -118,7 +774,7 @@ namespace LeetCodeContinue
                 arrs[index] = item;
                 index++;
             }
-           
+
 
             return arrs;
         }
@@ -308,6 +964,11 @@ namespace LeetCodeContinue
             }
             return true;
         }
+        /// <summary>
+        ///  图片模糊
+        /// </summary>
+        /// <param name="img"></param>
+        /// <returns></returns>
         public int[][] ImageSmoother(int[][] img)
         {
             int m = img.Length;

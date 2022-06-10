@@ -12,5 +12,11 @@ namespace LeetCodeContinue
         public TreeNode left;
         public TreeNode right;
         public TreeNode(int x) { val = x; }
+        public TreeNode(TreeNode left,int x ,TreeNode right)
+        {
+            this.left = left;
+            this.val = x;
+            this.right = right;
+        }
     }
 }

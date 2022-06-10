@@ -73,17 +73,51 @@ namespace LeetCodeContinue
 
             //GetRanges("2022-03-17 12:11:05.120", "2022-03-17 16:44:34.431", "");
             //Console.ReadKey();
-
+            Console.WriteLine((1 + 2) / 2 + 1);
             LeetCode code = new LeetCode();
+            //var bbb = code.IsBoomerang(new int[3][] { new int[2] { 0, 2 }, new int[2] { 0, 1 }, new int[2] { 0, 1 } });
+            Console.WriteLine("max=" + code.FindKthLargest(new int[] { -1,2,0 }, 3));
+            Console.WriteLine("max=" + code.FindKthLargest(new int[] { 3, 2, 3, 1, 2, 4, 5, 5, 6 }, 4));
+            Console.WriteLine("max=" + code.FindKthLargest(new int[] { 3 }, 1));
+            Console.WriteLine("max=" + code.FindKthLargest(new int[] { 3,3,3,1 }, 2));
+            Console.WriteLine("max=" + code.FindKthLargest(new int[] { 3, 0 }, 2));
+            // code.StrStr("abc", "c");
+            //  code.FindClosest(new string[] { "a", "b", "a", "b", "a", "b", "a" }, "a", "b");
+            // code.Connect(new Node1(1, new Node1(2, new Node1(4), new Node1(5), null), new Node1(3, new Node1(6), new Node1(7), null), null));
+            //code.LevelOrder2(new TreeNode(new TreeNode(new TreeNode(18),9,new TreeNode(77)), 3, new TreeNode(new TreeNode(15), 20, new TreeNode(7))));
+            Console.ReadKey();
+            //code.MinMoves2(new int[] { 1, 0, 0, 8, 6 });
+            code.IsUnivalTree(new TreeNode(new TreeNode(1), 1, new TreeNode(1)));
             //  var list_result = code.Intersect(new int[] { 1, 2, 2, 1 }, new int[] { 2, 2 });
             ListNode head = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3))));
             // code.SortList(head);
             //RecentCounter recent = new RecentCounter();
-            //Console.WriteLine(recent.Ping(1));
+            //Console.WriteLine(recent.Ping(1));"teacher"
+
             //Console.WriteLine(recent.Ping(100));
             //Console.WriteLine(recent.Ping(3001));
             //Console.WriteLine(recent.Ping(3002));
+            //Console.WriteLine(code.OneEditAway("abdc", "abc"));
+            //Console.WriteLine(code.OneEditAway("abdc", "abdc"));
+            //Console.WriteLine(code.OneEditAway("abdc", "ab"));
+            Console.WriteLine(code.OneEditAway("", "b"));
+            //Console.WriteLine(code.OneEditAway("abdc", "abdcaa"));
+            //Console.WriteLine(code.OneEditAway("", "abdcaa"));
+            //Console.WriteLine(code.OneEditAway("abcde", "abdde"));
+            Console.WriteLine(code.Trans(101));
+            Console.WriteLine(code.Trans(100));
+            Console.WriteLine(code.Trans(10));
+            Console.WriteLine(code.Trans(99151));
+            Console.WriteLine(code.Trans(001));
+            Console.ReadKey();
+            TreeNode root = new TreeNode(2);
+            var right = new TreeNode(3);
+            root.left = new TreeNode(1);
+            root.right = right;
+            code.InorderSuccessor(root, new TreeNode(1));
+            Console.ReadKey();
             var ss = code.LongestCommonPrefix(new string[] { "fl" });
+            var resultDiStringMatch = code.DiStringMatch("DDI");
             code.FindDuplicates(new int[] { 4, 3, 2, 7, 8, 2, 3, 1 });
             Console.WriteLine(ss);
             code.Convert1("PAYPALISHIRING", 6);
@@ -99,10 +133,7 @@ namespace LeetCodeContinue
             images[1] = new int[] { 200 };
             images[2] = new int[] { 100 };
             code.ImageSmoother(images);
-            TreeNode root = new TreeNode(1);
-            var right = new TreeNode(2);
-            right.left = new TreeNode(3);
-            root.right = right;
+
             var result3 = code.FindRestaurant(new string[] { "KFC", "K" }, new string[] { "KFC", "K" });
             Console.WriteLine(result3);
 

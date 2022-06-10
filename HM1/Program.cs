@@ -14,6 +14,10 @@ namespace HM1
     {
         static void Main(string[] args)
         {
+
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            dict.Add(1, 1);
+            dict.Add(1, 2);
             Console.WriteLine("Runtime Version = {0}", Environment.Version);
             // RunTest();
             // HM0();
@@ -163,6 +167,7 @@ namespace HM1
 
             while (key != 27)
             {
+
                 //key = Console.ReadKey(false).KeyChar;
                 r.clear(Buffers.Color | Buffers.Depth);
                 r.set_model(get_model_matrix(angle, scal));
@@ -199,6 +204,7 @@ namespace HM1
 
         static DenseMatrix get_model_matrix(float rotation_angle, float scal = 1)
         {
+            // 单位矩阵
             DenseMatrix model = DenseMatrix.OfArray(new[,] {
                 {1.0, 0,0,0},
                 {0, 1, 0,0},
@@ -206,29 +212,37 @@ namespace HM1
                 {0, 0, 0,1}
             });
             float radian = (float)(rotation_angle / 180.0 * MathF.PI);
+            // 旋转矩阵，绕z轴的旋转
             DenseMatrix rotate = DenseMatrix.OfArray(new[,] {
                 { MathF.Cos(radian), -MathF.Sin(radian), 0.0,0 },
                 { MathF.Sin(radian),MathF.Cos(radian), 0,0 },
                 {0, 0, 1,0},
                 {0, 0, 0,1}
             });
+            // 缩放矩阵
             DenseMatrix scale = DenseMatrix.OfArray(new[,] {
                 {1.0*scal, 0,0,0},
                 {0, 1*scal, 0,0},
                 {0, 0, 1*scal,0},
                 {0, 0, 0,1}
             });
+            // 平移矩阵
             DenseMatrix move = DenseMatrix.OfArray(new[,] {
-                {1.0, 0,0,1},
-                {0, 1, 0,1},
-                {0, 0, 1,1},
+                {1.0, 0,0,0},
+                {0, 1, 0,0},
+                {0, 0, 1,0},
                 {0, 0, 0,1}
             });
-            model = rotate * model;
+            // 从右到做，先缩放旋转再平移
+            model = move * rotate * scale;
             return model;
         }
 
-     
+        /// <summary>
+        /// 视图矩阵，操作摄像机，把摄像机放到原点，再把所有物体也都相对的放到 摄像机到原点的矩阵
+        /// </summary>
+        /// <param name="eye_pos"></param>
+        /// <returns></returns>
         static DenseMatrix get_view_matrix(DenseVector eye_pos)
         {
             DenseMatrix view = DenseMatrix.OfArray(new[,] {
