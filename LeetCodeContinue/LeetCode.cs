@@ -104,6 +104,45 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+        public IList<int> LargestValues(TreeNode root)
+        {
+            IList<int> list = new List<int>();
+            if (root == null)
+            {
+                return list;
+            }
+        
+            Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+            Queue<KeyValuePair<TreeNode, int>> queue = new Queue<KeyValuePair<TreeNode, int>>();
+            queue.Enqueue(new KeyValuePair<TreeNode, int>(root, 1));
+            while (queue.Count > 0)
+            {
+                var item = queue.Dequeue();
+                var temp_treeNode = item.Key;
+              
+                if (dict.ContainsKey(item.Value))
+                {
+                    dict[item.Value].Add(item.Key.val);
+                }
+                else
+                {
+                    dict.Add(item.Value, new List<int> { item.Key.val });
+                }
+                if (temp_treeNode.left != null)
+                {
+                    queue.Enqueue(new KeyValuePair<TreeNode, int>(temp_treeNode.left, item.Value + 1));
+                }
+                if (temp_treeNode.right != null)
+                {
+                    queue.Enqueue(new KeyValuePair<TreeNode, int>(temp_treeNode.right, item.Value + 1));
+                }
+            }
+            foreach (var item in dict)
+            {
+                list.Add(item.Value.Max());
+            }
+            return list;
+        }
         /// <summary>
         /// 215. 数组中的第K个最大元素
         /// </summary>
@@ -113,7 +152,7 @@ namespace LeetCodeContinue
         public int FindKthLargest(int[] nums, int k)
         {
             int index = 0;
-         
+
 
             while (k > index)
             {

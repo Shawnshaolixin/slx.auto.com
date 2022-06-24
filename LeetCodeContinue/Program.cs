@@ -60,6 +60,8 @@ namespace LeetCodeContinue
 
         static void Main(string[] args)
         {
+
+
             //string path = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot (1).unity3d";
             //var md5_1 = getMD5ByHashAlgorithm(path);
             //string path1 = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot.unity3d";
@@ -76,18 +78,19 @@ namespace LeetCodeContinue
             Console.WriteLine((1 + 2) / 2 + 1);
             LeetCode code = new LeetCode();
             //var bbb = code.IsBoomerang(new int[3][] { new int[2] { 0, 2 }, new int[2] { 0, 1 }, new int[2] { 0, 1 } });
-            Console.WriteLine("max=" + code.FindKthLargest(new int[] { -1,2,0 }, 3));
+            Console.WriteLine("max=" + code.FindKthLargest(new int[] { -1, 2, 0 }, 3));
             Console.WriteLine("max=" + code.FindKthLargest(new int[] { 3, 2, 3, 1, 2, 4, 5, 5, 6 }, 4));
             Console.WriteLine("max=" + code.FindKthLargest(new int[] { 3 }, 1));
-            Console.WriteLine("max=" + code.FindKthLargest(new int[] { 3,3,3,1 }, 2));
+            Console.WriteLine("max=" + code.FindKthLargest(new int[] { 3, 3, 3, 1 }, 2));
             Console.WriteLine("max=" + code.FindKthLargest(new int[] { 3, 0 }, 2));
             // code.StrStr("abc", "c");
             //  code.FindClosest(new string[] { "a", "b", "a", "b", "a", "b", "a" }, "a", "b");
             // code.Connect(new Node1(1, new Node1(2, new Node1(4), new Node1(5), null), new Node1(3, new Node1(6), new Node1(7), null), null));
             //code.LevelOrder2(new TreeNode(new TreeNode(new TreeNode(18),9,new TreeNode(77)), 3, new TreeNode(new TreeNode(15), 20, new TreeNode(7))));
-            Console.ReadKey();
+          //  Console.ReadKey();
             //code.MinMoves2(new int[] { 1, 0, 0, 8, 6 });
-            code.IsUnivalTree(new TreeNode(new TreeNode(1), 1, new TreeNode(1)));
+          //  code.IsUnivalTree(new TreeNode(new TreeNode(1), 1, new TreeNode(1)));
+            code.LargestValues(new TreeNode(new TreeNode(1), 1, new TreeNode(1)));
             //  var list_result = code.Intersect(new int[] { 1, 2, 2, 1 }, new int[] { 2, 2 });
             ListNode head = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3))));
             // code.SortList(head);
