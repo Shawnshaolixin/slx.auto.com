@@ -104,6 +104,40 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+        /// <summary>
+        /// 1200. 最小绝对差
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        public IList<IList<int>> MinimumAbsDifference(int[] arr)
+        {
+            Array.Sort(arr);
+            int[] result_arr = new int[arr.Length - 1];
+
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                result_arr[i] = (Math.Abs(arr[i] - arr[i + 1]));
+            }
+            int minValue = result_arr[0];
+
+            for (int i = 0; i < result_arr.Length; i++)
+            {
+                if (result_arr[i] < minValue)
+                {
+                    minValue = result_arr[i];
+
+                }
+            }
+            IList<IList<int>> result = new List<IList<int>>();
+            for (int i = 0; i < result_arr.Length; i++)
+            {
+                if (result_arr[i] == minValue)
+                {
+                    result.Add(new int[2] { arr[i], arr[i + 1] });
+                }
+            }
+            return result;
+        }
         public IList<int> LargestValues(TreeNode root)
         {
             IList<int> list = new List<int>();
@@ -111,7 +145,7 @@ namespace LeetCodeContinue
             {
                 return list;
             }
-        
+
             Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
             Queue<KeyValuePair<TreeNode, int>> queue = new Queue<KeyValuePair<TreeNode, int>>();
             queue.Enqueue(new KeyValuePair<TreeNode, int>(root, 1));
@@ -119,7 +153,7 @@ namespace LeetCodeContinue
             {
                 var item = queue.Dequeue();
                 var temp_treeNode = item.Key;
-              
+
                 if (dict.ContainsKey(item.Value))
                 {
                     dict[item.Value].Add(item.Key.val);
