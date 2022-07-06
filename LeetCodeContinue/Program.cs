@@ -60,9 +60,9 @@ namespace LeetCodeContinue
 
         static void Main(string[] args)
         {
-            string str11 = "A_B_C_";
-            Console.WriteLine(str11.Trim('_'));
-            Console.ReadKey();
+            //string str11 = "A_B_C_";
+            //Console.WriteLine(str11.Trim('_'));
+            //Console.ReadKey();
             //string path = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot (1).unity3d";
             //var md5_1 = getMD5ByHashAlgorithm(path);
             //string path1 = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot.unity3d";
@@ -76,8 +76,9 @@ namespace LeetCodeContinue
 
             //GetRanges("2022-03-17 12:11:05.120", "2022-03-17 16:44:34.431", "");
             //Console.ReadKey();
-            Console.WriteLine((1 + 2) / 2 + 1);
+           // Console.WriteLine((1 + 2) / 2 + 1);
             LeetCode code = new LeetCode();
+            code.TestMyCalendar();
          var res_MinimumAbsDifference=  code.MinimumAbsDifference(new int[] { 3, 8, -10, 23, 19, -4, -14, 27 });
           
             //var bbb = code.IsBoomerang(new int[3][] { new int[2] { 0, 2 }, new int[2] { 0, 1 }, new int[2] { 0, 1 } });

@@ -105,6 +105,58 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 729我的日程安排表 I
+        /// </summary>
+        public class MyCalendar
+        {
+            int[][] result = new int[1000][];
+            public MyCalendar()
+            {
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = new int[] { -1, -1 };
+                }
+            }
+
+            public bool Book(int start, int end)
+            {
+                // 10,20
+                // 15,25
+                // 20,30
+                for (int i = 0; i < result.Length; i++)
+                {
+                    int oldStart = result[i][0];
+                    int oldEnd = result[i][1];
+                    if (oldStart != -1)
+                    {
+                        if (start >= oldEnd || end < oldStart)
+                        {
+                          
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        result[i][0] = start;
+                        result[i][1] = end;
+                        break;
+                    }
+                }
+
+                return true;
+            }
+        }
+        public void TestMyCalendar()
+        {
+            MyCalendar myCalendar = new MyCalendar();
+            Console.WriteLine(myCalendar.Book(10, 20));
+            Console.WriteLine(myCalendar.Book(9, 21));
+            Console.WriteLine(myCalendar.Book(20, 30));
+        }
+        /// <summary>
         /// 1200. 最小绝对差
         /// </summary>
         /// <param name="arr"></param>
