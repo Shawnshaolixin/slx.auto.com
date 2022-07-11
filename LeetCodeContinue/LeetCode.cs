@@ -104,6 +104,163 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+
+        public void TestMagicDictionary()
+        {
+            MagicDictionary magic = new MagicDictionary();
+            magic.BuildDict(new string[] { "hello", "hallo", "leetcode" });
+            Console.WriteLine(magic.Search("hello"));
+            Console.WriteLine(magic.Search("hhllo"));
+            Console.WriteLine(magic.Search("hell"));
+            Console.WriteLine(magic.Search("leetcoded"));
+        }
+        /// <summary>
+        /// 676. 实现一个魔法字典
+        /// </summary>
+        public class MagicDictionary
+        {
+            List<string> list = new List<string>();
+            public MagicDictionary()
+            {
+
+            }
+
+            public void BuildDict(string[] dictionary)
+            {
+                list.AddRange(dictionary);
+            }
+
+            public bool Search(string searchWord)
+            {
+                foreach (var item in list)
+                {
+                    if (item.Length == searchWord.Length)
+                    {
+                        int count = 0;
+                        for (int i = 0; i < item.Length; i++)
+                        {
+                            if (searchWord[i] != item[i])
+                            {
+                                count++;
+                            }
+                        }
+                        if (count == 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                        //  return count == 1;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                return false;
+            }
+        }
+        /// <summary>
+        /// 1217. 玩筹码
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public int MinCostToMoveChips(int[] position)
+        {
+            int jiCount = 0;
+            int oCount = 0;
+            // 思路，计算所有奇数，的数量，和所有偶数的数量， 返回最小的
+            for (int i = 0; i < position.Length; i++)
+            {
+                if (position[i] % 2 == 0)
+                {
+                    oCount++;
+                }
+                else
+                {
+                    jiCount++;
+                }
+            }
+            return jiCount > oCount ? oCount : jiCount;//       (jiCount, oCount);
+        }
+
+        public string ReplaceWords(IList<string> dictionary, string sentence)
+        {
+            HashSet<string> set = new HashSet<string>();
+            foreach (var item in dictionary)
+            {
+                set.Add(item);
+            }
+
+            var arr = sentence.Split(' ');
+            string[] result_arr = new string[arr.Length];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                for (int j = 0; j < arr[i].Length; j++)
+                {
+                    var str = arr[i].Substring(0, j + 1);
+
+                    if (set.Contains(str))
+                    {
+                        result_arr[i] = str;
+                        break;
+                    }
+                    if (j == arr[i].Length - 1)
+                    {
+                        result_arr[i] = arr[i];
+                    }
+                }
+
+            }
+            var result = string.Join(" ", result_arr);
+            return result;
+        }
+        public int NextGreaterElement(int n)
+        {
+            int aa = int.MaxValue;
+            string str = n.ToString();
+            int maxValue = str[0] - 48;
+            int maxIndex = 0;
+            int[] arr = new int[str.Length];
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = str[i] - 48;
+            }
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (maxValue <= arr[i])
+                {
+                    maxValue = arr[i];
+                    maxIndex = i;
+                }
+            }
+            if (maxIndex == 0)
+            {
+                return -1;
+            }
+            int index = arr.Length - 1;
+            while (maxValue == arr[index] && index > 0)
+            {
+                index--;
+            }
+            if (index == 0 && maxValue == arr[0])
+            {
+                return -1;
+            }
+            int temp = arr[index];
+            arr[index] = maxValue;
+            arr[maxIndex] = temp;
+
+            if (int.TryParse(string.Join("", arr), out int result))
+            {
+                return result;
+            }
+            return -1;
+        }
         /// <summary>
         /// 729我的日程安排表 I
         /// </summary>
@@ -131,7 +288,7 @@ namespace LeetCodeContinue
                     {
                         if (start >= oldEnd || end < oldStart)
                         {
-                          
+
                         }
                         else
                         {
@@ -2237,53 +2394,39 @@ namespace LeetCodeContinue
             //matrix = [[1,1,1],[1,0,1],[1,1,1]]
             //[[1,0,1],[0,0,0],[1,0,1]]
 
-            int x = -1, y = -1;
-            List<int> xs = new List<int>();
-            List<int> ys = new List<int>();
+            List<List<int>> list = new List<List<int>>();
             for (int i = 0; i < matrix.Length; i++)
             {
                 for (int j = 0; j < matrix[i].Length; j++)
                 {
                     if (matrix[i][j] == 0)
                     {
-                        if (xs.Contains(i) || ys.Contains(j))
-                        {
-                            continue;
-                        }
-                        xs.Add(i);
-                        ys.Add(j);
-                        SetZeroes(matrix, i, j);
-                    }
-                }
-            }
-
-
-
-        }
-        private void SetZeroes(int[][] matrix, int x, int y)
-        {
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                if (i == x)
-                {
-                    for (int k = 0; k < matrix.Length; k++)
-                    {
-                        Console.WriteLine($"i={i},k={k}");
-                        matrix[i][k] = 0;
-                    }
-
-
-                }
-                for (int j = 0; j < matrix[i].Length; j++)
-                {
-                    if (j == y)
-                    {
                         Console.WriteLine($"i={i},j={j}");
-                        matrix[i][j] = 0;
+                        list.Add(new int[] { i, j }.ToList());
                     }
                 }
             }
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                var arr = list[i];
+
+                int colIndex = 0;
+                while (colIndex < matrix[0].Length)
+                {
+                    matrix[arr[0]][colIndex] = 0;
+                    colIndex++;
+                }
+                int rowIndex = 0;
+                while (rowIndex < matrix.Length)
+                {
+                    matrix[rowIndex][arr[1]] = 0;
+                    rowIndex++;
+                }
+            }
+
         }
+
 
         public int LongestPalindromeSubseq(string s)
         {

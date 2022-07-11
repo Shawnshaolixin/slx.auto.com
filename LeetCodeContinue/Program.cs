@@ -5,61 +5,44 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace LeetCodeContinue
 {
+    public class XunFeiClass
+    {
+        public void TTSTask(string speekText)
+        {
+            Task ttsTask = new Task(() =>
+            {
+                Offline_TTS(speekText);
+            });
+            ttsTask.Start();
+            ttsTask.ContinueWith((ttsCallback) =>
+            {
+                Console.WriteLine("语音合成完成回调");
+            });
+        }
+
+        public void Offline_TTS(string speekText)
+        {
+            Console.WriteLine("开始合成语音");
+            Thread.Sleep(2000);
+            Console.WriteLine("语音合成完成");
+        }
+    }
     class Program
     {
-        private static void GetRanges(string bt, string et, string deviceId)
-        {
-            var beginTime = Convert.ToDateTime(bt);
-            var endTime = Convert.ToDateTime(et);
 
-            while (beginTime < endTime)
-            {
-                var strBt = beginTime;
-                var newEndtime = beginTime.AddMinutes(10);
 
-                if (newEndtime > endTime)
-                {
-                    beginTime = endTime;
-                }
-                else
-                {
-                    beginTime = newEndtime;
-                }
-                Console.WriteLine($"分组：{strBt},{beginTime}");
-            }
-        }
 
-        private const int Lower31BitMask = 0x7FFFFFFF;
-        public static string getMD5ByHashAlgorithm(string path)
-
-        {
-            if (!File.Exists(path))
-                throw new ArgumentException(string.Format("<{0}>, 不存在", path));
-            var bufferSize = 1024 * 16;//自定义缓冲区大小16K 
-            byte[] buffer = new byte[bufferSize];
-            Stream inputStream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            HashAlgorithm hashAlgorithm = new MD5CryptoServiceProvider();
-            var readLength = 0;//每次读取长度 
-            var output = new byte[bufferSize];
-            while ((readLength = inputStream.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                //计算MD5 
-                hashAlgorithm.TransformBlock(buffer, 0, readLength, output, 0);
-            }
-            //完成最后计算，必须调用(由于上一部循环已经完成所有运算，所以调用此方法时后面的两个参数都为0) 
-            hashAlgorithm.TransformFinalBlock(buffer, 0, 0);
-            var md5 = BitConverter.ToString(hashAlgorithm.Hash);
-            hashAlgorithm.Clear();
-            inputStream.Close();
-            md5 = md5.Replace("-", "");
-            return md5;
-        }
 
         static void Main(string[] args)
         {
+            //XunFeiClass xf = new XunFeiClass();
+            //xf.TTSTask("");
+            //Console.WriteLine("所有都执行完成了");
+            //Console.ReadKey();
             //string str11 = "A_B_C_";
             //Console.WriteLine(str11.Trim('_'));
             //Console.ReadKey();
@@ -76,11 +59,19 @@ namespace LeetCodeContinue
 
             //GetRanges("2022-03-17 12:11:05.120", "2022-03-17 16:44:34.431", "");
             //Console.ReadKey();
-           // Console.WriteLine((1 + 2) / 2 + 1);
+            // Console.WriteLine((1 + 2) / 2 + 1);
             LeetCode code = new LeetCode();
-            code.TestMyCalendar();
-         var res_MinimumAbsDifference=  code.MinimumAbsDifference(new int[] { 3, 8, -10, 23, 19, -4, -14, 27 });
-          
+            // code.TestMagicDictionary();
+            code.SetZeroes(new int[3][] { new int [] {1,0,3 }, new int[] { 4,0,6}, new int[] { 7,8,9} });
+            Console.ReadKey();
+            //  code.NextGreaterElement(12);
+            // code.ReplaceWords(new string[] { "cat", "bat", "rat" }, "the cattle was rattled by the battery");
+            // code.TestMyCalendar();
+            // var resultMinCostToMoveChips = code.MinCostToMoveChips(new int[] { 2, 2, 2, 3, 3 });
+            Console.WriteLine(code.MinCostToMoveChips(new int[] { 2, 2, 2, 3, 3 }));
+            Console.WriteLine(code.MinCostToMoveChips(new int[] { 1, 10000000 }));
+            // var res_MinimumAbsDifference = code.MinimumAbsDifference(new int[] { 3, 8, -10, 23, 19, -4, -14, 27 });
+
             //var bbb = code.IsBoomerang(new int[3][] { new int[2] { 0, 2 }, new int[2] { 0, 1 }, new int[2] { 0, 1 } });
             Console.WriteLine("max=" + code.FindKthLargest(new int[] { -1, 2, 0 }, 3));
             Console.WriteLine("max=" + code.FindKthLargest(new int[] { 3, 2, 3, 1, 2, 4, 5, 5, 6 }, 4));
