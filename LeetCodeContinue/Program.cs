@@ -61,8 +61,10 @@ namespace LeetCodeContinue
             //Console.ReadKey();
             // Console.WriteLine((1 + 2) / 2 + 1);
             LeetCode code = new LeetCode();
+            //   code.WordBreak("goalspecial", new string[] { "go","goal","goals","special" });
+            code.AsteroidCollision(new int[] { 11, -90 }); //, 5, -10, 100
             // code.TestMagicDictionary();
-            code.SetZeroes(new int[3][] { new int [] {1,0,3 }, new int[] { 4,0,6}, new int[] { 7,8,9} });
+            // code.SetZeroes(new int[3][] { new int [] {1,0,3 }, new int[] { 4,0,6}, new int[] { 7,8,9} });
             Console.ReadKey();
             //  code.NextGreaterElement(12);
             // code.ReplaceWords(new string[] { "cat", "bat", "rat" }, "the cattle was rattled by the battery");

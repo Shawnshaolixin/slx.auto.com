@@ -104,6 +104,79 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+        /// <summary>
+        /// 735. 行星碰撞
+        /// </summary>
+        /// <param name="asteroids"></param>
+        /// <returns></returns>
+        public int[] AsteroidCollision(int[] asteroids)
+        {
+            // 5, -5, 12, 11, -1, -22, 30, 123, 43, -90 
+            // [-22,30,123]
+            Stack<int> stack = new Stack<int>();
+            stack.Push(asteroids[0]);
+            int i = 1;
+
+            while (i < asteroids.Length)
+            {
+
+                while (stack.Count > 0 && (asteroids[i] > 0 && stack.Peek() < 0 || stack.Peek() > 0 && asteroids[i] < 0)) // 栈里面有值，并且 栈顶的数和新的数移动方向相反
+                {
+                    if (stack.Peek() > 0 && asteroids[i] < 0)
+                    {
+
+
+                        // 栈顶的数的绝对值 比当前的数的绝对值大
+                        if (MathF.Abs(stack.Peek()) > MathF.Abs(asteroids[i]))
+                        {
+
+                            // 不用动，直接进行下一个
+                            i++;
+                        }
+                        else if (MathF.Abs(stack.Peek()) == MathF.Abs(asteroids[i]))
+                        {
+                            // 两个数相等
+                            stack.Pop();
+                            i++;
+                        }
+                        else
+                        {
+                            // 栈顶的数比当前的数小
+                            stack.Pop();
+                        }
+                    }
+                    else
+                    {
+                        stack.Push(asteroids[i]);
+                        i++;
+
+                    }
+                    if (i >= asteroids.Length)
+                    {
+                        break;
+                    }
+                }
+                if (i >= asteroids.Length)
+                {
+                    break;
+                }
+                stack.Push(asteroids[i]);
+                i++;
+            }
+            return stack.Reverse().ToArray();
+        }
+        /// <summary>
+        /// 1252. 奇数值单元格的数目
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="n"></param>
+        /// <param name="indices"></param>
+        /// <returns></returns>
+        public int OddCells(int m, int n, int[][] indices)
+        {
+
+            return 0;
+        }
 
         public void TestMagicDictionary()
         {
@@ -1884,7 +1957,7 @@ namespace LeetCodeContinue
         /// <param name="s"></param>
         /// <param name="wordDict"></param>
         /// <returns></returns>
-        public bool WordBreak(string s, IList<string> wordDict)
+        public bool WordBreak1(string s, IList<string> wordDict)
         {
             // s中以i-1结尾的字符串是否可被wordDict 拆分
             bool[] dp = new bool[s.Length + 1];
@@ -1905,6 +1978,38 @@ namespace LeetCodeContinue
                 }
             }
             return dp[dp.Length - 1];
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="wordDict"></param>
+        /// <returns></returns>
+        public bool WordBreak(string s, IList<string> wordDict)
+        {
+            HashSet<string> set = new HashSet<string>();
+            for (int i = 0; i < wordDict.Count; i++)
+            {
+                set.Add(wordDict[i]);
+            }
+            int endIndex = s.Length - 1;
+            int startIndex = 0;
+            while (endIndex > 0)
+            {
+
+                string startStr = s.Substring(startIndex, endIndex - startIndex + 1);
+                if (set.Contains(startStr))
+                {
+                    startIndex = startStr.Length - 1;
+                    endIndex = s.Length - 1;
+                    continue;
+                }
+                endIndex--;
+
+            }
+
+            return false;
         }
         /// <summary>
         /// 螺旋矩阵
