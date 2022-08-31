@@ -39,30 +39,25 @@ namespace LeetCodeContinue
 
         static void Main(string[] args)
         {
-            //XunFeiClass xf = new XunFeiClass();
-            //xf.TTSTask("");
-            //Console.WriteLine("所有都执行完成了");
-            //Console.ReadKey();
-            //string str11 = "A_B_C_";
-            //Console.WriteLine(str11.Trim('_'));
-            //Console.ReadKey();
-            //string path = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot (1).unity3d";
-            //var md5_1 = getMD5ByHashAlgorithm(path);
-            //string path1 = @"C:\Users\Administrator\Documents\WeChat Files\wxid_zssie6kjp0ox21\FileStorage\File\2022-04\1649320746775_uirobot.unity3d";
-            //var md5_2 = getMD5ByHashAlgorithm(path1);
-            //Console.WriteLine("md5_1=>" + md5_1);
-            //Console.WriteLine("md5_2=>" + md5_2);
-            //Console.ReadKey();
-            //var b = BitConverter.GetBytes(7);
-            //Skiplist skiplist = new Skiplist();
-            //skiplist.Add(1);
+          
+            // 计算一下 年前 还有（ 8 9 10 11 12=） 5个月 
+            // 每个月4w = 20w
 
-            //GetRanges("2022-03-17 12:11:05.120", "2022-03-17 16:44:34.431", "");
-            //Console.ReadKey();
-            // Console.WriteLine((1 + 2) / 2 + 1);
+
             LeetCode code = new LeetCode();
+            code.ValidateStackSequences(new int[] { 1, 2, 3, 4, 5 }, new int[] { 4, 3, 5, 1, 2 });
+            TreeNode root = new TreeNode(new TreeNode(2), 1, new TreeNode(3));
+            code.DeepestLeavesSum(root);
+            var r = code.GenerateTheString(50);
+            Console.WriteLine(r);
+            // code.TestMyCalendarTwo();
+            // code.ThreeSum(new int[] { -1, 0, 1, 2, -1, -4});
             //   code.WordBreak("goalspecial", new string[] { "go","goal","goals","special" });
-            code.AsteroidCollision(new int[] { 11, -90 }); //, 5, -10, 100
+            //  code.AsteroidCollision(new int[] { 11, -90 }); //, 5, -10, 100
+            //  var check1 = code.Check(new int[] {9, 1, 3, 4 });
+            //  Console.WriteLine("-------" + check1);
+            // var check2 = code.Check(new int[] { 2, 1, 3, 4 });
+            // Console.WriteLine("-------" + check2);
             // code.TestMagicDictionary();
             // code.SetZeroes(new int[3][] { new int [] {1,0,3 }, new int[] { 4,0,6}, new int[] { 7,8,9} });
             Console.ReadKey();
@@ -110,11 +105,11 @@ namespace LeetCodeContinue
             Console.WriteLine(code.Trans(99151));
             Console.WriteLine(code.Trans(001));
             Console.ReadKey();
-            TreeNode root = new TreeNode(2);
-            var right = new TreeNode(3);
-            root.left = new TreeNode(1);
-            root.right = right;
-            code.InorderSuccessor(root, new TreeNode(1));
+            //TreeNode root = new TreeNode(2);
+            //var right = new TreeNode(3);
+            //root.left = new TreeNode(1);
+            //root.right = right;
+            //code.InorderSuccessor(root, new TreeNode(1));
             Console.ReadKey();
             var ss = code.LongestCommonPrefix(new string[] { "fl" });
             var resultDiStringMatch = code.DiStringMatch("DDI");
@@ -184,11 +179,11 @@ namespace LeetCodeContinue
             //matrix[1] = new int[] { 5, 6, 7, 8 };
             //matrix[2] = new int[] { 9, 10, 11, 12 };
             //matrix[3] = new int[] { 13, 14, 15, 16 };
-            //var result = code.SpiralOrder(matrix);
-            List<string> list = new List<string>();
-            //  HashSet<string> hashSet = new HashSet<string>();
-            list.Add("leet");
-            list.Add("code");
+            ////var result = code.SpiralOrder(matrix);
+            //List<string> list = new List<string>();
+            ////  HashSet<string> hashSet = new HashSet<string>();
+            //list.Add("leet");
+            //list.Add("code");
 
             //   var result = code.WordBreak("leetcode", list);
             //   Console.WriteLine(result);

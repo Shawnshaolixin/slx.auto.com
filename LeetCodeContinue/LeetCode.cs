@@ -104,6 +104,293 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+
+        public bool ValidateStackSequences(int[] pushed, int[] popped)
+        {
+            //pushed = [1,2,3,4,5], popped = [4,3,5,1,2]
+            Stack<int> stack = new Stack<int>();
+            int index = 0;
+            for (int i = 0; i < pushed.Length; i++)
+            {
+                var item = pushed[i];
+                stack.Push(item);
+
+                while (stack.Count > 0 && stack.Peek() == popped[index])
+                {
+                    index++;
+                    stack.Pop();
+                }
+
+            }
+            return stack.Count == 0;
+        }
+        public int DeepestLeavesSum(TreeNode root)
+        {
+            Queue<KeyValuePair<int, TreeNode>> queue = new Queue<KeyValuePair<int, TreeNode>>();
+            queue.Enqueue(new KeyValuePair<int, TreeNode>(1, root));
+            Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+            while (queue.Count > 0)
+            {
+                var kvp = queue.Dequeue();
+                var level = kvp.Key;
+                var node = kvp.Value;
+                if (dict.ContainsKey(level))
+                {
+                    dict[level].Add(node.val);
+                }
+                else
+                {
+                    dict.Add(level, new List<int> { node.val });
+                }
+                if (node.left != null)
+                {
+                    queue.Enqueue(new KeyValuePair<int, TreeNode>(level + 1, node.left));
+                }
+                if (node.right != null)
+                {
+                    queue.Enqueue(new KeyValuePair<int, TreeNode>(level + 1, node.right));
+                }
+            }
+            int maxLevel = -1;
+            foreach (var item in dict)
+            {
+                if (item.Key > maxLevel)
+                {
+                    maxLevel = item.Key;
+                }
+            }
+            var value = dict[maxLevel].Sum();
+            return 0;
+        }
+        public string GenerateTheString(int n)
+        {
+            string str = "";
+            if (n % 2 == 0)
+            {
+                for (int i = 0; i < n - 1; i++)
+                {
+                    str += "a";
+                }
+                str += "b";
+            }
+            else
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    str += "a";
+                }
+            }
+            return str;
+        }
+        public class MyCircularQueue
+        {
+
+            int front;//队首元素对应的索引
+            int rear; //队尾元素对应的索引
+            int capacity; // 容量
+            int[] elements;
+            public MyCircularQueue(int k)
+            {
+                capacity = k + 1;
+                elements = new int[capacity];
+                rear = front = 0;
+            }
+
+            public bool EnQueue(int value)
+            {
+                if (IsFull())
+                {
+                    return false;
+                }
+                elements[rear] = value;
+                rear = (rear + 1) % capacity;
+                return true;
+            }
+
+            public bool DeQueue()
+            {
+                if (IsEmpty())
+                {
+                    return false;
+                }
+
+                front = (front + 1) % capacity;
+                return true;
+            }
+
+            public int Front()
+            {
+                if (IsEmpty())
+                {
+                    return -1;
+                }
+                return elements[front];
+            }
+
+            public int Rear()
+            {
+                if (IsEmpty())
+                {
+                    return -1;
+                }
+                return elements[(rear - 1 + capacity) % capacity];
+            }
+
+            public bool IsEmpty()
+            {
+                return rear == front;
+            }
+
+            public bool IsFull()
+            {
+                return ((rear + 1) % capacity) == front;
+            }
+        }
+        public class CBTInserter
+        {
+
+            TreeNode _root;
+            public CBTInserter(TreeNode root)
+            {
+                _root = root;
+            }
+
+            public int Insert(int val)
+            {
+                if (_root == null)
+                {
+                    _root.left = new TreeNode(val);
+                }
+                if (_root != null && _root.left != null && _root.left.left == null && _root.left.right == null)
+                {
+                    _root.right = new TreeNode(val);
+                }
+
+                return 0;
+            }
+
+            public TreeNode Get_root()
+            {
+                return null;
+            }
+        }
+        public void TestMyCalendarTwo()
+        {
+            MyCalendarTwo two = new MyCalendarTwo();
+            Console.WriteLine(two.Book(10, 20));
+            Console.WriteLine(two.Book(50, 60));
+            Console.WriteLine(two.Book(10, 40));
+            Console.WriteLine(two.Book(5, 15));
+            Console.WriteLine(two.Book(5, 10));
+            Console.WriteLine(two.Book(25, 55));
+        }
+        public class MyCalendarTwo
+        {
+            int[][] intersectArr = new int[1000][];
+            int[][] result = new int[1000][];
+            public MyCalendarTwo()
+            {
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = new int[] { -1, -1 };
+                    intersectArr[i] = new int[] { -1, -1 };
+                }
+            }
+
+            public bool Book(int start, int end)
+            {
+                for (int i = 0; i < result.Length; i++)
+                {
+                    int oldStart = result[i][0];
+                    int oldEnd = result[i][1];
+                    if (oldStart != -1)// 
+                    {
+                        if (start >= oldEnd || end < oldStart) // 不相交
+                        {
+
+                        }
+                        else // 有相交
+                        {
+                            for (int j = 0; j < intersectArr.Length; j++)
+                            {
+                                if (intersectArr[j][0] != -1)
+                                {
+                                    if (start >= intersectArr[j][1] || end < intersectArr[j][0])
+                                    {
+
+                                    }
+                                    else
+                                    {
+
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    int[] arr = new int[4];
+                                    arr[0] = start;
+                                    arr[1] = oldEnd;
+                                    arr[2] = end;
+                                    arr[3] = oldStart;
+                                    Array.Sort(arr);
+
+                                    intersectArr[j][0] = Math.Max(start, oldStart);
+                                    intersectArr[j][1] = Math.Min(end, oldEnd);
+                                    break;
+                                }
+                            }
+                            //  return false;
+                        }
+                    }
+                    else
+                    {
+                        result[i][0] = start;
+                        result[i][1] = end;
+                        break;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        public TreeNode PruneTree(TreeNode root)
+        {
+            if (root == null)
+            {
+                return null;
+            }
+            root.left = PruneTree(root.left);
+            root.right = PruneTree(root.right);
+            if (root.left == null && root.right == null && root.val == 0)
+            {
+                return null;
+            }
+            return root;
+        }
+
+        public bool Check(int[] nums)
+        {
+            // A[i] == B[(i + x) % A.length]
+
+            int n = nums.Length;
+            bool isCount = nums[0] >= nums[n - 1];  // 第一个数 不小于最后一个
+            for (int i = 1; i < n; i++)
+            {
+                if (nums[i] < nums[i - 1])
+                {
+                    if (isCount)
+                    {
+                        isCount = false;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         /// <summary>
         /// 735. 行星碰撞
         /// </summary>
@@ -4011,31 +4298,33 @@ namespace LeetCodeContinue
                 return result;
             }
             Array.Sort(nums);
-
-            int low = 0;
-            int right = nums.Length - 1;
-
-            int left = low + 1;
-
-            while (low < right)
+            int fastIndex = nums.Length - 1;
+            int lowIndex = 1;
+            if (nums.Length == 3)
             {
-                int n1 = nums[low];
-                int n2 = nums[left];
-                int n3 = nums[right];
+                if (nums[0] + nums[1] + nums[2] == 0)
+                {
+                    result.Add(nums);
+                    return result;
+                }
+            }
+            for (int i = 0; i < nums.Length - 2; i++)
+            {
+                lowIndex = i + 1;
+                while (lowIndex < fastIndex)
+                {
+                    int curVal = nums[i];
+                    int lowVal = nums[lowIndex];
+                    int fastVal = nums[fastIndex];
 
-                if (n1 + n2 == n3)
-                {
-                    result.Add(new int[] { n1, n2, n3 });
-                    low++;
-                    left = low + 1;
-                }
-                if (n1 + n2 < n3)
-                {
-                    left++;
-                }
+                    if (curVal + lowVal + fastVal == 0)
+                    {
+                        result.Add(new List<int> { curVal, lowVal, fastVal });
+                    }
+                    lowIndex++;
+                };
 
             }
-
 
             return null;
         }
