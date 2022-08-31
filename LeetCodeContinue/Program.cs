@@ -40,8 +40,7 @@ namespace LeetCodeContinue
         static void Main(string[] args)
         {
           
-            // 计算一下 年前 还有（ 8 9 10 11 12=） 5个月 
-            // 每个月4w = 20w
+           
 
 
             LeetCode code = new LeetCode();
