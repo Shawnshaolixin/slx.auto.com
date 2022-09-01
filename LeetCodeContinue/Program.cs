@@ -39,12 +39,13 @@ namespace LeetCodeContinue
 
         static void Main(string[] args)
         {
-          
-           
+
+
 
 
             LeetCode code = new LeetCode();
-            code.ValidateStackSequences(new int[] { 1, 2, 3, 4, 5 }, new int[] { 4, 3, 5, 1, 2 });
+            code.FinalPrices(new int[] { 2, 1 });
+            //  code.ValidateStackSequences(new int[] { 1, 2, 3, 4, 5 }, new int[] { 4, 3, 5, 1, 2 });
             TreeNode root = new TreeNode(new TreeNode(2), 1, new TreeNode(3));
             code.DeepestLeavesSum(root);
             var r = code.GenerateTheString(50);

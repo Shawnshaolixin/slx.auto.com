@@ -104,6 +104,30 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+        /// <summary>
+        /// 1475. 商品折扣后的最终价格
+        /// </summary>
+        /// <param name="prices"></param>
+        /// <returns></returns>
+        public int[] FinalPrices(int[] prices)
+        {
+            for (int i = 0; i < prices.Length - 1; i++)
+            {
+
+                int j = i + 1;
+                while (j < prices.Length)
+                {
+                    if (prices[j] <= prices[i])
+                    {
+                        prices[i] = prices[i] - prices[j];
+                        break;
+                    }
+                    j++;
+                }
+
+            }
+            return prices;
+        }
 
         public bool ValidateStackSequences(int[] pushed, int[] popped)
         {
