@@ -105,6 +105,106 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 670. 最大交换
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public int MaximumSwap(int num)
+        {
+            string str = num.ToString();
+            char[] arr = new char[str.Length];
+            for (int i = 0; i < str.Length; i++)
+            {
+                arr[i] = str[i];
+            }
+
+            int index = 0;
+
+            while (index < arr.Length)
+            {
+                int maxValue = 0;
+                int maxIndex = 0;
+                for (int i = index; i < arr.Length; i++)
+                {
+                    if (arr[i] >= maxValue)
+                    {
+                        maxIndex = i;
+                        maxValue = arr[i];
+                    }
+
+                }
+                if (maxIndex > index)
+                {
+                    if (arr[index] != arr[maxIndex])
+                    {
+                        char temp = arr[index];
+                        arr[index] = arr[maxIndex];
+                        arr[maxIndex] = temp;
+                        var result = int.Parse(arr);
+                        return result;
+                    }
+
+                }
+                index++;
+            }
+            return num;
+        }
+
+        /// <summary>
+        /// 652. 寻找重复的子树
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public IList<TreeNode> FindDuplicateSubtrees(TreeNode root)
+        {
+            IList<TreeNode> result = new List<TreeNode>();
+            Stack<TreeNode> stack = new Stack<TreeNode>();
+            List<List<TreeNode>> resultList = new List<List<TreeNode>>();
+            ForeachTree(stack, root, resultList);
+            Dictionary<int, List<TreeNode>> dict = new Dictionary<int, List<TreeNode>>();
+            foreach (List<TreeNode> list in resultList)
+            {
+                if (!dict.ContainsKey(list[0].val))
+                {
+                    dict.Add(list[0].val, list);
+                }
+                else
+                {
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        var oldList = dict[list[0].val];
+                        if (oldList[i].val == list[i].val)
+                        {
+                            result.Add(list[i]);
+                        }
+                        else
+                        {
+                            return result;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+        public void ForeachTree(Stack<TreeNode> stack, TreeNode root, List<List<TreeNode>> resultList)
+        {
+            if (root == null)
+            {
+                return;
+            }
+            stack.Push(root);
+            if (root.left == null && root.right == null)
+            {
+                Console.WriteLine("打印树：" + string.Join(',', stack.ToList<TreeNode>().Select(c => c.val).Reverse().ToList()));
+                var list = stack.ToList<TreeNode>().ToList();
+                resultList.Add(list);
+
+            }
+            ForeachTree(stack, stack.Peek().left, resultList);
+            ForeachTree(stack, stack.Peek().right, resultList);
+            stack.Pop();
+        }
+        /// <summary>
         /// 1475. 商品折扣后的最终价格
         /// </summary>
         /// <param name="prices"></param>

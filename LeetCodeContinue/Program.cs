@@ -44,10 +44,17 @@ namespace LeetCodeContinue
 
 
             LeetCode code = new LeetCode();
-            code.FinalPrices(new int[] { 2, 1 });
+          var maximunSwapResult=  code.MaximumSwap(98368); //98368
+            //   TreeNode root = new TreeNode(new TreeNode(2), 1, new TreeNode(2));
+
+            //  root.left.right = new TreeNode(7);
+            //    root.right.right = new TreeNode(7);
+
+            //   code.FindDuplicateSubtrees(root);
+            //    code.FinalPrices(new int[] { 2, 1 });
             //  code.ValidateStackSequences(new int[] { 1, 2, 3, 4, 5 }, new int[] { 4, 3, 5, 1, 2 });
-            TreeNode root = new TreeNode(new TreeNode(2), 1, new TreeNode(3));
-            code.DeepestLeavesSum(root);
+            //
+            //  code.DeepestLeavesSum(root);
             var r = code.GenerateTheString(50);
             Console.WriteLine(r);
             // code.TestMyCalendarTwo();
@@ -132,7 +139,7 @@ namespace LeetCodeContinue
             var result3 = code.FindRestaurant(new string[] { "KFC", "K" }, new string[] { "KFC", "K" });
             Console.WriteLine(result3);
 
-            code.InorderTraversal(root);
+          //  code.InorderTraversal(root);
             int[][] VideoStitchingParam = new int[6][];
             VideoStitchingParam[0] = new int[] { 0, 2 };
             VideoStitchingParam[1] = new int[] { 4, 6 };
