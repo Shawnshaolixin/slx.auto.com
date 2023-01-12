@@ -102,8 +102,450 @@ namespace LeetCodeContinue
             next = _next;
         }
     }
+
+    public class StockSpanner
+    {
+        List<int> list;
+        /// <summary>
+        /// 
+        /// </summary>
+        public StockSpanner()
+        {
+            list = new List<int>();
+        }
+        public int Next(int price)
+        {
+            list.Add(price);
+            if (list.Count == 1)
+            {
+                return 1;
+            }
+            int count = 0;
+            var last = list[list.Count - 1];
+            for (int i = 0; i < list.Count; i++)
+            {
+                var curr = list[list.Count - i - 1];//最后一个元素
+                if (last >= curr)
+                {
+                    count++;
+                }
+                else
+                {
+                    return count;
+                }
+            }
+            return count;
+        }
+    }
     public class LeetCode
     {
+        /// <summary>
+        /// 1807. 替换字符串中的括号内容
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="knowledge"></param>
+        /// <returns></returns>
+        public string Evaluate1(string s, IList<IList<string>> knowledge)
+        {
+
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            for (int i = 0; i < knowledge.Count(); i++)
+            {
+                var kvp = knowledge[i];
+                dict.Add("(" + kvp[0] + ")", kvp[1]);
+            }
+            string value = "";
+            bool isStart = false;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (s[i] == '(') // 开始记录里面的内容
+                {
+                    isStart = true;
+                    value = "";
+                }
+
+                if (isStart)
+                {
+                    value += s[i];
+                }
+
+                if (s[i] == ')') // 结束记录里面的内容
+                {
+                    isStart = false;
+                    if (value != "")
+                    {
+
+                        if (dict.ContainsKey(value))
+                        {
+                            s = s.Replace(value, dict[value]);
+                            i = i - (value.Length - dict[value].Length);
+                        }
+                        else
+                        {
+                            s = s.Replace(value, "?");
+                            i = i - (value.Length - 1);
+                        }
+                    }
+                    value = "";
+
+                }
+            }
+            return s;
+        }
+        public string Evaluate(string s, IList<IList<string>> knowledge)
+        {
+
+            Dictionary<string, string> dict = new Dictionary<string, string>();
+            for (int i = 0; i < knowledge.Count(); i++)
+            {
+                var kvp = knowledge[i];
+                dict.Add(kvp[0], kvp[1]);
+            }
+
+           
+            var arr = s.Split(")");
+            if (arr.Length <= 0)
+            {
+                return s;
+            }
+            var finStr = "";
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] == "")
+                {
+                    continue;
+                }
+                var res = arr[i].Split("(");
+                if (res.Length==2)
+                {
+                    string value = "";
+                    if (dict.ContainsKey(res[1]))
+                    {
+                        value = res[0] + dict[res[1]];
+                    }
+                    else
+                    {
+                        value = res[0] + "?";
+                    }
+                    finStr += value;
+                }
+                else
+                {
+                    finStr += res[0];
+                }
+              
+            }
+
+
+
+            return finStr;
+        }
+        /// <summary>
+        /// 2032. 至少在两个数组中出现的值
+        /// </summary>
+        /// <param name="nums1"></param>
+        /// <param name="nums2"></param>
+        /// <param name="nums3"></param>
+        /// <returns></returns>
+        public IList<int> TwoOutOfThree(int[] nums1, int[] nums2, int[] nums3)
+        {
+
+            HashSet<int> result = new HashSet<int>();
+            HashSet<int> set1 = new HashSet<int>();
+            for (int i = 0; i < nums1.Length; i++)
+            {
+                set1.Add(nums1[i]);
+            }
+            HashSet<int> set2 = new HashSet<int>();
+            for (int i = 0; i < nums2.Length; i++)
+            {
+                set2.Add(nums2[i]);
+            }
+            HashSet<int> set3 = new HashSet<int>();
+            for (int i = 0; i < nums3.Length; i++)
+            {
+                set3.Add(nums3[i]);
+            }
+
+            for (int i = 0; i < nums1.Length; i++)
+            {
+                if (set2.Contains(nums1[i]) || set3.Contains(nums1[i]))
+                {
+                    result.Add(nums1[i]);
+                }
+            }
+            for (int i = 0; i < nums2.Length; i++)
+            {
+                if (set1.Contains(nums2[i]) || set3.Contains(nums2[i]))
+                {
+                    result.Add(nums2[i]);
+                }
+            }
+            for (int i = 0; i < nums3.Length; i++)
+            {
+                if (set2.Contains(nums3[i]) || set1.Contains(nums3[i]))
+                {
+                    result.Add(nums3[i]);
+                }
+            }
+
+            return result.ToList();
+        }
+        /// <summary>
+        /// 791. 自定义字符串排序
+        /// </summary>
+        /// <param name="order"></param>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public string CustomSortString(string order, string s)
+        {
+            // order = kqep
+            // s =     pekeq;
+
+            // k q ee p
+            var arr = s.ToCharArray();
+            int startIndex = 0;//从第0个位置开始
+            int offset = 0;
+            for (int i = 0; i < order.Length; i++)
+            {
+                var item = order[i];
+                while (startIndex < arr.Length)
+                {
+                    if (arr[startIndex] == item)
+                    {
+                        var temp = arr[offset];
+                        arr[offset] = arr[startIndex];
+                        arr[startIndex] = temp;
+                        offset++;
+                    }
+                    startIndex++;
+                }
+                startIndex = offset;// 还原
+            }
+
+            string str = "";
+            for (int i = 0; i < arr.Length; i++)
+            {
+                str += string.Format("{0}", arr[i]);
+            }
+            return str;
+        }
+        /// <summary>
+        /// 1684. 统计一致字符串的数目
+        /// </summary>
+        /// <param name="allowed"></param>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        public int CountConsistentStrings(string allowed, string[] words)
+        {
+            HashSet<char> set = new HashSet<char>();
+            for (int i = 0; i < allowed.Length; i++)
+            {
+                set.Add(allowed[i]);
+            }
+            int count = 0;
+            for (int i = 0; i < words.Length; i++)
+            {
+                var word = words[i];
+                for (int j = 0; j < word.Length; j++)
+                {
+                    if (!set.Contains(word[j]))
+                    {
+                        count--;
+                        break;
+                    }
+                }
+                count++;
+            }
+            return count;
+        }
+        public bool ArrayStringsAreEqual(string[] word1, string[] word2)
+        {
+            return false;
+        }
+
+        public int ScoreOfParentheses(string s)
+        {
+            //"(()(()))" 6
+            Stack<char> stack = new Stack<char>();
+            int score = 0;
+            int ratio = 1;
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (stack.Count == 0)
+                {
+                    stack.Push(s[i]);
+                }
+                else
+                {
+                    if (stack.Peek() != s[i]) // 括回了
+                    {
+                        //"()"    1分
+                        // AB     A+B 分
+                        // (A)    2*A 分
+                        // score += 1;
+                        stack.Pop();
+                        continue;
+                    }
+                    else
+                    {
+                        stack.Push(s[i]);
+                        //  ratio += 1;
+                    }
+                }
+            }
+            return 0;
+
+        }
+        /// <summary>
+        /// 870. 优势洗牌
+        /// </summary>
+        /// <param name="nums1"></param>
+        /// <param name="nums2"></param>
+        /// <returns></returns>
+        public int[] AdvantageCount(int[] nums1, int[] nums2)
+        {
+            if (nums1.Length == 1)
+            {
+                return nums1;
+            }                 //       [24,32,33,13]
+                              // 输入：nums1 = , nums2 = [13,25,32,11]
+
+            // 输入: nums1 = [2,7,11,15], nums2 = [1,10,4,11]
+            // 输出：[2,11,7,15]
+            // 动态规划五部曲 声明数组，确定递推公式。
+            int[][] dp = new int[nums1.Length][];
+            for (int i = 0; i < dp.Length; i++)
+            {
+                dp[i] = new int[2];
+            }
+            dp[0][0] = nums1[0];
+            if (nums1[0] > nums2[0])
+            {
+                dp[0][1] = 1;
+            }
+            else
+            {
+                dp[0][1] = 0;
+            }
+            int index = 0;
+            for (int i = 1; i < nums1.Length; i++)
+            {
+
+            }
+
+            return null;
+        }
+        public bool CanPartitionKSubsets(int[] nums, int k)
+        {
+            var sum = nums.Sum();
+            if (sum % k != 0)
+            {
+                // 表示不可能平均分成k份
+                return false;
+            }
+            // 表示有可能分成k份
+            // 每份 的均值是 val 
+            var val = sum / k;
+            int[] bitArr = new int[nums.Length];
+            Array.Sort(nums);
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (bitArr[i] != 0)
+                {
+                    continue;
+                }
+                int item = nums[i];
+                if (item > val) // 都比均值大了 肯定不行啊
+                {
+                    return false;
+                }
+                var diffVal = val - item;// 差值 
+                int index = i + 1;
+                while (diffVal > 0)
+                {
+
+                    while (index < nums.Length)
+                    {
+                        if ((diffVal - nums[index]) > 0 && bitArr[index] == 0)
+                        {
+                            diffVal -= nums[index];
+                            bitArr[index] = 1;
+                            bitArr[i] = 1;
+
+                        }
+                        index++;
+                    }
+                    bitArr[i] = 1;
+                    index = i;
+                }
+
+
+            }
+            for (int i = 0; i < bitArr.Length; i++)
+            {
+                if (bitArr[i] == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 1636. 按照频率将数组升序排序
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int[] FrequencySort(int[] nums)
+        {
+            // [1,1,2,2,2,3]
+            // [3,1,1,2,2,2]
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (dict.ContainsKey(nums[i]))
+                {
+                    dict[nums[i]]++;
+                }
+                else
+                {
+                    dict.Add(nums[i], 1);
+                }
+            }
+            var list = dict.OrderBy(c => c.Value).ThenByDescending(c => c.Key);
+            int index = 0;
+            foreach (var item in list)
+            {
+                Console.WriteLine($"{item.Key},{item.Value}");
+
+                int subIndex = 0;
+                while (subIndex < item.Value)
+                {
+                    nums[index + subIndex] = item.Key;
+                    subIndex++;
+                }
+                index = subIndex + index;
+
+            }
+
+            return nums;
+        }
+        /// <summary>
+        /// 1619. 删除某些元素后的数组均值
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        public double TrimMean(int[] arr)
+        {
+            Array.Sort(arr);
+            int sum = 0;
+            for (int i = (arr.Length / 20); i < 19 * arr.Length / 20; i++)
+            {
+                sum += arr[i];
+            }
+            return sum / (arr.Length * 0.9f);
+        }
         /// <summary>
         /// 670. 最大交换
         /// </summary>

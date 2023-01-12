@@ -395,7 +395,7 @@ namespace HM3
             //    return;
 
             //}
-            r.set_fragment_shader(texture_fragment_shader);
+            r.set_fragment_shader(displacement_fragment_shader);
             while (key != 27)
             {
                 //key = Console.ReadKey(false).KeyChar;
@@ -406,8 +406,9 @@ namespace HM3
 
                 r.draw(TriangleList);
                 var data = r.frame_buffer().ToArray();
-
+                
                 Mat image = new Mat(700, 700, MatType.CV_32FC3, data);
+                image.PutText("aaaa",new Point(300,300), HersheyFonts.Italic,1,new Scalar(1,1,1));
                 image.ConvertTo(image, MatType.CV_8UC3, 1.0f);
                 Cv2.CvtColor(image, image, ColorConversionCodes.RGB2BGR);
                 Cv2.ImShow("image", image);

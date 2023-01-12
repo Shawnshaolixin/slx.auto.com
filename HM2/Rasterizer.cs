@@ -312,7 +312,7 @@ namespace HM2
             max_x = (int)MathF.Ceiling(max_x);
             min_y = (int)MathF.Floor(min_y);
             max_y = (int)MathF.Ceiling(max_y);
-            bool MSAA = true;
+            bool MSAA = false;
             if (MSAA)
             {
                 for (int x = (int)min_x; x <= max_x; x++)

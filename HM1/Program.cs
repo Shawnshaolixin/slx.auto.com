@@ -15,9 +15,9 @@ namespace HM1
         static void Main(string[] args)
         {
 
-            Dictionary<int, int> dict = new Dictionary<int, int>();
-            dict.Add(1, 1);
-            dict.Add(1, 2);
+            //Dictionary<int, int> dict = new Dictionary<int, int>();
+            //dict.Add(1, 1);
+            //dict.Add(1, 2);
             Console.WriteLine("Runtime Version = {0}", Environment.Version);
             // RunTest();
             // HM0();

@@ -430,7 +430,7 @@ namespace HM3
         {
             // todo 光栅化三角形
             var v = t.toVector4();
-
+         
             // 包围盒
             var min_x = MathF.Min(v[0].X, MathF.Min(v[1].X, v[2].X));
             var max_x = MathF.Max(v[0].X, MathF.Max(v[1].X, v[2].X));
