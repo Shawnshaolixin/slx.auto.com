@@ -8,6 +8,7 @@ namespace LeetCodeContinue
 {
     public class Solution
     {
+
         /// <summary>
         /// 497. 非重叠矩形中的随机点
         /// </summary>
@@ -139,6 +140,221 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+
+        /// <summary>
+        /// 剑指 Offer 47. 礼物的最大价值
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <returns></returns>
+        public int MaxValue(int[][] grid)
+        {
+            int[][] dp = new int[grid.Length][];
+
+            for (int i = 0; i < grid.Length; i++)
+            {
+                dp[i] = new int[grid[i].Length];
+
+            }
+            dp[0][0] = grid[0][0];
+            for (int i = 1; i < grid.Length; i++)
+            {
+                dp[i][0] = dp[i - 1][0] + grid[i][0];
+            }
+            for (int i = 1; i < grid[0].Length; i++)
+            {
+                dp[0][i] = dp[0][i - 1] + grid[0][i];
+            }
+            for (int i = 0; i < grid.Length; i++)
+            {
+                for (int j = 0; j < grid[i].Length; j++)
+                {
+                    if (j > 0 && i > 0)
+                    {
+                        dp[i][j] = Math.Max(dp[i - 1][j], dp[i][j - 1]) + grid[i][j];
+                    }
+
+                }
+            }
+            return dp[dp.Length - 1][dp[0].Length - 1];
+        }
+        /// <summary>
+        /// 1653. 使字符串平衡的最少删除次数
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public int MinimumDeletions(string s)
+        {
+            // 动态规划5部曲
+            int[] dp = new int[s.Length];
+            int[] b_arr_count = new int[s.Length];
+            if (s[0] == 'b')
+            {
+                b_arr_count[0] = 1;
+                dp[0] = 0;
+            }
+            for (int i = 1; i < s.Length; i++)
+            {
+                if (s[i] == 'a')
+                {
+                    b_arr_count[i] = b_arr_count[i - 1];
+                    dp[i] = Math.Min(dp[i - 1] + 1, b_arr_count[i]);
+                }
+                else
+                {
+                    dp[i] = dp[i - 1];
+                    b_arr_count[i] = b_arr_count[i - 1] + 1;
+                }
+            }
+            var result = dp[dp.Length - 1];
+
+            return result;
+        }
+        //public bool AreSentencesSimilar(string sentence1, string sentence2)
+        //{
+        //    var arr1 = sentence1.Split(" ");
+        //    var arr2 = sentence2.Split(" ");
+
+        //    if (arr1.Length>arr2.Length)
+        //    {
+        //        sentence1.Split(sentence2);
+        //    }
+        //    return false;
+        //}
+        /// <summary>
+        /// 1813. 句子相似性 III
+        /// </summary>
+        /// <param name="sentence1"></param>
+        /// <param name="sentence2"></param>
+        /// <returns></returns>
+        public bool AreSentencesSimilar(string sentence1, string sentence2)
+        {
+
+            var arr1 = sentence1.Split(" ");
+            var arr2 = sentence2.Split(" ");
+
+            int[] arr1Res = new int[arr1.Length];
+            int[] arr2Res = new int[arr2.Length];
+
+            int j = 0;
+            if (arr1.Length > arr2.Length)
+            {
+                if (arr2.Length == 1 && arr1[0] == arr2[0] || arr2.Length == 1 && arr1[arr1.Length - 1] == arr2[0])
+                {
+                    return true;
+                }
+                for (int i = 0; i < arr1.Length; i++)
+                {
+                    if (j < arr2.Length)
+                    {
+
+                        if (arr1[i] == arr2[j])
+                        {
+                            arr1Res[i] = 1;
+                            arr2Res[j] = 1;
+                            j++;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (arr1.Length == 1 && arr2[0] == arr1[0] || (arr1.Length == 1 && arr2[arr2.Length - 1] == arr1[0]))
+                {
+                    return true;
+                }
+                for (int i = 0; i < arr2.Length; i++)
+                {
+                    if (j < arr1.Length)
+                    {
+
+
+                        if (arr2[i] == arr1[j])
+                        {
+                            arr1Res[j] = 1;
+                            arr2Res[i] = 1;
+                            j++;
+                        }
+                    }
+                }
+
+            }
+            Stack<int> stack = new Stack<int>();
+            if (arr1.Length > arr2.Length)
+            {
+                for (int i = 0; i < arr2Res.Length; i++)
+                {
+                    if (arr2Res[i] == 0)
+                    {
+                        return false;
+                    }
+                }
+
+                for (int i = 0; i < arr1Res.Length; i++)
+                {
+
+                    if (stack.Count == 0)
+                    {
+                        stack.Push(arr1Res[i]);
+                    }
+                    else
+                    {
+                        if (stack.Peek() == arr1Res[i])
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            stack.Push(arr1Res[i]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < arr1Res.Length; i++)
+                {
+                    if (arr1Res[i] == 0)
+                    {
+                        return false;
+                    }
+                }
+
+                for (int i = 0; i < arr2Res.Length; i++)
+                {
+
+                    if (stack.Count == 0)
+                    {
+                        stack.Push(arr2Res[i]);
+                    }
+                    else
+                    {
+                        if (stack.Peek() == arr2Res[i])
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            stack.Push(arr2Res[i]);
+                        }
+                    }
+                }
+            }
+            int zeroCount = 0;
+            int oneCount = 0;
+            while (stack.Count > 0)
+            {
+                if (stack.Pop() == 0)
+                {
+                    zeroCount++;
+                }
+                else
+                {
+                    oneCount++;
+                }
+            }
+            return zeroCount <= 1 && oneCount > 0;
+        }
         /// <summary>
         /// 1807. 替换字符串中的括号内容
         /// </summary>
@@ -202,7 +418,7 @@ namespace LeetCodeContinue
                 dict.Add(kvp[0], kvp[1]);
             }
 
-           
+
             var arr = s.Split(")");
             if (arr.Length <= 0)
             {
@@ -216,7 +432,7 @@ namespace LeetCodeContinue
                     continue;
                 }
                 var res = arr[i].Split("(");
-                if (res.Length==2)
+                if (res.Length == 2)
                 {
                     string value = "";
                     if (dict.ContainsKey(res[1]))
@@ -233,7 +449,7 @@ namespace LeetCodeContinue
                 {
                     finStr += res[0];
                 }
-              
+
             }
 
 

@@ -224,6 +224,90 @@ namespace HM3
 
             return result_color * 255.0f;
         }
+         const float offset = 1.0f / 300.0f;
+        static Vector2[] offsets = new Vector2[]
+          {
+          new Vector2(-offset,  offset), // 左上
+          new Vector2( 0.0f,    offset), // 正上
+          new Vector2( offset,  offset), // 右上
+          new Vector2(-offset,  0.0f),   // 左
+          new Vector2( 0.0f,    0.0f),   // 中
+          new Vector2( offset,  0.0f),   // 右
+          new Vector2(-offset, -offset), // 左下
+          new Vector2( 0.0f,   -offset), // 正下
+          new Vector2( offset, -offset)  // 右下
+          };
+
+        static float[] kernel = new float[] {
+       - 1, -1, -1.0f,
+       -1, 9, -1,
+       -1, -1, -1
+             };
+
+
+        public static Vector3 texture_fragment_shader_kernel(fragment_shader_payload payload)
+        {
+            Vector3 return_color = Vector3.Zero; ;
+            Vector3[] sampleTex = new Vector3[9];
+            if (payload.texture != null)
+            {
+                // TODO: Get the texture value at the texture coordinates of the current fragment
+                for (int i = 0; i < 9; i++)
+                {
+                    //  return_color
+                    sampleTex[i]  = payload.texture.getColor(payload.tex_coords.X + offsets[i].X, payload.tex_coords.Y+ offsets[i].Y);
+                }
+                for (int i = 0; i < 9; i++)
+                {
+                    return_color += sampleTex[i] * kernel[i];
+                }
+            }
+
+
+
+
+            Vector3 texture_color = new Vector3(return_color.X, return_color.Y, return_color.Z);
+
+            Vector3 ka = new Vector3(0.005f, 0.005f, 0.005f);
+            Vector3 kd = texture_color / 255.0f;
+            Vector3 ks = new Vector3(0.7937f, 0.7937f, 0.7937f);
+            var rd = new Random();
+            //var l1 = new light(new Vector3(rd.Next(20, 100), rd.Next(20, 100), rd.Next(20, 100)), new Vector3(500, 500, 500));
+            //var l2 = new light(new Vector3(-rd.Next(20, 100), rd.Next(20, 100), 0), new Vector3(500, 500, 500));
+            var l1 = new light(new Vector3(20, 20, 20), new Vector3(500, 500, 500));
+            var l2 = new light(new Vector3(-20, 20, 0), new Vector3(500, 500, 500));
+
+            List<light> lights = new List<light>() { l1, l2 };
+            Vector3 amb_light_intensity = new Vector3(10, 10, 10);
+            Vector3 eye_pos = new Vector3(0, 0, 10);
+
+            float p = 150;
+
+            Vector3 point = payload.view_pos;
+            Vector3 normal = payload.normal;
+
+            Vector3 result_color = new Vector3(0, 0, 0);
+            Vector3 v = Vector3.Normalize(eye_pos - point);// 视线向量
+
+            foreach (var light in lights)
+            {
+                Vector3 l = Vector3.Normalize(light.position - point);
+                Vector3 h = Vector3.Normalize(v + l);// 半程向量
+                var r2 = MathF.Pow(Vector3.Distance(light.position, point), 2);
+                // var r2=(light.position-point).squaredNorm
+                var ambient = ka * (amb_light_intensity);
+
+                var diffuse = kd * (light.intensity / r2 * MathF.Max(0.0f, Vector3.Dot(normal, l)));
+
+                var specular = ks * (light.intensity / r2 * MathF.Pow(MathF.Max(0.0f, Vector3.Dot(normal, h)), p));
+
+                result_color += ambient + diffuse + specular;
+            }
+            return result_color * 255.0f;
+        }
+
+
+
         /// <summary>
         /// 纹理贴图
         /// </summary>
@@ -232,6 +316,7 @@ namespace HM3
         public static Vector3 texture_fragment_shader(fragment_shader_payload payload)
         {
             Vector3 return_color = Vector3.Zero; ;
+
             if (payload.texture != null)
             {
                 // TODO: Get the texture value at the texture coordinates of the current fragment
@@ -274,7 +359,12 @@ namespace HM3
 
                 result_color += ambient + diffuse + specular;
             }
-            return result_color * 255.0f;
+            //   var fragColor = (new Vector3(1) - result_color) * 255.0f; ;// 反向
+
+           
+            var average = ((0.2126f * result_color.X + 0.7152f * result_color.Y + 0.0722f * result_color.Z)) ; ;// 灰度
+            var fragColor = new Vector3(average)  *255.0f;
+            return fragColor;
         }
         public static Vector3 phone_fragment_shader(fragment_shader_payload payload)
         {
@@ -395,7 +485,7 @@ namespace HM3
             //    return;
 
             //}
-            r.set_fragment_shader(displacement_fragment_shader);
+            r.set_fragment_shader(texture_fragment_shader);
             while (key != 27)
             {
                 //key = Console.ReadKey(false).KeyChar;
@@ -406,9 +496,9 @@ namespace HM3
 
                 r.draw(TriangleList);
                 var data = r.frame_buffer().ToArray();
-                
+
                 Mat image = new Mat(700, 700, MatType.CV_32FC3, data);
-                image.PutText("aaaa",new Point(300,300), HersheyFonts.Italic,1,new Scalar(1,1,1));
+                //  image.PutText("aaaa",new Point(300,300), HersheyFonts.Italic,1,new Scalar(1,1,1));
                 image.ConvertTo(image, MatType.CV_8UC3, 1.0f);
                 Cv2.CvtColor(image, image, ColorConversionCodes.RGB2BGR);
                 Cv2.ImShow("image", image);
