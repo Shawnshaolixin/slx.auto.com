@@ -47,6 +47,8 @@ namespace LeetCodeContinue
 
 
             LeetCode code = new LeetCode();
+            var rMinimumRecolors = code.MinimumRecolors("BWWWBB", 6);
+            Console.WriteLine("r===>" + rMinimumRecolors);
             //      code.MinimumDeletions("aababbab");
             //          [1,3,1],
             //[1,5,1],
@@ -57,7 +59,11 @@ namespace LeetCodeContinue
             grid[1] = new int[] { 1, 5, 1 };
             grid[2] = new int[] { 4, 2, 1 };
 
-           int maxv= code.MaxValue(grid);
+            // int maxv= code.MaxValue(grid);
+            TreeNode root = new TreeNode(6);
+            root.left = new TreeNode(new TreeNode(0), 2, new TreeNode(new TreeNode(3), 4, new TreeNode(5)));
+            root.right = new TreeNode(new TreeNode(7), 8, new TreeNode(9));
+            code.LowestCommonAncestor(root, null, null);
             //var resTwoOutOfThree = code.TwoOutOfThree(new int[] { 1,2,2 }, new int[] {4,3,3}, new int[] { 5 });
             //for (int i = 0; i < resTwoOutOfThree.Count; i++)
             //{

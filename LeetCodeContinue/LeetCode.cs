@@ -140,7 +140,40 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+        /// <summary>
+        /// 2379. 得到 K 个黑块的最少涂色次数
+        /// </summary>
+        /// <param name="blocks"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public int MinimumRecolors(string blocks, int k)
+        {
+            // "WBBWWBBWBW"  7个 
+            int lowIndex = 0;
+            int hightIndex = k;
+            int minValue = int.MaxValue;
 
+            int count = 0;
+            while (hightIndex <= blocks.Length)
+            {
+                for (int i = lowIndex; i < hightIndex; i++)
+                {
+                    if (blocks[i] == 'W')
+                    {
+                        count++;
+                    }
+                }
+
+                if (minValue > count)
+                {
+                    minValue = count;
+                }
+                count = 0;
+                hightIndex++;
+                lowIndex++;
+            }
+            return minValue;
+        }
         /// <summary>
         /// 剑指 Offer 47. 礼物的最大价值
         /// </summary>
@@ -3126,6 +3159,14 @@ namespace LeetCodeContinue
         }
         public TreeNode LowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q)
         {
+            //if (root != null)
+            //{
+
+            //    Console.WriteLine(root.val);
+            //}
+            //LowestCommonAncestor(root.left, null, null);
+            //LowestCommonAncestor(root.right, null, null);
+
             return null;
         }
         /// <summary>
