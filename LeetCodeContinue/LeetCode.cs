@@ -141,6 +141,16 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 2469. 温度转换
+        /// </summary>
+        /// <param name="celsius"></param>
+        /// <returns></returns>
+        public double[] ConvertTemperature(double celsius)
+        {
+
+            return new double[] { celsius + 273.15, celsius * 1.80 + 32.00 };
+        }
+        /// <summary>
         /// 2379. 得到 K 个黑块的最少涂色次数
         /// </summary>
         /// <param name="blocks"></param>
