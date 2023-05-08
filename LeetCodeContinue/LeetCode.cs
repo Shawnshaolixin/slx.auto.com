@@ -141,6 +141,272 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 36. 有效的数独
+        /// </summary>
+        /// <param name="board"></param>
+        /// <returns></returns>
+        public bool IsValidSudoku(char[][] board)
+        {
+            HashSet<char> set = new HashSet<char>();
+
+            // 验证行
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    var c = board[i][j];
+                    if (c == '.')
+                    {
+                        continue;
+                    }
+
+                    if (set.Contains(c))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        set.Add(c);
+                    }
+                }
+                set.Clear();
+            }
+
+            // 验证列
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    var c = board[j][i];
+                    if (c == '.')
+                    {
+                        continue;
+                    }
+
+                    if (set.Contains(c))
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        set.Add(c);
+                    }
+                }
+                set.Clear();
+            }
+
+
+            int offset_row = 0;
+            int offset_col = 0;
+
+            while (offset_col < 3)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        var c = board[i + 3 * offset_row][j + 3 * offset_col];
+                        if (c == '.')
+                        {
+                            continue;
+                        }
+
+                        if (set.Contains(c))
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            set.Add(c);
+                        }
+                    }
+            
+                }
+                set.Clear();
+                offset_row++;
+                if (offset_row > 2)
+                {
+                    offset_row = 0;
+                    offset_col++;
+                }
+
+            }
+
+            return true;
+        }
+        public int MinNumberOfFrogs(string croakOfFrogs)
+        {
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            dict.Add('c', 0);
+            dict.Add('r', 0);
+            dict.Add('o', 0);
+            dict.Add('a', 0);
+            dict.Add('k', 0);
+
+
+            Dictionary<char, int> dict1 = new Dictionary<char, int>();
+            dict1.Add('c', 0);
+            dict1.Add('r', 1);
+            dict1.Add('o', 2);
+            dict1.Add('a', 3);
+            dict1.Add('k', 4);
+            int[] arr = new int[5];
+            int count = 0;
+            for (int i = 0; i < croakOfFrogs.Length; i++)
+            {
+                var c = croakOfFrogs[i];
+
+                if (c == 'c')
+                {
+                    Console.WriteLine("猫开始叫了");
+
+                }
+                dict[c]++;
+                arr[dict1[c]]++;
+                for (int k = 0; k < dict1[c]; k++)
+                {
+                    if (arr[k] < arr[k + 1])
+                    {
+                        return -1;
+                    }
+                }
+
+                while (dict['c'] > 0 && dict['r'] > 0 && dict['o'] > 0 && dict['a'] > 0 && dict['k'] > 0)
+                {
+                    Console.WriteLine("猫叫完成了");
+                    dict['c']--;
+                    dict['r']--;
+                    dict['o']--;
+                    dict['a']--;
+                    dict['k']--;
+                    Console.WriteLine("还有几个猫 正在叫？" + dict['c']);
+                    if (dict['c'] > count)
+                    {
+                        count = dict['c'];
+                    }
+                    if (dict['c'] == 0)
+                    {
+
+                    }
+                }
+
+            }
+            foreach (var item in dict)
+            {
+                if (item.Value > 0)
+                {
+                    Console.WriteLine("不完整 返回-1");
+
+                    return -1;
+                }
+            }
+            return count + 1;
+        }
+        /// <summary>
+        /// 1419. 数青蛙
+        /// </summary>
+        /// <param name="croakOfFrogs"></param>
+        /// <returns></returns>
+        public int MinNumberOfFrogs1(string croakOfFrogs)
+        {
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            dict.Add('c', 0);
+            dict.Add('r', 1);
+            dict.Add('o', 2);
+            dict.Add('a', 3);
+            dict.Add('k', 4);
+            List<int> list = new List<int>(4);
+
+            for (int i = 0; i < croakOfFrogs.Length; i++)
+            {
+                var c = croakOfFrogs[i];
+                if (dict[c] == 0)
+                {
+                    bool flag = false;
+                    for (int k = 0; k < list.Count; k++)
+                    {
+                        if (list[k] == -1)
+                        {
+                            list[k] = 1;
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if (!flag)
+                    {
+                        list.Add(1);
+
+                    }
+                }
+                else
+                {
+                    if (list.Count <= 0) // 字母顺序不对
+                    {
+                        return -1;
+                    }
+
+                    bool flag1 = false;
+                    for (int j = 0; j < list.Count; j++)
+                    {
+                        var count = list[j];
+                        if (count == -1)
+                        {
+                            continue;
+                        }
+                        if (count == dict[c])
+                        {
+                            flag1 = true;
+                            list[j]++;
+                            if (list[j] > 4)
+                            {
+                                // 完成一次呱呱叫
+                                list[j] = -1;
+                            }
+                            break;
+                        }
+
+                    }
+                    if (!flag1)
+                    {
+                        return -1;// 顺序不对
+                    }
+                }
+            }
+            var c1 = list.Count(c => c == -1);
+            return c1 == 0 ? -1 : c1;
+            //  return list.Count;
+        }
+        public int MostFrequentEven(int[] nums)
+        {
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] % 2 == 0)
+                {
+                    if (dict.ContainsKey(nums[i]))
+                    {
+                        dict[nums[i]]++;
+                    }
+                    else
+                    {
+                        dict.Add(nums[i], 1);
+                    }
+                }
+            }
+            int ans = -1, mx = 0;
+            foreach (var item in dict)
+            {
+                int x = item.Key;
+                int v = item.Value;
+                if (mx < v || (mx == v && ans > x))
+                {
+                    ans = x;
+                    mx = v;
+                }
+            }
+            return ans;
+        }
+        /// <summary>
         /// 2469. 温度转换
         /// </summary>
         /// <param name="celsius"></param>

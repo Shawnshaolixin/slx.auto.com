@@ -47,12 +47,24 @@ namespace LeetCodeContinue
 
 
             LeetCode code = new LeetCode();
-            var rMinimumRecolors = code.MinimumRecolors("BWWWBB", 6);
-            Console.WriteLine("r===>" + rMinimumRecolors);
-            //      code.MinimumDeletions("aababbab");
-            //          [1,3,1],
-            //[1,5,1],
-            //[4,2,1]
+            char[][] carr = new char[9][];
+            for (int i = 0; i < carr.Length; i++)
+            {
+                carr[i] = new char[9];
+            }
+            var testStr = "[[\"3\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]";
+            var ressss=JsonConvert.DeserializeObject<char[][]>(testStr);
+            code.IsValidSudoku(ressss);
+         //   var resMinNumberOfFrogs = code.MinNumberOfFrogs("coark");
+         //   Console.WriteLine("resMinNumberOfFrogs==" + resMinNumberOfFrogs);
+         //   code.MostFrequentEven(new int[] { 0, 1, 2, 2, 4, 4, 1 });
+         //
+         //  var rMinimumRecolors = code.MinimumRecolors("BWWWBB", 6);
+         //  Console.WriteLine("r===>" + rMinimumRecolors);
+         //      code.MinimumDeletions("aababbab");
+         //          [1,3,1],
+         //[1,5,1],
+         //[4,2,1]
             int[][] grid = new int[3][];
 
             grid[0] = new int[] { 1, 3, 1 };
