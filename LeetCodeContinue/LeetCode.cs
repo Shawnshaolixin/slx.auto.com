@@ -141,6 +141,26 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 2446. 判断两个事件是否存在冲突
+        /// </summary>
+        /// <param name="event1"></param>
+        /// <param name="event2"></param>
+        /// <returns></returns>
+        public bool HaveConflict(string[] event1, string[] event2)
+        {
+            var dt10 = Convert.ToDateTime(event1[0]);
+            var dt11 = Convert.ToDateTime(event1[1]);
+            var dt20 = Convert.ToDateTime(event2[0]);
+            var dt21 = Convert.ToDateTime(event2[1]);
+            return (dt20 <= dt11 && dt21 >= dt11) || (dt10 <= dt21 && dt11 >= dt21);
+
+        }
+        public int MaxEqualRowsAfterFlips(int[][] matrix)
+        {
+
+            return 0;
+        }
+        /// <summary>
         /// 36. 有效的数独
         /// </summary>
         /// <param name="board"></param>
@@ -220,7 +240,7 @@ namespace LeetCodeContinue
                             set.Add(c);
                         }
                     }
-            
+
                 }
                 set.Clear();
                 offset_row++;
