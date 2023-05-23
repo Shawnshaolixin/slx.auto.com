@@ -141,6 +141,232 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 165. 比较版本号
+        /// </summary>
+        /// <param name="version1"></param>
+        /// <param name="version2"></param>
+        /// <returns></returns>
+        public int CompareVersion(string version1, string version2)
+        {
+            var arr1 = version1.Split('.');
+            var arr2 = version2.Split('.');
+            for (int i = 0; i < Math.Max(arr1.Length, arr2.Length); i++)
+            {
+                var num1 = i < arr1.Length ? Convert.ToInt32(arr1[i]) : 0;
+                var num2 = i < arr2.Length ? Convert.ToInt32(arr2[i]) : 0;
+                if (num1 > num2)
+                {
+                    return 1;
+                }
+                if (num1 < num2)
+                {
+                    return -1;
+                }
+            }
+            return 0;
+        }
+        /// <summary>
+        /// 80. 删除有序数组中的重复项 II
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int RemoveDuplicates(int[] nums)
+        {
+            int sameCount = 1;
+
+            int low_index = 0;
+            int hight_index = nums.Length - 1;
+            while (low_index < hight_index)
+            {
+                var num = nums[low_index];
+                var num1 = nums[low_index + 1];
+                if (num == num1)
+                {
+                    sameCount++;
+                }
+                else
+                {
+                    if (sameCount > 2)
+                    {
+                        var len = sameCount - 2;
+                        int index = low_index - len + 1;
+                        int index1 = low_index + 1;
+                        while (index1 <= hight_index)
+                        {
+                            nums[index] = nums[index1];
+                            index++;
+                            index1++;
+                        }
+                        hight_index -= len;
+                        low_index = low_index - len;
+                    }
+                    sameCount = 1;
+                }
+
+                low_index++;
+            }
+            if (sameCount > 2)
+            {
+                var len = sameCount - 2;
+                int index = low_index - len + 1;
+                int index1 = low_index + 1;
+                while (index1 < hight_index)
+                {
+                    nums[index] = nums[index1];
+                    index++;
+                    index1++;
+                }
+                hight_index -= len;
+                sameCount = 1;
+                low_index = low_index - len;
+            }
+            return hight_index + 1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="root"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public TreeNode SufficientSubset(TreeNode root, int limit)
+        {
+            var reslut = Traverse(root, limit, 0);
+            return reslut;
+        }
+        public TreeNode Traverse(TreeNode root, int limit, int sum)
+        {
+            if (root == null)
+            {
+                return null;
+            }
+            sum += root.val;
+
+            if (root.left == null && root.right == null)
+            {
+                if (sum < limit)
+                {
+
+                    return null;
+                }
+                return root;
+            }
+
+            root.left = Traverse(root.left, limit, sum);
+            root.right = Traverse(root.right, limit, sum);
+            return root.left == null && root.right == null ? null : root;
+        }
+        /// <summary>
+        /// 77. 组合
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public IList<IList<int>> Combine(int n, int k)
+        {
+            //for (int i = 1; i <= n; i++)
+            //{
+            //    // cw  1,2,3,4
+
+            //    for (int j = i + 1; j <= n; j++)
+            //    {
+            //        Console.WriteLine($"i={i},j={j}");
+            //    }
+            //}
+            List<IList<int>> result = new List<IList<int>>();
+            List<int> path = new List<int>();
+            BackTracking(n, k, 1, result, path);
+
+            return result;
+
+
+        }
+
+        private void BackTracking(int n, int k, int startIndex, List<IList<int>> result, List<int> path)
+        {
+            if (path.Count == k)
+            {
+                result.Add(path.ToArray());
+                return;
+            }
+
+
+            for (int i = startIndex; i <= n; i++) // 控制数的横向遍历
+            {
+                path.Add(i);
+                BackTracking(n, k, startIndex + 1, result, path);
+                path.RemoveAt(path.Count - 1);
+            }
+
+        }
+        /// <summary>
+        /// 1079. 活字印刷
+        /// </summary>
+        /// <param name="tiles"></param>
+        /// <returns></returns>
+        public int NumTilePossibilities(string tiles)
+        {
+
+
+            return 0;
+        }
+        private void Backtracking(string str)
+        {
+            if (true)
+            {
+                // 存放结果
+                return;
+            }
+
+        }
+        /// <summary>
+        /// 1054. 距离相等的条形码
+        /// </summary>
+        /// <param name="barcodes"></param>
+        /// <returns></returns>
+        public int[] RearrangeBarcodes(int[] barcodes)
+        {
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            for (int i = 0; i < barcodes.Length; i++)
+            {
+                if (dict.ContainsKey(barcodes[i]))
+                {
+                    dict[barcodes[i]]++;
+                }
+                else
+                {
+                    dict.Add(barcodes[i], 1);
+                }
+
+            }
+
+
+            int index = 0;
+            int currValue = 0;
+            while (index < barcodes.Length)
+            {
+                int maxValue = 0;
+                int maxKey = 0;
+
+                foreach (var item in dict)
+                {
+                    if (item.Key == currValue) continue;
+                    if (item.Value > maxValue)
+                    {
+                        maxValue = item.Value;
+                        maxKey = item.Key;
+                    }
+                }
+                dict[maxKey]--;
+                barcodes[index] = maxKey;
+                currValue = maxKey;
+                index++;
+
+            }
+            return barcodes;
+        }
+
+        /// <summary>
         /// 2446. 判断两个事件是否存在冲突
         /// </summary>
         /// <param name="event1"></param>
@@ -4635,33 +4861,33 @@ namespace LeetCodeContinue
                 path.RemoveAt(path.Count - 1);
             }
         }
-        /// <summary>
-        /// 77.组合
-        /// </summary>
-        /// <param name="n"></param>
-        /// <param name="k"></param>
-        /// <returns></returns>
-        public IList<IList<int>> Combine(int n, int k)
-        {
-            IList<IList<int>> res = new List<IList<int>>();
-            IList<int> path = new List<int>();
-            BackTrackingCombine(res, path, n, k, 1);
-            return res;
-        }
-        public void BackTrackingCombine(IList<IList<int>> result, IList<int> path, int n, int k, int startIndex)
-        {
-            if (path.Count == k)
-            {
-                result.Add(path.ToArray());
-                return;
-            }
-            for (int i = startIndex; i <= n - (k - path.Count) + 1; i++)
-            {
-                path.Add(i);
-                BackTrackingCombine(result, path, n, k, i + 1);
-                path.RemoveAt(path.Count - 1);
-            }
-        }
+        ///// <summary>
+        ///// 77.组合
+        ///// </summary>
+        ///// <param name="n"></param>
+        ///// <param name="k"></param>
+        ///// <returns></returns>
+        //public IList<IList<int>> Combine(int n, int k)
+        //{
+        //    IList<IList<int>> res = new List<IList<int>>();
+        //    IList<int> path = new List<int>();
+        //    BackTrackingCombine(res, path, n, k, 1);
+        //    return res;
+        //}
+        //public void BackTrackingCombine(IList<IList<int>> result, IList<int> path, int n, int k, int startIndex)
+        //{
+        //    if (path.Count == k)
+        //    {
+        //        result.Add(path.ToArray());
+        //        return;
+        //    }
+        //    for (int i = startIndex; i <= n - (k - path.Count) + 1; i++)
+        //    {
+        //        path.Add(i);
+        //        BackTrackingCombine(result, path, n, k, i + 1);
+        //        path.RemoveAt(path.Count - 1);
+        //    }
+        //}
         public IList<IList<int>> Permute(int[] nums)
         {
             int len = nums.Length;

@@ -49,9 +49,13 @@ namespace LeetCodeContinue
 
 
             LeetCode code = new LeetCode();
-
-          var resHaveConflict= code.HaveConflict(new string[] { "01:10","23:59" }, new string[] { "23:59", "23:59", });
-            Console.WriteLine("resHaveConflict   "+ resHaveConflict);
+            code.CompareVersion("1.001.1", "1");
+          //  code.RemoveDuplicates(new int[] { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
+          //   code.SufficientSubset(new TreeNode(new TreeNode(new TreeNode(new TreeNode(8), 4, new TreeNode(9)), 2, new TreeNode(new TreeNode(-99), -99, new TreeNode(-99))), 1, new TreeNode(new TreeNode(new TreeNode(12), -99, new TreeNode(13)), 3, new TreeNode(new TreeNode(-99), 7, new TreeNode(14)))), 1);
+          //  code.Combine(4, 2);
+          //   var restxm = code.RearrangeBarcodes(new int[] { 2, 2, 2, 1, 5 });
+          //  var resHaveConflict = code.HaveConflict(new string[] { "01:10", "23:59" }, new string[] { "23:59", "23:59", });
+          //   Console.WriteLine("resHaveConflict   " + resHaveConflict);
             char[][] carr = new char[9][];
             for (int i = 0; i < carr.Length; i++)
             {
