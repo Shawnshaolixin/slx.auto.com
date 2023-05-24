@@ -141,6 +141,283 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 1090. 受标签影响的最大值
+        /// 输入：values = [5,4,3,2,1], labels = [1,1,2,2,3], numWanted = 3, useLimit = 1
+        /// 输出：9
+        //  解释：选出的子集是第一项，第三项和第五项。
+        /// </summary>
+        /// <param name="values"></param>
+        /// <param name="labels"></param>
+        /// <param name="numWanted"></param>
+        /// <param name="useLimit"></param>
+        /// <returns></returns>
+        public int LargestValsFromLabels1(int[] values, int[] labels, int numWanted, int useLimit)
+        {
+            // 初始化数据
+            // 把数据分组放到集合里面去
+            Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+            Dictionary<int, Stack<int>> dict_stack = new Dictionary<int, Stack<int>>();
+            Dictionary<int, int> dict_takecount = new Dictionary<int, int>();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                var value = values[i];
+                var groupId = labels[i];
+                if (dict.ContainsKey(groupId))
+                {
+                    dict[groupId].Add(value);
+                }
+                else
+                {
+                    dict.Add(groupId, new List<int> { value });
+                }
+            }
+            int key = 0, max_value = 0;
+            foreach (var item in dict)
+            {
+                item.Value.Sort();
+
+                if (item.Value.Last() > max_value)
+                {
+                    max_value = item.Value.Last();
+                    key = item.Key;
+                }
+
+                dict_takecount.Add(item.Key, useLimit);
+            }
+
+            int max = 0;
+
+
+            // 每组最多可以 拿 useLimit 个数
+            // 一共可以拿多少数 numWanted
+
+
+
+            bool flag = false;
+            while (numWanted > 0)
+            {
+                foreach (var item in dict)
+                {
+                    if (dict_takecount[item.Key] <= 0)
+                    {
+                        continue;
+                    }
+                    if (item.Value.Last() > max_value)
+                    {
+                        max_value = item.Value.Last();
+                        key = item.Key;
+                    }
+                }
+                max += max_value;
+
+
+                dict[key].Remove(max_value);
+                if (dict[key].Count > 0)
+                {
+                    dict_takecount[key]--;
+                }
+                else
+                {
+                    dict_takecount[key] = 0;
+                }
+                foreach (var item in dict_takecount)
+                {
+                    if (item.Value > 0)
+                    {
+                        flag = true;
+                    }
+                }
+                if (!flag)
+                {
+                    break;
+
+                }
+                max_value = 0;
+                key = 0;
+                flag = false;
+                numWanted--;
+            }
+
+
+            return max;
+        }
+
+        public int LargestValsFromLabels2(int[] values, int[] labels, int numWanted, int useLimit)
+        {
+            // 初始化数据
+            // 把数据分组放到集合里面去
+            //   Dictionary<int, List<int>> dict = new Dictionary<int, List<int>>();
+            Dictionary<int, Stack<int>> dict_stack = new Dictionary<int, Stack<int>>();
+            Dictionary<int, int> dict_takecount = new Dictionary<int, int>();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                var value = values[i];
+                var groupId = labels[i];
+                if (dict_stack.ContainsKey(groupId))
+                {
+                    var peekValue = dict_stack[groupId].Peek();
+                    if (value >= peekValue) // 当前值比栈顶的值还要大或者等于，直接往里放
+                    {
+                        dict_stack[groupId].Push(value);
+                    }
+                    else // 当前值 比栈顶值小
+                    {
+                        Stack<int> temp_stack = new Stack<int>();
+                        while (dict_stack[groupId].Count > 0 && value < dict_stack[groupId].Peek())
+                        {
+                            temp_stack.Push(dict_stack[groupId].Pop());
+
+                        }
+                        dict_stack[groupId].Push(value);
+                        while (temp_stack.Count > 0)
+                        {
+                            dict_stack[groupId].Push(temp_stack.Pop());
+                        }
+                    }
+                }
+                else
+                {
+                    var stack = new Stack<int>();
+                    stack.Push(value);
+                    dict_stack.Add(groupId, stack);
+                }
+            }
+
+
+            int key = 0, max_value = 0;
+            foreach (var item in dict_stack)
+            {
+
+
+                dict_takecount.Add(item.Key, useLimit);
+            }
+
+            int max = 0;
+
+
+            //// 每组最多可以 拿 useLimit 个数
+            //// 一共可以拿多少数 numWanted
+
+
+
+            bool flag = false;
+            while (numWanted > 0)
+            {
+                foreach (var item in dict_stack)
+                {
+                    if (dict_takecount[item.Key] <= 0)
+                    {
+                        continue;
+                    }
+                    if (item.Value.Count <= 0)
+                    {
+                        continue;
+                    }
+                    if (item.Value.Peek() > max_value)
+                    {
+                        max_value = item.Value.Peek();
+                        key = item.Key;
+                    }
+                }
+                max += max_value;
+
+
+                dict_stack[key].Pop();
+                if (dict_stack[key].Count > 0)
+                {
+                    dict_takecount[key]--;
+                }
+                else
+                {
+                    dict_takecount[key] = 0;
+                }
+                foreach (var item in dict_takecount)
+                {
+                    if (item.Value > 0)
+                    {
+                        flag = true;
+                    }
+                }
+                if (!flag)
+                {
+                    break;
+
+                }
+                max_value = 0;
+                key = 0;
+                flag = false;
+                numWanted--;
+            }
+
+
+            return max;
+        }
+        public int LargestValsFromLabels(int[] values, int[] labels, int numWanted, int useLimit)
+        {
+            int max = int.MinValue;
+            int maxIndex = 0;
+            Dictionary<int, int> dict_takecount = new Dictionary<int, int>();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                for (int j = 0; j < values.Length - i; j++)
+                {
+                    var value = values[j];
+                    if (value > max)
+                    {
+                        max = value;
+                        maxIndex = j;
+                    }
+                }
+                var temp = values[values.Length - i - 1];
+
+                values[values.Length - i - 1] = values[maxIndex];
+                values[maxIndex] = temp;
+                var temp1 = labels[values.Length - i - 1];
+
+                labels[labels.Length - i - 1] = labels[maxIndex];
+                labels[maxIndex] = temp1;
+                max = int.MinValue;
+
+
+            }
+            for (int i = 0; i < values.Length; i++)
+            {
+                if (!dict_takecount.ContainsKey(labels[i]))
+                {
+                    dict_takecount.Add(labels[i], useLimit);
+                }
+            }
+            int index = 0;
+            int count = 0;
+            max = 0;
+            while (index < values.Length)
+            {
+                var label = labels[values.Length - 1 - index];
+                var maxValue = values[values.Length - 1 - index];
+            
+                if (dict_takecount[label] > 0)
+                {
+                    max += maxValue;
+                    count++;
+                    dict_takecount[label]--;
+                    if (count >= numWanted)
+                    {
+                        break;
+                    }
+                }
+
+                index++;
+
+              
+
+            }
+            return max;
+        }
+
+        /// <summary>
         /// 165. 比较版本号
         /// </summary>
         /// <param name="version1"></param>
