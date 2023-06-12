@@ -47,11 +47,16 @@ namespace LeetCodeContinue
             Console.WriteLine(3.5 * 24000);
             Console.WriteLine("共计：");
 
-
+         //   [1,1,3,4,1,1,1,1,1,32,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,4,5,6,7,8,9,2,3,4,5,6,7,8,9]
+         //   [4,4,3,4,1,1,1,1,1,32,1,1,1,1,1,1,1,1,2,3,4,5,6,7,8,9,1,1,1,1,1,1,1,2,3,4,5,6,7,8,9]
+//2
             LeetCode code = new LeetCode();
- 
+         code.MiceAndCheese(new int[] { 4,4,6 }, new int[] { 4, 4, 10 },2);
+      //    code.MiceAndCheese(new int[] { 1, 1, 3, 4, 1, 1, 1, 1, 1, 32, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6, 7, 8, 9 }, new int[] { 4, 4, 3, 4, 1, 1, 1, 1, 1, 32, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9 },2);
+
+            //   code.ApplyOperations(new int[] {1, 2, 2, 1, 1, 0, 1 });
             //[9,8,8,7,6], labels = [0,0,0,1,1], numWanted = 3, useLimit = 1
-            code.LargestValsFromLabels(new int[] { 3, 0, 3, 0, 6 }, new int[] { 0, 2, 1, 1, 0 }, 4,1);
+            //  code.LargestValsFromLabels(new int[] { 3, 0, 3, 0, 6 }, new int[] { 0, 2, 1, 1, 0 }, 4,1);
             //  code.CompareVersion("1.001.1", "1");
             //  code.RemoveDuplicates(new int[] { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0});
             //   code.SufficientSubset(new TreeNode(new TreeNode(new TreeNode(new TreeNode(8), 4, new TreeNode(9)), 2, new TreeNode(new TreeNode(-99), -99, new TreeNode(-99))), 1, new TreeNode(new TreeNode(new TreeNode(12), -99, new TreeNode(13)), 3, new TreeNode(new TreeNode(-99), 7, new TreeNode(14)))), 1);
@@ -59,14 +64,14 @@ namespace LeetCodeContinue
             //   var restxm = code.RearrangeBarcodes(new int[] { 2, 2, 2, 1, 5 });
             //  var resHaveConflict = code.HaveConflict(new string[] { "01:10", "23:59" }, new string[] { "23:59", "23:59", });
             //   Console.WriteLine("resHaveConflict   " + resHaveConflict);
-            char[][] carr = new char[9][];
-            for (int i = 0; i < carr.Length; i++)
-            {
-                carr[i] = new char[9];
-            }
-            var testStr = "[[\"3\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]";
-            var ressss = JsonConvert.DeserializeObject<char[][]>(testStr);
-            code.IsValidSudoku(ressss);
+            //char[][] carr = new char[9][];
+            //for (int i = 0; i < carr.Length; i++)
+            //{
+            //    carr[i] = new char[9];
+            //}
+            //var testStr = "[[\"3\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]";
+            //var ressss = JsonConvert.DeserializeObject<char[][]>(testStr);
+            //code.IsValidSudoku(ressss);
             //   var resMinNumberOfFrogs = code.MinNumberOfFrogs("coark");
             //   Console.WriteLine("resMinNumberOfFrogs==" + resMinNumberOfFrogs);
             //   code.MostFrequentEven(new int[] { 0, 1, 2, 2, 4, 4, 1 });

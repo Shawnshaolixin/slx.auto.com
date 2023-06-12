@@ -140,6 +140,118 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+
+
+        /// <summary>
+        /// 2611. 老鼠和奶酪
+        /// 请你返回第一只老鼠恰好吃掉 k 块奶酪的情况下，最大 得分为多少。
+        /// </summary>
+        /// <param name="reward1"></param>
+        /// <param name="reward2"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public int MiceAndCheese(int[] reward1, int[] reward2, int k)
+        {
+            //  reward1 = [1, 1, 3, 4], reward2 = [4, 4, 1, 1], k = 2
+            // 输出 15 
+            // 解释：这个例子中，第一只老鼠吃掉第 2 和 3 块奶酪（下标从 0 开始），第二只老鼠吃掉第 0 和 1 块奶酪。
+
+
+            // dp 表示什么呢？
+            // 当 种类等于 i时，最大得分
+            //   当 reward1 的长度 等于 k 时 第一只需要把他自己的 都吃掉
+            //   当 reward1 等k+1时,
+            //   第一只可以选择吃或者不吃，不吃r1啥也不用动  sum+=r2[k];
+            //   吃的话 前面的就需要放弃一个，放弃 reward2 值最大的那个
+            //   怎么选择吃或者不吃呢？
+            //   简单点 就是 吃他获取的最大值，比不吃他获取的最大值大，就吃
+
+        //    int[] dp = new int[reward1.Length];
+            int[][] test = new int[k][];
+            for (int i = 0; i < test.Length; i++)
+            {
+                test[i] = new int[2];
+                test[i][0] = reward1[i];
+                test[i][1] = reward2[i];
+            }
+            //dp[0] = reward1[0];
+            //for (int i = 1; i < k; i++)
+            //{
+            //    dp[i] = dp[i - 1] + reward1[i];
+            //}
+
+            int index = 0;
+            int sum = 0;
+            for (int i = k; i < reward1.Length; i++)
+            {
+                int minValue = int.MaxValue;
+                var num1 = reward1[i] - reward2[i];
+
+                for (int j = 0; j < test.Length; j++)
+                {
+                    var num2 = test[j][0] - test[j][1];
+                    if (num2 < minValue)
+                    {
+                        minValue = num2;
+                        index = j;
+                    }
+                }
+                if (num1 > minValue)
+                {
+                    sum += test[index][1];
+                    test[index][0] = reward1[i];
+                    test[index][1] = reward2[i];
+                }
+                else
+                {
+                    sum += reward2[i];
+                }
+            }
+            for (int i = 0; i < test.Length; i++)
+            {
+                sum += test[i][0];
+            }
+
+            return sum;
+        }
+        /// <summary>
+        /// 2460. 对数组执行操作
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int[] ApplyOperations(int[] nums)
+        {
+            for (int i = 0; i < nums.Length - 1; i++)
+            {
+                if (nums[i] == nums[i + 1])
+                {
+                    nums[i] = 2 * nums[i];
+                    nums[i + 1] = 0;
+                }
+            }
+            int lowIndex = 0;
+            int lastIndex = nums.Length - 1;
+            int tempIndex = 0;
+            while (lowIndex < lastIndex)
+            {
+                if (nums[tempIndex] == 0)
+                {
+                    while (tempIndex < nums.Length - 1)
+                    {
+                        nums[tempIndex] = nums[tempIndex + 1];
+                        tempIndex++;
+                    }
+                    nums[tempIndex] = 0;
+                    lastIndex--;
+                }
+                if (nums[lowIndex] != 0)
+                    lowIndex++;
+
+                tempIndex = lowIndex;
+            }
+
+            return nums;
+        }
         /// <summary>
         /// 1090. 受标签影响的最大值
         /// 输入：values = [5,4,3,2,1], labels = [1,1,2,2,3], numWanted = 3, useLimit = 1
@@ -397,7 +509,7 @@ namespace LeetCodeContinue
             {
                 var label = labels[values.Length - 1 - index];
                 var maxValue = values[values.Length - 1 - index];
-            
+
                 if (dict_takecount[label] > 0)
                 {
                     max += maxValue;
@@ -411,7 +523,7 @@ namespace LeetCodeContinue
 
                 index++;
 
-              
+
 
             }
             return max;
