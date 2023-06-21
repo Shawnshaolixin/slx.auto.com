@@ -143,6 +143,161 @@ namespace LeetCodeContinue
 
 
         /// <summary>
+        /// 1262. 可被三整除的最大和
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int MaxSumDivThree(int[] nums)
+        {
+
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            int sum = 0;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (dict.ContainsKey(nums[i]))
+                {
+                    dict[nums[i]]++;
+                }
+                else
+                {
+                    dict.Add(nums[i], 1);
+                }
+                sum += nums[i];
+            }
+            var yu = sum % 3;
+            if (yu == 0)
+            {
+                return sum;
+            }
+            int minValue = int.MaxValue;
+            for (int i = 0; i < nums.Length; i++)
+            {
+                while (dict[nums[i]] > 0 && nums[i] < 3)
+                {
+                    for (int j = 1; j <= dict[nums[i]]; j++)
+                    {
+                        if ((nums[i] * j - yu) % 3 == 0)
+                        {
+                            if (nums[i] < minValue)
+                            {
+                                minValue = nums[i] * j;
+                            }
+                        }
+                    }
+                    dict[nums[i]]--;
+
+                }
+                if ((nums[i] - yu) % 3 == 0)
+                {
+                    if (nums[i] < minValue)
+                    {
+                        minValue = nums[i];
+                    }
+                }
+            }
+            if (minValue == int.MaxValue)
+            {
+                return 0;
+            }
+            return sum - minValue;
+        }
+        /// <summary>
+        /// 计数排序
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        public int[] CountingSort(int[] arr)
+        {
+            int min = arr[0];
+            int max = arr[0];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] < min)
+                {
+                    min = arr[i];
+                }
+                if (arr[i] > max)
+                {
+                    max = arr[i];
+                }
+            }
+            int[] arr_dict = new int[max - min + 1];
+
+
+            return null;
+        }
+        /// <summary>
+        /// 2734. 执行子串操作后的字典序最小字符串
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public string SmallestString(string s)
+        {
+            //   输入：s = "cbabc"
+            //  输出："baabc"
+            //  输入：s = "acbbc"
+            // 输出："abaab"
+            return null;
+        }
+        /// <summary>
+        /// 虚拟竞赛
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int FindNonMinOrMax(int[] nums)
+        {
+            int minValue = nums[0];
+            int maxValue = nums[0];
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] < minValue)
+                {
+                    minValue = nums[i];
+                }
+                if (nums[i] > maxValue)
+                {
+                    maxValue = nums[i];
+                }
+            }
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (nums[i] != minValue && nums[i] != maxValue)
+                {
+                    return nums[i];
+                }
+            }
+            return -1;
+        }
+        /// <summary>
+        /// 1171. 从链表中删去总和值为零的连续节点
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode RemoveZeroSumSublists(ListNode head)
+        {
+            Dictionary<int, ListNode> dict = new Dictionary<int, ListNode>();
+            ListNode dummy = new ListNode(0);
+            dummy.next = head;
+            int sum = 0;
+            while (head != null)
+            {
+                sum += head.val;
+
+                dict[sum] = head;
+
+                head = head.next;
+            }
+            sum = 0;
+            for (ListNode node = dummy; node != null; node = node.next)
+            {
+                sum += node.val;
+                node.next = dict[sum].next;
+            }
+            return dummy.next;
+        }
+
+        /// <summary>
         /// 2611. 老鼠和奶酪
         /// 请你返回第一只老鼠恰好吃掉 k 块奶酪的情况下，最大 得分为多少。
         /// </summary>
@@ -166,7 +321,7 @@ namespace LeetCodeContinue
             //   怎么选择吃或者不吃呢？
             //   简单点 就是 吃他获取的最大值，比不吃他获取的最大值大，就吃
 
-        //    int[] dp = new int[reward1.Length];
+            //    int[] dp = new int[reward1.Length];
             int[][] test = new int[k][];
             for (int i = 0; i < test.Length; i++)
             {
@@ -1177,127 +1332,41 @@ namespace LeetCodeContinue
             var arr1 = sentence1.Split(" ");
             var arr2 = sentence2.Split(" ");
 
-            int[] arr1Res = new int[arr1.Length];
-            int[] arr2Res = new int[arr2.Length];
 
-            int j = 0;
-            if (arr1.Length > arr2.Length)
+
+
+            //if (arr1.Length == arr2.Length)
+            //{
+            //    return sentence1 == sentence2;
+            //}
+            //if (arr1.Length == 1)
+            //{
+            //    return arr1[0] == arr2[0] || arr1[0] == arr2[arr2.Length - 1];
+            //}
+            int lowIndexArr1 = 0;
+            int fastIndexArr1 = arr1.Length - 1;
+            int lowIndexArr2 = 0;
+            int fastIndexArr2 = arr2.Length - 1;
+
+            while (lowIndexArr1 <= fastIndexArr1 && lowIndexArr2 <= fastIndexArr2)
             {
-                if (arr2.Length == 1 && arr1[0] == arr2[0] || arr2.Length == 1 && arr1[arr1.Length - 1] == arr2[0])
+                if (arr1[lowIndexArr1] != arr2[lowIndexArr2] && arr1[fastIndexArr1] != arr2[fastIndexArr2])
                 {
-                    return true;
+                    return false;
                 }
-                for (int i = 0; i < arr1.Length; i++)
+                if (arr1[lowIndexArr1] == arr2[lowIndexArr2])
                 {
-                    if (j < arr2.Length)
-                    {
-
-                        if (arr1[i] == arr2[j])
-                        {
-                            arr1Res[i] = 1;
-                            arr2Res[j] = 1;
-                            j++;
-                        }
-                    }
+                    lowIndexArr1++;
+                    lowIndexArr2++;
                 }
-            }
-            else
-            {
-                if (arr1.Length == 1 && arr2[0] == arr1[0] || (arr1.Length == 1 && arr2[arr2.Length - 1] == arr1[0]))
+                if (arr1[fastIndexArr1] == arr2[fastIndexArr2])
                 {
-                    return true;
-                }
-                for (int i = 0; i < arr2.Length; i++)
-                {
-                    if (j < arr1.Length)
-                    {
-
-
-                        if (arr2[i] == arr1[j])
-                        {
-                            arr1Res[j] = 1;
-                            arr2Res[i] = 1;
-                            j++;
-                        }
-                    }
+                    fastIndexArr1--;
+                    fastIndexArr2--;
                 }
 
             }
-            Stack<int> stack = new Stack<int>();
-            if (arr1.Length > arr2.Length)
-            {
-                for (int i = 0; i < arr2Res.Length; i++)
-                {
-                    if (arr2Res[i] == 0)
-                    {
-                        return false;
-                    }
-                }
-
-                for (int i = 0; i < arr1Res.Length; i++)
-                {
-
-                    if (stack.Count == 0)
-                    {
-                        stack.Push(arr1Res[i]);
-                    }
-                    else
-                    {
-                        if (stack.Peek() == arr1Res[i])
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            stack.Push(arr1Res[i]);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < arr1Res.Length; i++)
-                {
-                    if (arr1Res[i] == 0)
-                    {
-                        return false;
-                    }
-                }
-
-                for (int i = 0; i < arr2Res.Length; i++)
-                {
-
-                    if (stack.Count == 0)
-                    {
-                        stack.Push(arr2Res[i]);
-                    }
-                    else
-                    {
-                        if (stack.Peek() == arr2Res[i])
-                        {
-                            continue;
-                        }
-                        else
-                        {
-                            stack.Push(arr2Res[i]);
-                        }
-                    }
-                }
-            }
-            int zeroCount = 0;
-            int oneCount = 0;
-            while (stack.Count > 0)
-            {
-                if (stack.Pop() == 0)
-                {
-                    zeroCount++;
-                }
-                else
-                {
-                    oneCount++;
-                }
-            }
-            return zeroCount <= 1 && oneCount > 0;
+            return true;
         }
         /// <summary>
         /// 1807. 替换字符串中的括号内容
@@ -4006,20 +4075,41 @@ namespace LeetCodeContinue
             {
                 set.Add(wordDict[i]);
             }
-            int endIndex = s.Length - 1;
-            int startIndex = 0;
-            while (endIndex > 0)
+
+
+    
+
+                WordBreak1(s, set,0);
+  
+          
+            return false;
+        }
+        public bool WordBreak1(string s, HashSet<string> set,int temp)
+        {
+            int splitLength = 1;
+
+
+            while (splitLength <= s.Length)
             {
 
-                string startStr = s.Substring(startIndex, endIndex - startIndex + 1);
-                if (set.Contains(startStr))
+                var str = s.Substring(0, splitLength);
+                if (set.Contains(str))
                 {
-                    startIndex = startStr.Length - 1;
-                    endIndex = s.Length - 1;
-                    continue;
-                }
-                endIndex--;
+                   
+                    s = s.Substring(splitLength, s.Length - splitLength);
 
+                    if (s == "")
+                    {
+                        return true;
+                    }
+                 
+                     WordBreak1(s, set, temp);
+
+                }
+                else
+                {
+                    splitLength++;
+                }
             }
 
             return false;

@@ -40,19 +40,31 @@ namespace LeetCodeContinue
 
         static void Main(string[] args)
         {
+
             var span = DateTime.Now - new DateTime(2023, 3, 24);
             Console.WriteLine("day " + (span.Days + 1) + "天了");
             // n = 2.5
             // n + 1 = 3.5
             Console.WriteLine(3.5 * 24000);
             Console.WriteLine("共计：");
+            //LRUCache cache = new LRUCache(2);
+            //cache.Put(2, 1);
+            //cache.Put(2, 2);
+            //Console.WriteLine(cache.Get(2));
+            //cache.Put(1, 1);
+            //cache.Put(4, 1);
+            //Console.WriteLine(cache.Get(2));
 
-         //   [1,1,3,4,1,1,1,1,1,32,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,3,4,5,6,7,8,9,2,3,4,5,6,7,8,9]
-         //   [4,4,3,4,1,1,1,1,1,32,1,1,1,1,1,1,1,1,2,3,4,5,6,7,8,9,1,1,1,1,1,1,1,2,3,4,5,6,7,8,9]
-//2
+
             LeetCode code = new LeetCode();
-         code.MiceAndCheese(new int[] { 4,4,6 }, new int[] { 4, 4, 10 },2);
-      //    code.MiceAndCheese(new int[] { 1, 1, 3, 4, 1, 1, 1, 1, 1, 32, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6, 7, 8, 9 }, new int[] { 4, 4, 3, 4, 1, 1, 1, 1, 1, 32, 1, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 1, 1, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9 },2);
+        code.WordBreak("goalspecial", new string[] { "go", "goal", "goals", "special" });
+        //    code.WordBreak("goalspecial", new string[] { "go", "alspecial", "goals", "special" });
+            //   var resMaxSumDivThree = code.MaxSumDivThree(new int[] { 2, 3, 36, 8, 32, 38, 3, 30, 13, 40 });
+            //  Console.WriteLine("MaxSumDivThree===" + resMaxSumDivThree);
+            // code.FindNonMinOrMax(new int[] { 3, 2, 1, 4 });
+            //   var head1 = Helper.ArrToListNode(new int[] { 1, 2, -3, 3, 1 });
+            //   code.RemoveZeroSumSublists(head1);
+            //   code.MiceAndCheese(new int[] { 4,4,6 }, new int[] { 4, 4, 10 },2);
 
             //   code.ApplyOperations(new int[] {1, 2, 2, 1, 1, 0, 1 });
             //[9,8,8,7,6], labels = [0,0,0,1,1], numWanted = 3, useLimit = 1
@@ -111,9 +123,11 @@ namespace LeetCodeContinue
 
 
 
-            // var a = "Are You Okay";
-            // var b = "are you okay";
-            //var c= code.AreSentencesSimilar(a, b);
+            //var a = "Are You Okay";
+            //var b = "are you okay";
+            var a = "of words";
+            var b = "of";
+            var c = code.AreSentencesSimilar(a, b);
             // DateTime end = DateTime.Now;
             // TimeSpan abs = end - start;
             // Console.WriteLine("程序执行时间："+abs.TotalMilliseconds +"c->"+ c);
@@ -126,7 +140,7 @@ namespace LeetCodeContinue
             // Console.WriteLine("1684 = " + code.CountConsistentStrings("cad", new string[] { "cc", "acd", "b", "ba", "bac", "bad", "ac", "d" }));
 
             Console.WriteLine(code.CustomSortString("kqep", "pekeq"));
-            Console.WriteLine(code.CustomSortString("cbafg", "abcd"));
+            //     Console.WriteLine(code.CustomSortString("cbafg", "abcd"));
 
             Console.ReadKey();
             //    code.AdvantageCount(new int[] { 12, 24, 8, 3 }, new int[] { 13, 25, 32, 11 });
@@ -145,11 +159,11 @@ namespace LeetCodeContinue
             //  code.ValidateStackSequences(new int[] { 1, 2, 3, 4, 5 }, new int[] { 4, 3, 5, 1, 2 });
             //
             //  code.DeepestLeavesSum(root);
-            var r = code.GenerateTheString(50);
-            Console.WriteLine(r);
+            //  var r = code.GenerateTheString(50);
+            //  Console.WriteLine(r);
             // code.TestMyCalendarTwo();
             // code.ThreeSum(new int[] { -1, 0, 1, 2, -1, -4});
-            //   code.WordBreak("goalspecial", new string[] { "go","goal","goals","special" });
+
             //  code.AsteroidCollision(new int[] { 11, -90 }); //, 5, -10, 100
             //  var check1 = code.Check(new int[] {9, 1, 3, 4 });
             //  Console.WriteLine("-------" + check1);
