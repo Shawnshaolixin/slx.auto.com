@@ -140,8 +140,41 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+        /// <summary>
+        /// 2485. 找出中枢整数
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public int PivotInteger(int n)
+        {
+            var sum = (1 + n) * n / 2;
+            for (int i = 1; i <= n; i++)
+            {
+                var sum1 = (1 + i) * i / 2;
+                if (sum - sum1 + i == sum1)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="radius"></param>
+        /// <param name="xCenter"></param>
+        /// <param name="yCenter"></param>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
+        /// <returns></returns>
+        public bool CheckOverlap(int radius, int xCenter, int yCenter, int x1, int y1, int x2, int y2)
+        {
 
 
+            return false;
+        }
         /// <summary>
         /// 1262. 可被三整除的最大和
         /// </summary>
@@ -4077,14 +4110,14 @@ namespace LeetCodeContinue
             }
 
 
-    
 
-                WordBreak1(s, set,0);
-  
-          
+
+            WordBreak1(s, set, 0);
+
+
             return false;
         }
-        public bool WordBreak1(string s, HashSet<string> set,int temp)
+        public bool WordBreak1(string s, HashSet<string> set, int temp)
         {
             int splitLength = 1;
 
@@ -4095,15 +4128,15 @@ namespace LeetCodeContinue
                 var str = s.Substring(0, splitLength);
                 if (set.Contains(str))
                 {
-                   
+
                     s = s.Substring(splitLength, s.Length - splitLength);
 
                     if (s == "")
                     {
                         return true;
                     }
-                 
-                     WordBreak1(s, set, temp);
+
+                    WordBreak1(s, set, temp);
 
                 }
                 else

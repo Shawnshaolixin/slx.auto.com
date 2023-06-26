@@ -40,7 +40,9 @@ namespace LeetCodeContinue
 
         static void Main(string[] args)
         {
-
+            // 8 9 10 11 12 1 2 3 4
+            var sum = (350 + 260) * 8;
+            Console.WriteLine("sum="+sum);
             var span = DateTime.Now - new DateTime(2023, 3, 24);
             Console.WriteLine("day " + (span.Days + 1) + "天了");
             // n = 2.5
@@ -57,8 +59,8 @@ namespace LeetCodeContinue
 
 
             LeetCode code = new LeetCode();
-        code.WordBreak("goalspecial", new string[] { "go", "goal", "goals", "special" });
-        //    code.WordBreak("goalspecial", new string[] { "go", "alspecial", "goals", "special" });
+            code.WordBreak("goalspecial", new string[] { "go", "goal", "goals", "special" });
+            //    code.WordBreak("goalspecial", new string[] { "go", "alspecial", "goals", "special" });
             //   var resMaxSumDivThree = code.MaxSumDivThree(new int[] { 2, 3, 36, 8, 32, 38, 3, 30, 13, 40 });
             //  Console.WriteLine("MaxSumDivThree===" + resMaxSumDivThree);
             // code.FindNonMinOrMax(new int[] { 3, 2, 1, 4 });
