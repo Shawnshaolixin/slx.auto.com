@@ -59,7 +59,9 @@ namespace LeetCodeContinue
 
 
             LeetCode code = new LeetCode();
-            code.WordBreak("goalspecial", new string[] { "go", "goal", "goals", "special" });
+            code.ReconstructMatrix(5, 5, new int[] { 2, 1, 2, 0, 1, 0, 1, 2, 0, 1});
+            //   code.MaximumSum(new int[] { 2, 1, -2, -5, -2});
+            // code.WordBreak("goalspecial", new string[] { "go", "goal", "goals", "special" });
             //    code.WordBreak("goalspecial", new string[] { "go", "alspecial", "goals", "special" });
             //   var resMaxSumDivThree = code.MaxSumDivThree(new int[] { 2, 3, 36, 8, 32, 38, 3, 30, 13, 40 });
             //  Console.WriteLine("MaxSumDivThree===" + resMaxSumDivThree);

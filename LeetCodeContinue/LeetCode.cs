@@ -141,6 +141,107 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 1253. 重构 2 行二进制矩阵
+        /// </summary>
+        /// <param name="upper"></param>
+        /// <param name="lower"></param>
+        /// <param name="colsum"></param>
+        /// <returns></returns>
+        public IList<IList<int>> ReconstructMatrix(int upper, int lower, int[] colsum)
+        {
+            // upper = 5;
+            // lower = 5;
+            // colsum = [2,1,2,0,1,0,1,2,0,1]
+            IList<IList<int>> res = new List<IList<int>>();
+            int[][] arr = new int[2][];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = new int[colsum.Length];
+            }
+            int sum1 = 0;
+            int sum2 = 0;
+            for (int i = 0; i < colsum.Length; i++)
+            {
+                if (colsum[i] == 0)
+                {
+                    arr[0][i] = 0;
+                    arr[1][i] = 0;
+
+                }
+                if (colsum[i] == 2)
+                {
+                    arr[0][i] = 1;
+                    arr[1][i] = 1;
+                    sum1++;
+                    sum2++;
+
+                }
+
+            }
+
+            for (int i = 0; i < colsum.Length; i++)
+            {
+
+                if (colsum[i] == 1)
+                {
+                    if (sum1 > upper)
+                    {
+                        return res;
+                    }
+                    if (sum2 > lower)
+                    {
+                        return res;
+                    }
+                    if (upper > sum1)
+                    {
+                        arr[0][i] = 1;
+                        sum1++;
+                        continue;
+                    }
+                    else if (lower > sum2)
+                    {
+                        arr[1][i] = 1;
+                        sum2++;
+                        continue;
+                    }
+                    if (upper == sum1 && lower == sum2)
+                    {
+                        return res;
+                    }
+                }
+               
+            }
+            if (upper == sum1 && lower == sum2)
+            {
+                return arr;
+            }
+            return res;
+        }
+        /// <summary>
+        /// 1186. 删除一次得到子数组最大和
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <returns></returns>
+        public int MaximumSum(int[] arr)
+        {
+            // arr = [1, -2, 0, 3];
+            int[][] dp = new int[arr.Length][]; // dp[i][0] 表示没有删除数， dp[i][1] 表示删除了一个数
+            for (int i = 0; i < dp.Length; i++)
+            {
+                dp[i] = new int[2];
+            }
+            int res = arr[0];
+            dp[0][0] = arr[0];
+            dp[0][1] = arr[0];
+            for (int i = 1; i < arr.Length; i++)
+            {
+                dp[i][0] = Math.Max(dp[i - 1][0] + arr[i], arr[i]);// 没有删除的 就看连续子数组的和 加上我自己  比不比我自己大
+                dp[i][1] = Math.Max(dp[i - 1][1] + arr[i], dp[i - 1][0]); // 删除了一个数的必然要加上我，和 不删除元素比谁大，如果 不删除的 大 取不删除的 否则取
+                res = Math.Max(Math.Max(dp[i][0], dp[i][1]), res);// 每一轮都找出最大值
+            }
+            return res;
+        }
+        /// <summary>
         /// 2485. 找出中枢整数
         /// </summary>
         /// <param name="n"></param>
