@@ -40,9 +40,9 @@ namespace LeetCodeContinue
 
         static void Main(string[] args)
         {
-            // 8 9 10 11 12 1 2 3 4
-            var sum = (350 + 260) * 8;
-            Console.WriteLine("sum="+sum);
+            // 8 9 10 11 12 1 2 3 4,5,6,7,8,9,10
+            var sum = (35 + 26) * 15;
+            Console.WriteLine("sum=" + sum);
             var span = DateTime.Now - new DateTime(2023, 3, 24);
             Console.WriteLine("day " + (span.Days + 1) + "天了");
             // n = 2.5
@@ -57,9 +57,26 @@ namespace LeetCodeContinue
             //cache.Put(4, 1);
             //Console.WriteLine(cache.Get(2));
 
-
+            //[[7,2,1],[6,4,2],[6,5,3],[3,2,1]]
             LeetCode code = new LeetCode();
-            code.ReconstructMatrix(5, 5, new int[] { 2, 1, 2, 0, 1, 0, 1, 2, 0, 1});
+            code.MaximumEvenSplit(6);
+            Console.ReadKey();
+            //int[][] nums = new int[4][];
+
+            //nums[0] = new int[] { 7, 2, 1 };
+            //nums[1] = new int[] { 6, 4, 2 };
+            //nums[2] = new int[] { 6, 5, 3 };
+            //nums[3] = new int[] { 3, 2, 1 };
+
+
+            //// var r = code.TwoSum(new int[] {3,2,4 }, 6);
+            //Console.WriteLine(code.MatrixSum(nums));
+            //  Console.WriteLine(r.ToString());
+            //Console.WriteLine(code.IsCircularSentence("abcda"));
+            //Console.WriteLine(code.IsCircularSentence("abcdb"));
+            //Console.WriteLine(code.IsCircularSentence("leetcode exercises sound delightful"));
+            //Console.WriteLine(code.IsCircularSentence("Leetcode is cool"));
+            // code.ReconstructMatrix(5, 5, new int[] { 2, 1, 2, 0, 1, 0, 1, 2, 0, 1});
             //   code.MaximumSum(new int[] { 2, 1, -2, -5, -2});
             // code.WordBreak("goalspecial", new string[] { "go", "goal", "goals", "special" });
             //    code.WordBreak("goalspecial", new string[] { "go", "alspecial", "goals", "special" });

@@ -141,6 +141,126 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 2178. 拆分成最多数目的正偶数之和
+        /// </summary>
+        /// <param name="finalSum"></param>
+        /// <returns></returns>
+        public IList<long> MaximumEvenSplit(long finalSum)
+        {
+
+            if (finalSum % 2 != 0)
+            {
+                return new long[] { };
+            }
+
+
+            IList<long> result = new List<long>();
+
+            int num = 2;
+            while (finalSum > 0)
+            {
+                if (finalSum < num)
+                {
+                    result.Remove(num - 2);
+
+                    result.Add(finalSum + num - 2);
+                    break;
+                }
+                var yushu = finalSum - num;
+
+                finalSum = yushu;
+                result.Add(num);
+
+                num += 2;
+            }
+            return result;
+        }
+        /// <summary>
+        /// 2679. 矩阵中的和
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int MatrixSum(int[][] nums)
+        {
+            int[][] tempNums = new int[nums.Length][];
+            for (int i = 0; i < tempNums.Length; i++)
+            {
+                tempNums[i] = new int[nums[0].Length];
+            }
+            List<int> list = new List<int>();
+            int score = 0;
+            int lowIndex = 0;
+            while (lowIndex < nums[0].Length)
+            {
+                list.Clear();
+                for (int i = 0; i < nums.Length; i++)
+                {
+                    var rowArr = nums[i];
+                    int maxValue = int.MinValue;
+                    int index = 0;
+                    for (int j = 0; j < rowArr.Length; j++)
+                    {
+                        if (tempNums[i][j] == 1)
+                        {
+                            continue;
+                        }
+                        if (rowArr[j] > maxValue)
+                        {
+                            maxValue = rowArr[j];
+                            index = j;
+                        }
+                    }
+
+                    tempNums[i][index] = 1;
+                    list.Add(maxValue);
+                }
+                score += list.Max();
+                lowIndex++;
+            }
+            return score;
+        }
+        public int[] TwoSum(int[] nums, int target)
+        {
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                dict[nums[i]] = i;
+            }
+            for (int i = 0; i < nums.Length; i++)
+            {
+                var num = target - nums[i];
+                if (dict.ContainsKey(num) && dict[num] != i)
+                {
+                    return new int[] { dict[num], i };
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// 2490. 回环句
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
+        public bool IsCircularSentence(string sentence)
+        {
+            var arr = sentence.Split(' ');
+            if (arr.Length == 1)
+            {
+                return arr[0][0] == arr[0][arr[0].Length - 1];
+            }
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                var str = arr[i];
+                var strNext = arr[i + 1];
+                if (str[str.Length - 1] != strNext[0])
+                {
+                    return false;
+                }
+            }
+            var lastStr = arr[arr.Length - 1];
+            return arr[0][0] == lastStr[lastStr.Length - 1];
+        }
+        /// <summary>
         /// 1253. 重构 2 行二进制矩阵
         /// </summary>
         /// <param name="upper"></param>
@@ -209,7 +329,7 @@ namespace LeetCodeContinue
                         return res;
                     }
                 }
-               
+
             }
             if (upper == sum1 && lower == sum2)
             {
@@ -4435,6 +4555,7 @@ namespace LeetCodeContinue
             }
             return pre;
         }
+
         public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
         {
             ListNode node = new ListNode(0);
@@ -4856,17 +4977,7 @@ namespace LeetCodeContinue
             var result = soreArr.Skip(soreArr.Length - k).Take(k).ToArray();
             return result;
         }
-        /// <summary>
-        /// 167. 两数之和 II - 输入有序数组
-        /// </summary>
-        /// <param name="numbers"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
-        public int[] TwoSum(int[] numbers, int target)
-        {
 
-            return null;
-        }
         public bool ContainsNearbyDuplicate(int[] nums, int k)
         {
             Dictionary<int, int> dict = new Dictionary<int, int>();
