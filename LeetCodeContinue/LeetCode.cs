@@ -141,6 +141,176 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 37. 解数独
+        /// </summary>
+        /// <param name="board"></param>
+        public void SolveSudoku(char[][] board)
+        {
+
+            List<char> col = new List<char>();
+            List<char> nine = new List<char>();
+            List<IList<char>>[][] temp = new List<IList<char>>[9][];
+            for (int i = 0; i < temp.Length; i++)
+            {
+                temp[i] = new List<IList<char>>[9];
+            }
+            for (int i = 0; i < board.Length; i++)
+            {
+                for (int j = 0; j < board[i].Length; j++)
+                {
+                    {
+                        temp[i][j] = new List<IList<char>>();
+                    }
+                }
+            }
+            #region 处理行
+            for (int i = 0; i < board.Length; i++)
+            {
+                List<char> row = new List<char>(9);
+                for (int m = 1; m <= 9; m++)
+                {
+                    row.Add((char)(48 + m)); //1 = 49
+                }
+                for (int j = 0; j < board[i].Length; j++)
+                {
+                    if (board[i][j] != '.')
+                    {
+                        row.Remove(board[i][j]);
+                    }
+                }
+                for (int j = 0; j < board[i].Length; j++)
+                {
+                    if (board[i][j] == '.')
+                    {
+                        temp[i][j].Add(row);
+                    }
+                }
+
+            }
+            #endregion
+
+            #region 处理列
+            for (int i = 0; i < board.Length; i++)
+            {
+                List<char> row = new List<char>(9);
+                for (int m = 1; m <= 9; m++)
+                {
+                    row.Add((char)(48 + m)); //1 = 49
+                }
+                for (int j = 0; j < board[i].Length; j++)
+                {
+                    if (board[j][i] != '.')
+                    {
+                        row.Remove(board[j][i]);
+                    }
+                }
+                for (int j = 0; j < board[i].Length; j++)
+                {
+                    if (board[j][i] == '.')
+                    {
+                        temp[j][i].Add(row);
+                    }
+                }
+
+            }
+            #endregion
+
+            #region 处理九宫格
+
+
+
+
+            int index_row = 0;
+            int index_col = 0;
+            while (index_col < 3)
+            {
+                while (index_row < 3)
+                {
+                    List<char> row = new List<char>(9);
+                    for (int m = 1; m <= 9; m++)
+                    {
+                        row.Add((char)(48 + m)); //1 = 49
+                    }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            row.Remove(board[i + index_col * 3][j + index_row * 3]);
+                        }
+
+                    }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            if (board[i + index_col * 3][j + index_row * 3] == '.')
+                            {
+                                temp[i + index_col * 3][j + index_row * 3].Add(row);
+                            }
+                        }
+                    }
+                    index_row++;
+
+                }
+
+                index_row = 0;
+                index_col++;
+            }
+            #endregion
+
+            #region 获取交集
+
+
+            Dfs123(board, temp, (char)0, 0, 0);
+            #endregion
+        }
+
+        bool Dfs123(char[][] board, List<IList<char>>[][] temp, char c, int row, int col)
+        {
+            if (col == 9)
+            {
+                col = 0;
+                row++;
+                if (row == 9)
+                {
+                    return true;
+                }
+            }
+            if (board[row][col] == '.')
+            {
+                //Console.WriteLine($"row={i},col={j},交集=" + interList.Count + " value=" + string.Join(',', interList));
+                var interList = temp[row][col][0].Intersect(temp[row][col][1]).Intersect(temp[row][col][2]).ToList();
+
+                for (int k = 0; k < interList.Count; k++)
+                {
+                    temp[row][col][0].Remove(interList[k]);
+                    temp[row][col][1].Remove(interList[k]);
+                    temp[row][col][2].Remove(interList[k]);
+                    board[row][col] = interList[k];
+                    if (Dfs123(board, temp, interList[k], row, col + 1))
+                    {
+                        return true;
+                    }
+                    // 这里是回溯的精髓，把删除掉的数据加回来
+                    board[row][col] = '.';
+                    temp[row][col][0].Add(interList[k]);
+                    temp[row][col][1].Add(interList[k]);
+                    temp[row][col][2].Add(interList[k]);
+                }
+
+
+
+                //  Console.WriteLine();
+            }
+            else
+            {
+                return Dfs123(board, temp, (char)0, row, col + 1);
+            }
+
+
+            return false;
+        }
+        /// <summary>
         /// 2178. 拆分成最多数目的正偶数之和
         /// </summary>
         /// <param name="finalSum"></param>
