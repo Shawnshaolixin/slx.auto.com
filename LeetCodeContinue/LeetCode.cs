@@ -141,6 +141,378 @@ namespace LeetCodeContinue
     public class LeetCode
     {
         /// <summary>
+        /// 415. 字符串相加
+        /// </summary>
+        /// <param name="num1"></param>
+        /// <param name="num2"></param>
+        /// <returns></returns>
+        public string AddStrings(string num1, string num2)
+        {
+            int index = 0;
+            int index1 = 0;
+            int shang = 0;
+            string result = "";
+            while (index < num1.Length || index1 < num2.Length)
+            {
+                int char1 = index < num1.Length ? (int)(num1[num1.Length - 1 - index] - 48) : 0;
+                int char2 = index1 < num2.Length ? (int)(num2[num2.Length - 1 - index1] - 48) : 0;
+                var char3 = char1 + char2 + shang;
+                var yu = char3 % 10;
+                result = (result + yu);
+                shang = char3 / 10;
+                index++;
+                index1++;
+            }
+            if (shang > 0)
+            {
+                result += shang;
+            }
+            char[] arr = new char[result.Length];
+            for (int i = 0; i < result.Length; i++)
+            {
+                arr[i] = result[result.Length - 1 - i];
+            }
+            return new string(arr);
+        }
+        /// <summary>
+        /// 451. 根据字符出现频率排序
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public string FrequencySort(string s)
+        {
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (dict.ContainsKey(s[i]))
+                {
+                    dict[s[i]]++;
+                }
+                else
+                {
+                    dict.Add(s[i], 1);
+                }
+            }
+            char[] arr = new char[dict.Count];
+            int[] arr1 = new int[dict.Count];
+            int index = 0;
+            foreach (var item in dict)
+            {
+
+                arr1[index] = item.Value;
+                arr[index] = item.Key;
+                index++;
+            }
+            int maxValue = arr1[0];
+            index = 0;
+            for (int i = 0; i < arr1.Length; i++)
+            {
+
+                for (int j = 0; j < arr1.Length - i; j++)
+                {
+                    if (arr1[j] > maxValue)
+                    {
+                        maxValue = arr1[j];
+                        index = j;
+                    }
+                }
+                int temp = arr1[arr1.Length - i - 1];
+                arr1[arr1.Length - i - 1] = arr1[index];
+                arr1[index] = temp;
+
+                var temp1 = arr[arr1.Length - i - 1];
+                arr[arr1.Length - i - 1] = arr[index];
+                arr[index] = temp1;
+                maxValue = int.MinValue;
+            }
+
+            char[] arr3 = new char[s.Length];
+            int arr3Index = 0;
+
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                index = 0;
+
+                while (index < arr1[arr1.Length - 1 - i] && arr3Index < arr3.Length)
+                {
+                    arr3[arr3Index] = arr[arr1.Length - 1 - i];
+                    arr3Index++;
+                    index++;
+                }
+            }
+            var result = new string(arr3);
+            return result;
+        }
+        /// <summary>
+        /// 387. 字符串中的第一个唯一字符
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public int FirstUniqChar(string s)
+        {
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (dict.ContainsKey(s[i]))
+                {
+                    dict[s[i]]++;
+                }
+                else
+                {
+                    dict.Add(s[i], 1);
+                }
+            }
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (dict[s[i]] == 1)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        /// <summary>
+        /// 383. 赎金信
+        /// </summary>
+        /// <param name="ransomNote"></param>
+        /// <param name="magazine"></param>
+        /// <returns></returns>
+        public bool CanConstruct(string ransomNote, string magazine)
+        {
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            for (int i = 0; i < magazine.Length; i++)
+            {
+                if (dict.ContainsKey(magazine[i]))
+                {
+                    dict[magazine[i]]++;
+                }
+                else
+                {
+                    dict.Add(magazine[i], 1);
+                }
+            }
+            for (int i = 0; i < ransomNote.Length; i++)
+            {
+                if (dict.ContainsKey(ransomNote[i]) && dict[ransomNote[i]] > 0)
+                {
+                    dict[ransomNote[i]]--;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// 979. 在二叉树中分配硬币
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public int DistributeCoins(TreeNode root)
+        {
+
+            DFSDistributeCoins(root);
+            return 1;
+        }
+        //   int count1 = 0;
+        public void DFSDistributeCoins(TreeNode root)
+        {
+            count1++;
+            if (root == null)
+            {
+                return;
+            }
+            Console.WriteLine(root.val + ",count=" + count1);
+            DFSDistributeCoins(root.left);
+            count1--;
+            Console.WriteLine("左侧完事回溯：" + root.val + ",count=" + count1);
+            DFSDistributeCoins(root.right);
+            count1--;
+            Console.WriteLine("右侧完事回溯：" + root.val + ",count=" + count1);
+        }
+
+
+        /// <summary>
+        /// 229. 多数元素 II
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public IList<int> MajorityElement(int[] nums)
+        {
+            List<int> result = new List<int>();
+            Dictionary<int, int> dict = new Dictionary<int, int>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if (dict.ContainsKey(nums[i]))
+                {
+                    dict[nums[i]]++;
+                }
+                else
+                {
+                    dict.Add(nums[i], 1);
+                }
+            }
+            foreach (var item in dict)
+            {
+                if (item.Value > nums.Length / 3)
+                {
+                    result.Add(item.Key);
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        /// 90. 子集 II
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public IList<IList<int>> SubsetsWithDup(int[] nums)
+        {
+            IList<IList<int>> result = new List<IList<int>>();
+            List<int> temp = new List<int>();
+            BackreackingSubsetsWithDup(result, temp, nums, 0);
+
+            return result;
+        }
+        void BackreackingSubsetsWithDup(IList<IList<int>> result, List<int> temp, int[] nums, int index)
+        {
+            // 终止条件
+
+            result.Add(temp.ToArray());
+
+            if (nums.Length == index)
+            {
+                return;
+            }
+
+            for (int i = index; i < nums.Length; i++)
+            {
+                temp.Add(nums[i]);
+                BackreackingSubsetsWithDup(result, temp, nums, i);
+                temp.RemoveAt(temp.Count() - 1);
+
+            }
+        }
+        public IList<IList<int>> CombinationSum10(int[] candidates, int target)
+        {
+            IList<IList<int>> result = new List<IList<int>>();
+            List<int> temp = new List<int>();
+            BacktrackingCombinationSum10(candidates, result, temp, target, 0);
+
+            return result;
+        }
+        void BacktrackingCombinationSum10(int[] candidates, IList<IList<int>> result, List<int> temp, int target, int index)
+        {
+            if (temp.Sum() == target)
+            {
+                result.Add(temp.ToArray());
+                return;
+            }
+            if (temp.Sum() > target)
+            {
+                return;
+            }
+            for (int i = index; i < candidates.Length; i++)
+            {
+                temp.Add(candidates[i]);
+                BacktrackingCombinationSum10(candidates, result, temp, target, index++);
+                temp.RemoveAt(temp.Count() - 1);
+            }
+
+            // 终止条件
+        }
+        /// <summary>
+        /// 17. 电话号码的字母组合
+        /// </summary>
+        /// <param name="digits"></param>
+        /// <returns></returns>
+        public IList<string> LetterCombinations(string digits)
+        {
+            IList<string> result = new List<string>();
+            if (string.IsNullOrEmpty(digits))
+            {
+                return result;
+            }
+
+
+            string[] arr = new string[] { "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+
+            BacktrackingLetterCombinations(result, new List<char>(), digits, 0, arr);
+            return result;
+        }
+        public void BacktrackingLetterCombinations(IList<string> result, List<char> temp, string digits, int index, string[] arr)
+        {
+            // 终止条件
+
+            if (index == digits.Length)
+            {
+
+
+                var str = new string(temp.ToArray());
+                result.Add(str);
+                return;
+            }
+
+
+            // for循环
+            // 执行操作
+            // 递归
+            // 回溯 删除上面的操作
+
+
+            var ii = (int)digits[index] - 48;
+            for (int j = 0; j < arr[ii].Length; j++)
+            {
+                temp.Add(arr[ii][j]);
+                BacktrackingLetterCombinations(result, temp, digits, index + 1, arr);
+                temp.RemoveAt(temp.Count - 1);// 回溯，经典
+            }
+
+
+        }
+        /// <summary>
+        /// 77. 组合
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public IList<IList<int>> Combine(int n, int k)
+        {
+            IList<IList<int>> result = new List<IList<int>>();
+            List<int> temp = new List<int>();
+            BacktrackingCombine1(n, 1, temp, result, k);
+            return result;
+        }
+        public void BacktrackingCombine1(int n, int k1, List<int> temp, IList<IList<int>> result, int k)
+        {
+
+
+            //if (终止条件)k==2
+            //{
+            //    // 存放结果 result.add(temp)
+            //    return;
+            //}
+
+            if (temp.Count == k)
+            {
+                result.Add(temp.ToArray());
+                return;
+            }
+            //for (选择：本层集合中元素（树中节点孩子的数量就是集合的大小)
+            //{
+            //    // 处理节点
+            //    BacktrackingCombine1(k);递归
+            //    // 回溯，撤销处理结果
+            //}
+            for (int i = k1; i <= n; i++)
+            {
+                temp.Add(i);
+                BacktrackingCombine1(n, ++k1, temp, result, k);
+                temp.Remove(i);
+            }
+        }
+        /// <summary>
         /// 37. 解数独
         /// </summary>
         /// <param name="board"></param>
@@ -1230,7 +1602,7 @@ namespace LeetCodeContinue
         /// <param name="n"></param>
         /// <param name="k"></param>
         /// <returns></returns>
-        public IList<IList<int>> Combine(int n, int k)
+        public IList<IList<int>> Combine1(int n, int k)
         {
             //for (int i = 1; i <= n; i++)
             //{
@@ -2097,54 +2469,50 @@ namespace LeetCodeContinue
                 // 表示不可能平均分成k份
                 return false;
             }
+            //  [1,1,1,1,2,2,2,2]
+            //   4
             // 表示有可能分成k份
             // 每份 的均值是 val 
-            var val = sum / k;
-            int[] bitArr = new int[nums.Length];
-            Array.Sort(nums);
-            for (int i = 0; i < nums.Length; i++)
+            var avg = sum / k;  // sum =12 k = 2;  avg = 6;
+            if (nums.Max() > avg) // 数组中最大的值，比评价值大，不用分组了。 直接return 
             {
-                if (bitArr[i] != 0)
+                return false;
+            }
+            List<IList<int>> result = new List<IList<int>>();
+            List<int> temp = new List<int>();
+            List<int> tempIndex = new List<int>();
+            bool[] usedArr = new bool[nums.Length];
+            BacktrackingCanPartitionKSubsets(nums, result, temp, avg, 0, usedArr, tempIndex);
+            return result.Count == k;
+        }
+        void BacktrackingCanPartitionKSubsets(int[] candidates, IList<IList<int>> result, List<int> temp, int target, int index, bool[] useArr, List<int> tempIndex)
+        {
+            if (temp.Sum() == target)
+            {
+
+                result.Add(temp.ToArray());
+
+                return;
+            }
+            if (temp.Sum() > target)
+            {
+                return;
+            }
+            for (int i = index; i < candidates.Length; i++)
+            {
+                if (i > 0 && candidates[i] == candidates[i - 1] && useArr[i - 1] == false)
                 {
                     continue;
                 }
-                int item = nums[i];
-                if (item > val) // 都比均值大了 肯定不行啊
-                {
-                    return false;
-                }
-                var diffVal = val - item;// 差值 
-                int index = i + 1;
-                while (diffVal > 0)
-                {
-
-                    while (index < nums.Length)
-                    {
-                        if ((diffVal - nums[index]) > 0 && bitArr[index] == 0)
-                        {
-                            diffVal -= nums[index];
-                            bitArr[index] = 1;
-                            bitArr[i] = 1;
-
-                        }
-                        index++;
-                    }
-                    bitArr[i] = 1;
-                    index = i;
-                }
-
-
+                temp.Add(candidates[i]);
+                tempIndex.Add(i);
+                BacktrackingCanPartitionKSubsets(candidates, result, temp, target, ++index, useArr, tempIndex);
+                tempIndex.Remove(i);
+                temp.RemoveAt(temp.Count() - 1);
             }
-            for (int i = 0; i < bitArr.Length; i++)
-            {
-                if (bitArr[i] == 0)
-                {
-                    return false;
-                }
-            }
-            return true;
+
+            // 终止条件
         }
-
         /// <summary>
         /// 1636. 按照频率将数组升序排序
         /// </summary>
@@ -4819,7 +5187,7 @@ namespace LeetCodeContinue
             return result;
         }
         Stack<char> stack = new Stack<char>();
-        int count1 = 1;
+        int count1 = 0;
         int total = 1;
         char currChar = ' ';
         string contResult = "1";
@@ -5283,19 +5651,7 @@ namespace LeetCodeContinue
             }
             return result;
         }
-        /// <summary>
-        /// 剑指 Offer 39. 数组中出现次数超过一半的数字
-        /// </summary>
-        /// <param name="nums"></param>
-        /// <returns></returns>
-        public int MajorityElement(int[] nums)
-        {
-            for (int i = 0; i < nums.Length; i++)
-            {
 
-            }
-            return 0;
-        }
         /// <summary>
         /// 剑指 Offer 42. 连续子数组的最大和
         /// </summary>
@@ -5732,27 +6088,51 @@ namespace LeetCodeContinue
         /// <returns></returns>
         public IList<IList<int>> CombinationSum3(int k, int n)
         {
-            IList<IList<int>> res = new List<IList<int>>();
-            IList<int> path = new List<int>();
-            BackTrackingCombinationSum3(res, path, n, k, 1);
-            return res;
+            //找出所有相加之和为 n 的 k 个数的组合，且满足下列条件：
+            //只使用数字1到9
+            //每个数字 最多使用一次
+            //返回 所有可能的有效组合的列表 。该列表不能包含相同的组合两次，组合可以以任何顺序返回。
+            IList<IList<int>> result = new List<IList<int>>();
+            List<int> temp = new List<int>();
+
+
+            BackTrackingCombinationSum3(k, n, result, temp, 1, 0);
+            return result;
+
         }
-        public void BackTrackingCombinationSum3(IList<IList<int>> result, IList<int> path, int n, int k, int startIndex)
+        public void BackTrackingCombinationSum3(int k, int n, IList<IList<int>> result, List<int> temp, int index, int sum)
         {
-            if (path.Sum() > n)
+            //if (终止条件)
+            //{
+            //    加入集合
+            //    return;
+            //}
+            if (sum > n)
             {
                 return;
             }
-            if (path.Sum() == n && path.Count == k)
+            if (temp.Count == k)
             {
-                result.Add(path.ToArray());
+                if (temp.Sum() == n)
+                {
+                    result.Add(temp.ToArray());
+                    return;
+                }
                 return;
             }
-            for (int i = startIndex; i <= 9 - (k - path.Count) + 1; i++)
+            //for (选择本层集合中元素，树中节点孩子的数量就是集合大小)
+            //{
+            // 处理节点
+            // 递归
+            // 回溯
+            //}
+            for (int i = index; i <= 9; i++)
             {
-                path.Add(i);
-                BackTrackingCombinationSum3(result, path, n, k, i + 1);
-                path.RemoveAt(path.Count - 1);
+                temp.Add(i);
+                sum += i;
+                BackTrackingCombinationSum3(k, n, result, temp, ++index, sum);
+                sum -= i;
+                temp.Remove(i);
             }
         }
         ///// <summary>
