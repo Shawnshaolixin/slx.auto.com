@@ -34,6 +34,25 @@ namespace LeetCodeContinue
 
             //[[7,2,1],[6,4,2],[6,5,3],[3,2,1]]
             LeetCode code = new LeetCode();
+            // code.FindLength(new int[] { 1, 2, 3, 2, 1 }, new int[] { 3, 2, 1, 4, 7 });
+            //  code.FindLength(new int[] { 0, 0, 0, 0, 1 }, new int[] { 1, 0, 0, 0, 0 });
+            // code.FindRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTTTTTTTT");
+            List<int[]> arrrr = new List<int[]>();
+            // code.RobotSim(new int[] { 6, -1, -1, 6 }, arrrr.ToArray());
+            // code.Convert123("A", 1);
+            //Console.WriteLine(code.CanJump(new int[] { 1, 2, 1, 0, 4 }));   //false
+            //Console.WriteLine(code.CanJump(new int[] { 1, 2, 2, 0, 4 }));   //true
+            //Console.WriteLine(code.CanJump(new int[] { 4, 2, 2, 0, 4 }));  //true  
+            //Console.WriteLine(code.CanJump(new int[] { 3, 1, 1, 1, 4 }));  //true  
+            //Console.WriteLine(code.CanJump(new int[] { 1, 1, 0, 1, 4,5 }));  //false  
+            Console.WriteLine(code.CanJump(new int[] { 3,0}));  //true  
+            //   code.LeastInterval(new char[] { 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'C', 'D', 'E', 'F', 'G' }, 2);
+            // code.LeastInterval(new char[] { 'A', 'A', 'A', 'B', 'B', 'B' }, 0);
+            //       var r = code.SubdomainVisits(new string[] { "900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org" });
+            //foreach (var item in r)
+            //       {
+            //           Console.WriteLine(item);
+            //       }
             //  code.MaximumEvenSplit(6);
             // var json = "[[\".\",\".\",\"9\",\"7\",\"4\",\"8\",\".\",\".\",\".\"],[\"7\",\".\",\".\",\"6\",\".\",\"2\",\".\",\".\",\".\"],[\".\",\"2\",\".\",\"1\",\".\",\"9\",\".\",\".\",\".\"],[\".\",\".\",\"7\",\"9\",\"8\",\"6\",\"2\",\"4\",\"1\"],[\"2\",\"6\",\"4\",\"3\",\"1\",\"7\",\"5\",\"9\",\"8\"],[\"1\",\"9\",\"8\",\"5\",\"2\",\"4\",\"3\",\"6\",\"7\"],[\".\",\".\",\".\",\"8\",\"6\",\"3\",\".\",\"2\",\".\"],[\".\",\".\",\".\",\"4\",\"9\",\"1\",\".\",\".\",\"6\"],[\".\",\".\",\".\",\"2\",\"7\",\"5\",\"9\",\".\",\".\"]]";
             //var json = "[[\".\",\".\",\"9\",\"7\",\"4\",\"8\",\".\",\".\",\".\"],[\"7\",\".\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\"],[\".\",\"2\",\".\",\"1\",\".\",\"9\",\".\",\".\",\".\"],[\".\",\".\",\"7\",\".\",\".\",\"6\",\"2\",\"4\",\".\"],[\"2\",\"6\",\"4\",\"3\",\"1\",\"7\",\"5\",\"9\",\"8\"],[\".\",\"9\",\"8\",\".\",\".\",\"4\",\"3\",\".\",\".\"],[\".\",\".\",\".\",\"8\",\"6\",\"3\",\".\",\"2\",\".\"],[\".\",\".\",\".\",\"4\",\"9\",\"1\",\".\",\".\",\"6\"],[\".\",\".\",\".\",\"2\",\"7\",\"5\",\"9\",\".\",\".\"]]";
@@ -48,7 +67,7 @@ namespace LeetCodeContinue
             //  Console.WriteLine(3500 * 20000 + 200 * 40000);
             //  code.CanPartitionKSubsets(new int[] { 1, 1, 1, 1, 2, 2, 2, 2 }, 4);
             //  Console.WriteLine( code.FrequencySort("tree"));
-            code.AddStrings("99", "9");
+            //code.AddStrings("99", "9");
             //  code.DistributeCoins(new TreeNode(new TreeNode(new TreeNode(4), 3, new TreeNode(5)), 1, new TreeNode(6)));
             Console.ReadKey();
             //int[][] nums = new int[4][];

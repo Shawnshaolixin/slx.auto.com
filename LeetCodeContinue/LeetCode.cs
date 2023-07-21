@@ -140,6 +140,527 @@ namespace LeetCodeContinue
     }
     public class LeetCode
     {
+
+
+        /// <summary>
+        /// 55.跳跃游戏
+        /// </summary>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public bool CanJump(int[] nums)
+        {
+            //[2,3,1,1,4]
+
+
+            if (nums.Length==1)
+            {
+                return true;
+            }
+
+            var dist = GetMaxDist(nums, 0, nums[0]);
+
+
+            return dist;
+
+        }
+
+        private bool GetMaxDist(int[] nums, int v1, int v2)
+        {
+            if (v1+nums[v1]+1>=nums.Length)
+            {
+                return true;
+            }
+            
+            int tempIndex = v1;
+            int maxValueIndex = v1;
+            int maxValue = nums[v1];
+            while (v1 <= v2)
+            {
+                if (maxValue <= nums[v1]+v1+1)
+                {
+                    maxValue = nums[v1] + v1+1;
+                    maxValueIndex = v1;
+                }
+                v1++;
+            }
+            var n1 = tempIndex + nums[tempIndex]+1;
+            var n2 = maxValueIndex + nums[maxValueIndex]+1;
+            if (n2>=nums.Length)
+            {
+                return true;
+            }
+            if (n1 <n2)
+            {
+
+                return GetMaxDist(nums, maxValueIndex, nums[maxValueIndex]+ maxValueIndex);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// 6. N 字形变换
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="numRows"></param>
+        /// <returns></returns>
+        public string Convert123(string s, int numRows)
+        {
+            int step = 2 * (numRows - 1);
+            int hightIndex = step;
+            int lowIndex = 0;
+            char[] arr = new char[s.Length];
+            if (numRows == 1)
+            {
+                return s;
+            }
+            int currIndex = 0;
+            for (int i = 0; i < numRows; i++)
+            {
+
+                int index = i;
+                arr[currIndex] = s[index];
+                currIndex++;
+                if (i == s.Length || currIndex == s.Length)
+                {
+                    break;
+                }
+                while (index < s.Length)
+                {
+                    index += hightIndex;
+                    if (hightIndex > 0)
+                    {
+                        if (index < s.Length)
+                        {
+                            arr[currIndex] = s[index];
+                            currIndex++;
+                        }
+                    }
+                    if (lowIndex > 0)
+                    {
+                        index += lowIndex;
+                        if (index < s.Length)
+                        {
+                            arr[currIndex] = s[index];
+                            currIndex++;
+                        }
+
+                    }
+
+
+                }
+                hightIndex -= 2;
+                lowIndex += 2;
+            }
+            var result = new string(arr);
+            return result;
+        }
+        /// <summary>
+        /// 874. 模拟行走机器人
+        /// </summary>
+        /// <param name="commands"></param>
+        /// <param name="obstacles"></param>
+        /// <returns></returns>
+        public int RobotSim(int[] commands, int[][] obstacles)
+        {
+            int maxDistance = 0;
+            int curr_x = 0;
+            int curr_y = 0;
+            int dir = 4; // 1：东，2：南，3：西，4：北
+
+            Dictionary<int, HashSet<int>> dictX = new Dictionary<int, HashSet<int>>();
+            Dictionary<int, HashSet<int>> dictY = new Dictionary<int, HashSet<int>>();
+
+            for (int i = 0; i < obstacles.Length; i++)
+            {
+                var x1 = obstacles[i][0];
+                var y1 = obstacles[i][1];
+                if (dictX.ContainsKey(x1))
+                {
+                    dictX[x1].Add(y1);
+                }
+                else
+                {
+                    var set = new HashSet<int>();
+                    set.Add(y1);
+                    dictX.Add(x1, set);
+                }
+                if (dictY.ContainsKey(y1))
+                {
+                    dictY[y1].Add(x1);
+                }
+                else
+                {
+                    var set = new HashSet<int>();
+                    set.Add(x1);
+                    dictY.Add(y1, set);
+                }
+            }
+
+
+
+
+            for (int i = 0; i < commands.Length; i++)
+            {
+                if (commands[i] < 0)// -2 向左旋转90度，-1 向右旋转90度
+                {
+                    dir = GetDir(dir, commands[i]);
+                }
+                else // 表示向前一动的距离
+                {
+                    if (dir == 2 || dir == 4) // 南北移动 看x 有没有和我一样的
+                    {
+                        if (dictX.ContainsKey(curr_x))
+                        {
+                            // 这条路上有障碍
+                            //  commands[i];//向前几步
+                            int index = 1;
+                            while (index <= commands[i])
+                            {
+                                if (dir == 4)
+                                {
+                                    curr_y++;
+                                }
+                                else
+                                {
+                                    curr_y--;
+                                }
+                                if (dictX[curr_x].Contains(curr_y))
+                                {
+                                    if (dir == 4)
+                                    {
+                                        curr_y--;
+                                    }
+                                    else
+                                    {
+                                        curr_y++;
+                                    }
+                                    break;
+                                }
+                                index++;
+                            }
+                        }
+                        else
+                        {
+                            if (dir == 4)
+                            {
+                                curr_y += commands[i];
+                            }
+                            else
+                            {
+                                curr_y -= commands[i];
+                            }
+                        }
+                    }
+                    else // 东西移动    看y 有没有和我一样的
+                    {
+                        if (dictY.ContainsKey(curr_y))
+                        {
+                            // 这条路上有障碍
+                            //  commands[i];//向前几步
+                            int index = 1;
+                            while (index <= commands[i])
+                            {
+                                if (dir == 1)
+                                {
+                                    curr_x++;
+                                }
+                                else
+                                {
+                                    curr_x--;
+                                }
+                                if (dictY[curr_y].Contains(curr_x))
+                                {
+                                    if (dir == 1)
+                                    {
+                                        curr_x--;
+                                    }
+                                    else
+                                    {
+                                        curr_x++;
+                                    }
+                                    break;
+                                }
+                                index++;
+                            }
+                        }
+                        else
+                        {
+                            if (dir == 1)
+                            {
+                                curr_x += commands[i];
+                            }
+                            else
+                            {
+                                curr_x -= commands[i];
+                            }
+                        }
+                    }
+                    var result = curr_x * curr_x + curr_y * curr_y;
+                    if (result > maxDistance)
+                    {
+                        maxDistance = result;
+                    }
+                }
+
+            }
+
+            return maxDistance;
+        }
+        /// <summary>
+        /// 计算朝向
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        private int GetDir(int dir, int v)
+        {
+            if (dir == 1)// -2 向左旋转90度，-1 向右旋转90度
+            {
+                return v == -2 ? 4 : 2;
+            }
+            if (dir == 2)
+            {
+                return v == -2 ? 1 : 3;
+            }
+
+            if (dir == 3)
+            {
+                return v == -2 ? 2 : 4;
+            }
+            if (dir == 4)
+            {
+                return v == -2 ? 3 : 1;
+            }
+            return dir;
+        }
+
+        /// <summary>
+        /// 395. 至少有 K 个重复字符的最长子串
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public int LongestSubstring(string s, int k)
+        {
+            // 输入：s = "ababbc", k = 2
+            // 输出：5
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (dict.ContainsKey(s[i]))
+                {
+                    dict[s[i]]++;
+                }
+                else
+                {
+                    dict.Add(s[i], 1);
+                }
+            }
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (dict[s[i]] < k)
+                {
+
+                }
+            }
+            return 0;
+        }
+        /// <summary>
+        /// 187. 重复的DNA序列
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public IList<string> FindRepeatedDnaSequences(string s)
+        {
+            List<string> result = new List<string>();
+            if (s.Length <= 10)
+            {
+                return result;
+            }
+            Dictionary<string, int> dict = new Dictionary<string, int>();
+            for (int i = 0; i <= s.Length - 10; i++)
+            {
+                var str = s.Substring(i, 10);
+                //  Console.Write(str);
+                if (dict.ContainsKey(str))
+                {
+                    dict[str]++;
+
+                }
+                else
+                {
+                    dict.Add(str, 1);
+                }
+
+
+
+            }
+            foreach (var item in dict)
+            {
+                if (item.Value > 1)
+                {
+                    result.Add(item.Key);
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        /// 718. 最长重复子数组
+        /// </summary>
+        /// <param name="nums1"></param>
+        /// <param name="nums2"></param>
+        /// <returns></returns>
+        public int FindLength(int[] nums1, int[] nums2)
+        {
+            int tempIndex1 = 0;
+            int tempIndex2 = 0;
+            int count = 0;
+            int maxCount = 0;
+            for (int i = 0; i < nums1.Length; i++)
+            {
+                if ((nums1.Length - i) < maxCount)
+                {
+                    return maxCount;
+                }
+
+                for (int j = 0; j < nums2.Length; j++)
+                {
+                    tempIndex1 = i;
+                    tempIndex2 = j;
+                    while (tempIndex1 < nums1.Length && tempIndex2 < nums2.Length && nums1[tempIndex1] == nums2[tempIndex2])
+                    {
+                        tempIndex1++;
+                        tempIndex2++;
+                        count++;
+                    }
+                    if (count > maxCount)
+                    {
+                        maxCount = count;
+
+                    }
+                    count = 0;
+                    if ((nums1.Length - i) < maxCount)
+                    {
+                        break;
+                    }
+                }
+            }
+            return maxCount;
+        }
+
+        public IList<string> SubdomainVisits(string[] cpdomains)
+        {
+            List<string> result = new List<string>();
+            Dictionary<string, int> dict = new Dictionary<string, int>();
+            for (int i = 0; i < cpdomains.Length; i++)
+            {
+                var arr = cpdomains[i].Split(' ');
+                var count = Convert.ToInt32(arr[0]);
+                var areaNames = arr[1].Split('.');
+                if (areaNames.Length == 2)
+                {
+                    if (dict.ContainsKey(arr[1]))
+                    {
+                        dict[arr[1]] += count;
+                    }
+                    else
+                    {
+                        dict.Add(arr[1], count);
+                    }
+                    if (dict.ContainsKey(areaNames[1]))
+                    {
+                        dict[areaNames[1]] += count;
+                    }
+                    else
+                    {
+                        dict.Add(areaNames[1], count);
+                    }
+                }
+                else
+                {
+                    if (dict.ContainsKey(arr[1]))
+                    {
+                        dict[arr[1]] += count;
+                    }
+                    else
+                    {
+                        dict.Add(arr[1], count);
+                    }
+                    if (dict.ContainsKey(areaNames[2]))
+                    {
+                        dict[areaNames[2]] += count;
+                    }
+                    else
+                    {
+                        dict.Add(areaNames[2], count);
+                    }
+                    var areaName2 = areaNames[1] + "." + areaNames[2];
+                    if (dict.ContainsKey(areaName2))
+                    {
+                        dict[areaName2] += count;
+                    }
+                    else
+                    {
+                        dict.Add(areaName2, count);
+                    }
+                }
+
+            }
+
+
+            foreach (var item in dict)
+            {
+                result.Add($"{item.Value} {item.Key}");
+            }
+            return result;
+        }
+        /// <summary>
+        /// 621. 任务调度器
+        /// </summary>
+        /// <param name="tasks"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public int LeastInterval(char[] tasks, int n)
+        {
+            if (n == 0)
+            {
+                return tasks.Length;
+            }
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                if (dict.ContainsKey(tasks[i]))
+                {
+                    dict[tasks[i]]++;
+                }
+                else
+                {
+                    dict.Add(tasks[i], 1);
+                }
+            }
+
+            int maxCount = 0;
+            foreach (var item in dict)
+            {
+                if (item.Value > maxCount)
+                {
+                    maxCount = item.Value;
+                }
+            }
+            int count = 0;
+
+            foreach (var item in dict)
+            {
+                if (item.Value == maxCount)
+                {
+                    count++;
+                }
+            }
+            var result = maxCount * (n + 1) - n + count - 1;
+
+            return result > tasks.Length ? result : tasks.Length;
+        }
         /// <summary>
         /// 415. 字符串相加
         /// </summary>
