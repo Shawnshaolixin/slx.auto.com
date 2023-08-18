@@ -15,7 +15,10 @@ namespace LeetCodeContinue
         static void Main(string[] args)
         {
             // 8 9 10 11 12 1 2 3 4,5,6,7,8,9,10
-            var sum = (35 + 26) * 15;
+            var sum1 = (35 + 26) * 15;
+            Console.WriteLine("sum1=" + sum1);
+
+            var sum = (35 + 26) * 13 + 35 / 2.0;
 
             Console.WriteLine("sum=" + sum);
             var span = DateTime.Now - new DateTime(2023, 3, 24);
@@ -34,10 +37,34 @@ namespace LeetCodeContinue
 
             //[[7,2,1],[6,4,2],[6,5,3],[3,2,1]]
             LeetCode code = new LeetCode();
+            code.Rotate(new int[] { 1,2,3,4,5,6 }, 3);
+            //    code.CanCompleteCircuit(new int[] {2,0,0}, new int[] { 0,1,0 });
+            //  code.CanCompleteCircuit(new int[] { 1, 2, 3, 4, 5 }, new int[] { 3, 4, 5, 1, 2 });
+            // code.CircularGameLosers(1, 1);
+            //  string sss = @"1691480541628,20230808074221.60,000,0,0,0,0,967,008,33404,1,0,0,0,0,0,0,0,1,0,0,0,114.59343080,38.04070796,71.2202,79.46,,,8.563,1,0,0,,0,1_3,18,28,01,30,1,10,1,1,,0,94,0,0,0,0:3F:3F,1,1,1110,70_64,0,0,,0";
+            // var arrsss=sss.Split(',');
+            ////  Console.WriteLine("arrss="+arrsss.Length);
+            //code.GetStopCarPositionOfMidLine2();
+            //Console.ReadKey();
+            //  code.RemoveComments(new string[] { "/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}" });
+            //  code.RemoveComments(new string[] { "struct Node{", "    /*/ declare members;/**/", "    int size;", "    /**/int val;", "};" });
+            //  code.RemoveComments(new string[] { "a/*/b//*c", "blank", "d/*/e*//f" });
+            // code.SumOfPower(new int[] { 2, 1, 4 });
+            // code.SortTemp();
+            // code.ReorderList(new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5))))));
             // code.FindLength(new int[] { 1, 2, 3, 2, 1 }, new int[] { 3, 2, 1, 4, 7 });
             //  code.FindLength(new int[] { 0, 0, 0, 0, 1 }, new int[] { 1, 0, 0, 0, 0 });
             // code.FindRepeatedDnaSequences("AAAAACCCCCAAAAACCCCCCAAAAAGGGTTTTTTTTT");
-            List<int[]> arrrr = new List<int[]>();
+            //  code.SwapPairs(new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5, new ListNode(6)))))));
+            //  code.SwapPairs(new ListNode(1, new ListNode(2,new ListNode(3,new ListNode(4)))));//
+            //code.MinSubArrayLen(7, new int[] { 2, 3, 1, 2, 4, 3 });
+            List<ListNode> lists = new List<ListNode>();
+            lists.Add(new ListNode(-2, new ListNode(1, new ListNode(4, new ListNode(5)))));
+            lists.Add(new ListNode(-2, new ListNode(5, new ListNode(6))));
+            lists.Add(new ListNode(-2, new ListNode(0)));
+            // code.MergeKLists(lists.ToArray());
+            // code.DeleteGreatestValue(new int[][] {new int[] { 1, 2, 4 }, new int[] { 3, 3, 1 } });
+            // code.GroupAnagrams(new string[] { "eat", "tea", "tan", "ate", "nat", "bat" });
             // code.RobotSim(new int[] { 6, -1, -1, 6 }, arrrr.ToArray());
             // code.Convert123("A", 1);
             //Console.WriteLine(code.CanJump(new int[] { 1, 2, 1, 0, 4 }));   //false
@@ -45,7 +72,7 @@ namespace LeetCodeContinue
             //Console.WriteLine(code.CanJump(new int[] { 4, 2, 2, 0, 4 }));  //true  
             //Console.WriteLine(code.CanJump(new int[] { 3, 1, 1, 1, 4 }));  //true  
             //Console.WriteLine(code.CanJump(new int[] { 1, 1, 0, 1, 4,5 }));  //false  
-            Console.WriteLine(code.CanJump(new int[] { 3,0}));  //true  
+            Console.WriteLine(code.CanJump(new int[] { 3, 0 }));  //true  
             //   code.LeastInterval(new char[] { 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'C', 'D', 'E', 'F', 'G' }, 2);
             // code.LeastInterval(new char[] { 'A', 'A', 'A', 'B', 'B', 'B' }, 0);
             //       var r = code.SubdomainVisits(new string[] { "900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org" });

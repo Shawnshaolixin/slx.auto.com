@@ -175,11 +175,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonDemo", "JsonDemo\JsonDe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoslynDemo", "RoslynDemo\RoslynDemo.csproj", "{C5732BEE-5FFA-4347-B0A0-0257AA919DF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{3EB14210-B718-454D-9F3F-B28450FD7B94}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsControlLibrary1", "WinFormsControlLibrary1\WinFormsControlLibrary1.csproj", "{BCE5FA4D-E985-447B-893C-96F241A9AB4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsControlLibrary1", "WinFormsControlLibrary1\WinFormsControlLibrary1.csproj", "{BCE5FA4D-E985-447B-893C-96F241A9AB4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp1", "WindowsFormsApp1\WindowsFormsApp1.csproj", "{9DE3A451-316D-4E56-86BD-14212E0E97C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotApiTest", "RobotApiTest\RobotApiTest.csproj", "{29E7BA17-2895-4D95-B750-F53C1D91D3B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1138,18 +1138,6 @@ Global
 		{C5732BEE-5FFA-4347-B0A0-0257AA919DF1}.Release|x64.Build.0 = Release|Any CPU
 		{C5732BEE-5FFA-4347-B0A0-0257AA919DF1}.Release|x86.ActiveCfg = Release|Any CPU
 		{C5732BEE-5FFA-4347-B0A0-0257AA919DF1}.Release|x86.Build.0 = Release|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Debug|x64.Build.0 = Debug|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Debug|x86.Build.0 = Debug|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Release|x64.ActiveCfg = Release|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Release|x64.Build.0 = Release|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Release|x86.ActiveCfg = Release|Any CPU
-		{3EB14210-B718-454D-9F3F-B28450FD7B94}.Release|x86.Build.0 = Release|Any CPU
 		{BCE5FA4D-E985-447B-893C-96F241A9AB4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BCE5FA4D-E985-447B-893C-96F241A9AB4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCE5FA4D-E985-447B-893C-96F241A9AB4E}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -1174,6 +1162,18 @@ Global
 		{9DE3A451-316D-4E56-86BD-14212E0E97C9}.Release|x64.Build.0 = Release|Any CPU
 		{9DE3A451-316D-4E56-86BD-14212E0E97C9}.Release|x86.ActiveCfg = Release|Any CPU
 		{9DE3A451-316D-4E56-86BD-14212E0E97C9}.Release|x86.Build.0 = Release|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Debug|x64.Build.0 = Debug|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Debug|x86.Build.0 = Debug|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Release|x64.ActiveCfg = Release|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Release|x64.Build.0 = Release|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Release|x86.ActiveCfg = Release|Any CPU
+		{29E7BA17-2895-4D95-B750-F53C1D91D3B0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

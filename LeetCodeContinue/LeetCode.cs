@@ -142,6 +142,789 @@ namespace LeetCodeContinue
     {
 
 
+        public void Rotate(int[] nums, int k)
+        {
+            // 当前索引
+            int i = 0;
+            int temp = nums[0];
+            int lastTemp = nums[0];
+            while (i < nums.Length)
+            {
+
+                // 新位置索引
+                int index = (i + k) % nums.Length;
+                temp = nums[index];
+                nums[index] = lastTemp;
+
+                lastTemp = temp;
+                i = index;
+                if (i==0)
+                {
+                    break;
+                }
+            }
+            // 新位置索引
+
+
+
+        }
+        /// <summary>
+        /// 加油站
+        /// </summary>
+        /// <param name="gas"></param>
+        /// <param name="cost"></param>
+        /// <returns></returns>
+        public int CanCompleteCircuit(int[] gas, int[] cost)
+        {
+            int[] arr = new int[gas.Length];
+            for (int i = 0; i < gas.Length; i++)
+            {
+                arr[i] = gas[i] - cost[i];
+            }
+
+            int[] pre_arr = new int[gas.Length];
+            pre_arr[0] = arr[0];
+            for (int i = 1; i < gas.Length; i++)
+            {
+                pre_arr[i] = pre_arr[i - 1] + arr[i];
+            }
+
+            if (pre_arr[pre_arr.Length - 1] >= 0)
+            {
+                int minValue = pre_arr[0];
+                int minIndex = 0;
+                for (int i = 0; i < pre_arr.Length; i++)
+                {
+                    if (pre_arr[i] <= minValue)
+                    {
+                        minValue = pre_arr[i];
+                        minIndex = i;
+                    }
+                }
+                if (minIndex == pre_arr.Length - 1)
+                {
+                    return 0;
+                }
+                return minIndex + 1;
+            }
+            return -1;
+        }
+        /// <summary>
+        /// 2682. 找出转圈游戏输家
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="k"></param>
+        /// <returns></returns>
+        public int[] CircularGameLosers(int n, int k)
+        {
+
+            int[] arr = new int[n];
+            arr[0] = 1;
+            int currIndex = 0;
+            int i = 1;
+            int lastIndex = 1;
+            int index = 0;
+            while (arr[index] < 2)
+            {
+                currIndex = (lastIndex + i * k);
+                lastIndex = currIndex;
+                index = (currIndex - 1) % n;
+
+                arr[index]++;
+                i++;
+            }
+            int count = 0;
+            for (int j = 0; j < arr.Length; j++)
+            {
+                if (arr[j] == 0)
+                {
+                    count++;
+                }
+            }
+            index = 0;
+            var result = new int[count];
+            for (int j = 0; j < arr.Length; j++)
+            {
+                if (arr[j] == 0)
+                {
+                    result[index] = j + 1;
+                    index++;
+                }
+            }
+            return result;
+        }
+        public void GetStopCarPositionOfMidLine2()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    for (int k = 0; k < 3; k++)
+                    {
+                        var v = GetStopCarPositionOfMidLine2(i, j, k);
+                        if (v == 0)
+                        {
+
+                            Console.WriteLine($"最下面虚线={ GetDesc(i)},中间实线={GetDesc(j)},最上面虚线={GetDesc(k)},result={v}");
+                        }
+                        if (v == 3)
+                        {
+                            Console.WriteLine($"最下面虚线={ GetDesc(i)},中间实线={GetDesc(j)},最上面虚线={GetDesc(k)},result={v}");
+
+                        }
+                    }
+                }
+            }
+        }
+        string GetDesc(int n)
+        {
+            if (n == 0)
+            {
+                return "未碰到";
+            }
+            if (n == 1)
+            {
+                return "进入";
+            }
+            if (n == 2)
+            {
+                return "离开";
+            }
+            return "";
+        }
+        public int GetStopCarPositionOfMidLine2(int ROBOT_XPQB_0, int ROBOT_XPQB_2, int ROBOT_XPQB_Mid)
+        {
+
+
+            // 如果没碰到 最下边的虚线，或者离开最上边的虚线返回 0 
+            if (ROBOT_XPQB_0 == 0 || ROBOT_XPQB_Mid == 2)
+            {
+                return 3;
+            }
+            // 如果 碰到了最下边的虚线，并且没碰到中间的实现，返回 1
+            if (ROBOT_XPQB_0 > 0 && ROBOT_XPQB_2 == 0)
+            {
+                return 1;
+            }
+            // 如果 离开了第一根虚线，并且进入了中间的实现 返回 2
+            if (ROBOT_XPQB_0 == 2 && ROBOT_XPQB_2 == 1)
+            {
+                return 2;
+            }
+            // 如果 离开了最下边的虚线，并且没离开上面的虚线 返回 1
+            if (ROBOT_XPQB_0 == 2 && ROBOT_XPQB_Mid < 2)
+            {
+                return 1;
+            }
+            // 其他情况 返回0
+            return 0;
+        }
+        /// <summary>
+        /// 722. 删除注释
+
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public IList<string> RemoveComments(string[] source)
+        {
+
+            int startRemoveIndex = 0;
+            int endRemoveIndex = 0;
+            bool isStartDel = false;
+            List<string> result = new List<string>();
+            for (int i = 0; i < source.Length; i++)
+            {
+                string resStr = "";
+                var row = source[i];
+                NewMethod(ref startRemoveIndex, ref endRemoveIndex, ref isStartDel, result, ref resStr, row);
+            }
+            return result;
+        }
+
+        private static void NewMethod(ref int startRemoveIndex, ref int endRemoveIndex, ref bool isStartDel, List<string> result, ref string resStr, string row)
+        {
+            if (isStartDel)
+            {
+                if (row.Contains("*/"))
+                {
+                    endRemoveIndex = row.IndexOf("*/");
+                    var sEnd = row.Substring(endRemoveIndex + 2, row.Length - endRemoveIndex - 2);
+                    NewMethod(ref startRemoveIndex, ref endRemoveIndex, ref isStartDel, result, ref resStr, sEnd);
+                    //  resStr = sEnd;
+                    if (!string.IsNullOrEmpty(sEnd))
+                    {
+                        result.Last();
+                        sEnd = result[result.Count - 1] + sEnd;
+                        result.RemoveAt(result.Count - 1);
+                        result.Add(sEnd);
+                    }
+                    isStartDel = false;
+                }
+                else
+                {
+
+                }
+            }
+            else if (row.Contains("//") || row.Contains("/*"))
+            {
+                var index = row.IndexOf("//");
+                var index1 = row.IndexOf("/*");
+                if (index == -1)
+                {
+                    isStartDel = true;
+
+                    startRemoveIndex = index1;
+                    if (row.Contains("*/")) // 有结束删除符
+                    {
+                        endRemoveIndex = row.LastIndexOf("*/");
+                        var sHead = row.Substring(0, startRemoveIndex);
+                        var sEnd = row.Substring(endRemoveIndex + 2, row.Length - endRemoveIndex - 2);
+
+
+                        resStr = sHead + sEnd;
+                        isStartDel = false;
+                    }
+                    else // 没有结束删除符，后面的全部删除
+                    {
+                        var sHead = row.Substring(0, startRemoveIndex);
+                        resStr = sHead;
+                    }
+
+                }
+                else if (index1 == -1)
+                {
+                    var sHead = row.Substring(0, index);
+                    resStr = sHead;
+                }
+                else
+                 if (index < index1)
+                {
+
+                    var sHead = row.Substring(0, index);
+                    resStr = sHead;
+                }
+                else
+                {
+                    isStartDel = true;
+
+                    startRemoveIndex = index1;
+                    if (row.Contains("*/")) // 有结束删除符
+                    {
+                        endRemoveIndex = row.LastIndexOf("*/");
+                        if (endRemoveIndex > startRemoveIndex + 1)
+                        {
+                            var sHead = row.Substring(0, startRemoveIndex);
+                            var sEnd = row.Substring(endRemoveIndex + 2, row.Length - endRemoveIndex - 2);
+                            resStr = sHead + sEnd;
+                            isStartDel = false;
+                        }
+                        else
+                        {
+                            var sHead = row.Substring(0, startRemoveIndex);
+                            resStr = sHead;
+                        }
+
+                    }
+                    else // 没有结束删除符，后面的全部删除
+                    {
+                        var sHead = row.Substring(0, startRemoveIndex);
+                        resStr = sHead;
+                    }
+                }
+
+            }
+            else
+            {
+                resStr = row;
+            }
+            if (!string.IsNullOrEmpty(resStr))
+            {
+                result.Add(resStr);
+            }
+        }
+
+        public int SumOfPower(int[] nums)
+        {
+
+            var list = Subsets(nums);
+            int sum = 0;
+            foreach (var item in list)
+            {
+                if (item.Count <= 0)
+                {
+                    continue;
+                }
+                sum += item.Min() * item.Max() * item.Max();
+            }
+            //sum = sum % (10 ^ 9 + 7);
+            return sum;
+        }
+        public IList<IList<int>> Subsets(int[] nums)
+        {
+            IList<IList<int>> result = new List<IList<int>>();
+            result.Add(new List<int>());//加一个空的
+            foreach (var item in nums)
+            {
+                int length = result.Count;
+                for (int i = 0; i < length; i++)
+                {
+                    List<int> subset = new List<int>(result[i]);
+                    subset.Add(item);
+                    result.Add(subset);
+                }
+            }
+            return result;
+
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="head"></param>
+        public void ReorderList(ListNode head)
+        {
+
+            ListNode newHead = head;
+            int count = 0;
+            while (newHead != null)
+            {
+                count++;
+                newHead = newHead.next;
+            }
+            newHead = head;
+            int newCount = 0;
+            while (newHead != null)
+            {
+                newCount++;
+                newHead = newHead.next;
+                if (count / 2 == newCount)
+                {
+                    break;
+                }
+            }
+
+            var reNode = ReverseList2(newHead);
+
+        }
+        ListNode ReverseList2(ListNode head)
+        {
+            ListNode preHead = null;
+            ListNode bacHead = head;
+
+            while (bacHead != null)
+            {
+                var temp = bacHead.next;// 下一个先存起来
+                bacHead.next = preHead;// 下一个的指向上一个
+                preHead = bacHead;// 上一个挪动到下一个的位置
+                bacHead = temp; // 下一个挪动到 存起来的位置
+            }
+            return preHead;
+        }
+        public void SortTemp()
+        {
+            int[] arr = new int[] { 4, 5, 2, 1 };
+            Sort(0, arr.Length - 1, arr);
+            return;
+        }
+
+        public void Sort(int startIndex, int endIndex, int[] arr)
+        {
+            if (startIndex == endIndex - 1)
+            {
+                if (arr[startIndex] > arr[endIndex])
+                {
+                    var temp = arr[startIndex];
+                    arr[startIndex] = arr[endIndex];
+                    arr[endIndex] = temp;
+                }
+
+                return;
+            }
+            //left 
+            int leftIndex = (endIndex - startIndex) / 2;
+            if (startIndex < leftIndex)
+            {
+
+                Sort(startIndex, leftIndex, arr);
+            }
+            if (leftIndex < endIndex)
+            {
+
+                Sort(leftIndex + 1, endIndex, arr);
+            }
+        }
+        /// <summary>
+        /// 2500. 删除每行中的最大值
+
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <returns></returns>
+        public int DeleteGreatestValue(int[][] grid)
+        {
+            int[][] temp = new int[grid.Length][];
+
+            for (int k = 0; k < temp.Length; k++)
+            {
+                temp[k] = new int[grid[k].Length];
+            }
+            int value = int.MinValue;
+            int i = 0;
+            int count = 0;
+            int sum = 0;
+            while (i < grid.Length && count < grid[0].Length)
+            {
+                var arr = grid[i];
+                int max = int.MinValue;
+                int maxIndex = 0;
+
+                for (int j = 0; j < arr.Length; j++)
+                {
+                    if (arr[j] > max && temp[i][j] == 0)
+                    {
+                        max = arr[j];
+                        maxIndex = j;
+                    }
+                }
+
+                temp[i][maxIndex] = 1;
+                if (max > value)
+                {
+                    value = max;
+                }
+                max = int.MinValue;
+
+                i++;
+                if (i == grid.Length && count < grid[0].Length)
+                {
+                    i = 0;
+                    count++;
+                    sum += value;
+                    value = int.MinValue;
+                }
+
+            }
+            return sum;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nums1"></param>
+        /// <param name="nums2"></param>
+        /// <param name="queries"></param>
+        /// <returns></returns>
+        public long[] HandleQuery(int[] nums1, int[] nums2, int[][] queries)
+        {
+
+
+
+
+
+            return null;
+        }
+        /// <summary>
+        /// 23. 合并 K 个升序链表
+        /// </summary>
+        /// <param name="lists"></param>
+        /// <returns></returns>
+        public ListNode MergeKLists(ListNode[] lists)
+        {
+            var head = new ListNode(0);
+            var temp = head;
+            if (lists.Length <= 0)
+            {
+                return temp.next;
+            }
+            if (lists.Length == 1)
+            {
+                return lists[0];
+            }
+            int index = 0;
+            int minValue = int.MaxValue;
+            int minIndex = 0;
+            bool isExist = true;
+            int nuIndex = 0;
+            while (isExist)
+            {
+                while (index < lists.Length)
+                {
+                    var listNode = lists[index];
+                    if (listNode == null)
+                    {
+                        index++;
+                        nuIndex++;
+                        if (nuIndex == lists.Length)
+                        {
+                            isExist = false;
+                            break;
+                        }
+                        continue;
+                    }
+                    else
+                    {
+                        nuIndex = 0;
+                    }
+                    if (minValue > listNode.val)
+                    {
+                        minValue = listNode.val;
+                        minIndex = index;
+                    }
+                    index++;
+                }
+
+                if (lists[minIndex] != null)
+                {
+                    head.next = lists[minIndex];
+                    lists[minIndex] = lists[minIndex].next;
+                }
+
+                index = 0;
+                minValue = int.MaxValue;
+                minIndex = 0;
+                if (head != null)
+                {
+                    head = head.next;
+                }
+
+            }
+            return temp.next;
+        }
+        public IList<IList<string>> GroupAnagrams(string[] strs)
+        {
+            List<List<string>> result = new List<List<string>>();
+
+            Dictionary<char, int>[] arr = new Dictionary<char, int>[strs.Length];
+            for (int i = 0; i < strs.Length; i++)
+            {
+                var str = strs[i];
+                arr[i] = new Dictionary<char, int>();
+                for (int j = 0; j < str.Length; j++)
+                {
+                    char c = str[j];
+                    if (arr[i].ContainsKey(c))
+                    {
+                        arr[i][c]++;
+                    }
+                    else
+                    {
+                        arr[i].Add(c, 1);
+                    }
+                }
+
+            }
+            return null;
+        }
+        public int MinSubArrayLen1(int target, int[] nums)
+        {
+            int[] pre_sum_arr = new int[nums.Length];
+            int sum = 0;
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                sum += nums[i];
+                pre_sum_arr[i] = sum;
+            }
+            int minLength = int.MaxValue;
+            if (target > pre_sum_arr[nums.Length - 1])
+            {
+                return 0;
+            }
+
+            //if (target == pre_sum_arr[nums.Length - 1])
+            //{
+            //    return nums.Length;
+            //}
+            for (int i = 0; i < nums.Length; i++)
+            {
+                var lastSum = pre_sum_arr[nums.Length - 1 - i];
+                if (lastSum >= target)
+                {
+                    minLength = nums.Length - i < minLength ? nums.Length - i : minLength;
+                }
+                else
+                {
+                    //  break;
+                }
+                for (int j = 0; j < nums.Length - i - 1; j++)
+                {
+                    var lastSum1 = pre_sum_arr[nums.Length - i - 1 - j];
+                    if (lastSum - lastSum1 >= target)
+                    {
+                        var count = (nums.Length - 1 - i) - (nums.Length - i - 1 - j);
+                        if (minLength > count)
+                        {
+                            minLength = count;
+                        }
+                        break;
+                    }
+                    if (minLength == 1)
+                    {
+                        return minLength;
+                    }
+                }
+            }
+
+            return minLength;
+        }
+        /// <summary>
+        /// 209. 长度最小的子数组
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="nums"></param>
+        /// <returns></returns>
+        public int MinSubArrayLen(int target, int[] nums)
+        {
+
+            return 0;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jewels"></param>
+        /// <param name="stones"></param>
+        /// <returns></returns>
+        public int NumJewelsInStones(string jewels, string stones)
+        {
+            HashSet<char> set = new HashSet<char>();
+            for (int i = 0; i < jewels.Length; i++)
+            {
+
+                set.Add(jewels[i]);
+
+            }
+            int count = 0;
+            for (int i = 0; i < stones.Length; i++)
+            {
+                if (set.Contains(stones[i]))
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+        /// <summary>
+        /// 24. 两两交换链表中的节点
+        /// </summary>
+        /// <param name="head"></param>
+        /// <returns></returns>
+        public ListNode SwapPairs(ListNode head)
+        {
+
+            int count = 0;
+            var temp = head;
+            while (temp != null)
+            {
+                count++;
+                temp = temp.next;
+            }
+            if (count == 1)
+            {
+                return head;
+            }
+            if (count == 0)
+            {
+                return head;
+            }
+            var newHead = head.next;
+
+            ListNode currNode = newHead;
+            while (head != null)
+            {
+                ListNode node2 = null;       //node1.next;
+                ListNode node3 = null;       //node2.next;
+                ListNode node4 = null;       //node3.next;
+                ListNode node5 = null;       //node4.next;
+                ListNode node6 = null;
+                var node1 = head;
+                //node5.next;
+                if (node1 != null)
+                {
+
+                    node2 = node1.next;
+
+                }
+                if (node2 != null)
+                {
+
+                    node3 = node2.next;
+                }
+                if (node3 != null)
+                {
+
+                    node4 = node3.next;
+                }
+                if (node4 != null)
+                {
+
+                    node5 = node4.next;
+                }
+                if (node5 != null)
+                {
+
+                    node6 = node5.next;
+                }
+                if (node2 != null)
+                {
+                    node2.next = node1;
+                }
+                if (node1 != null)
+                {
+                    node1.next = node4;
+                }
+                if (node4 != null)
+                {
+                    node4.next = node3;
+                }
+                if (node3 != null)
+                {
+                    node3.next = node6;
+                }
+
+                head = node5;
+                if (head == null)
+                {
+                    if (count % 2 == 0)
+                    {
+                        return newHead;
+                    }
+                    while (currNode != null)
+                    {
+                        if (currNode.next == null)
+                        {
+                            if (node1 != null)
+                            {
+                                currNode.next = node1;
+                                node1 = null;
+
+                            }
+                            if (node2 != null)
+                            {
+                                currNode.next = node2;
+                                node2 = null;
+
+                            }
+                            if (node3 != null)
+                            {
+                                currNode.next = node3;
+                                node3 = null;
+
+                            }
+                            if (node4 != null)
+                            {
+                                currNode.next = node4;
+                                node4 = null;
+                            }
+                            if (node5 != null)
+                            {
+                                currNode.next = node5;
+                                node5 = null;
+                            }
+                        }
+                        currNode = currNode.next;
+                    }
+
+                }
+            }
+            return newHead;
+        }
         /// <summary>
         /// 55.跳跃游戏
         /// </summary>
@@ -152,7 +935,7 @@ namespace LeetCodeContinue
             //[2,3,1,1,4]
 
 
-            if (nums.Length==1)
+            if (nums.Length == 1)
             {
                 return true;
             }
@@ -166,33 +949,33 @@ namespace LeetCodeContinue
 
         private bool GetMaxDist(int[] nums, int v1, int v2)
         {
-            if (v1+nums[v1]+1>=nums.Length)
+            if (v1 + nums[v1] + 1 >= nums.Length)
             {
                 return true;
             }
-            
+
             int tempIndex = v1;
             int maxValueIndex = v1;
             int maxValue = nums[v1];
             while (v1 <= v2)
             {
-                if (maxValue <= nums[v1]+v1+1)
+                if (maxValue <= nums[v1] + v1 + 1)
                 {
-                    maxValue = nums[v1] + v1+1;
+                    maxValue = nums[v1] + v1 + 1;
                     maxValueIndex = v1;
                 }
                 v1++;
             }
-            var n1 = tempIndex + nums[tempIndex]+1;
-            var n2 = maxValueIndex + nums[maxValueIndex]+1;
-            if (n2>=nums.Length)
+            var n1 = tempIndex + nums[tempIndex] + 1;
+            var n2 = maxValueIndex + nums[maxValueIndex] + 1;
+            if (n2 >= nums.Length)
             {
                 return true;
             }
-            if (n1 <n2)
+            if (n1 < n2)
             {
 
-                return GetMaxDist(nums, maxValueIndex, nums[maxValueIndex]+ maxValueIndex);
+                return GetMaxDist(nums, maxValueIndex, nums[maxValueIndex] + maxValueIndex);
             }
             return false;
         }
